@@ -3,17 +3,16 @@
     padding: 20px;
 }
 
-@keyframes navHover{
-    from{color:black;}
-    to{color:white;}
-}
 .navbar a{
     color: black;
+    border-radius: 50%;    
+    padding: 8px;
     text-decoration: none;
     font-size: x-large;
+    transition: .3s;
+    transition-timing-function: ease-out;
 }
 .navbar a:hover{
-    animation-name: navHover;
-    animation-duration: 1s;
-    animation-direction: alternate;
+    color:white;
+    background-color: black;
 }

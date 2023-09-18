@@ -1,3 +1,18 @@
-.toolbar{
-    background-color: aqua;
+.navbar{
+    background-color: grey;
+    padding: 20px;
+}
+
+.navbar a{
+    color: black;
+    border-radius: 50%;    
+    padding: 8px;
+    text-decoration: none;
+    font-size: x-large;
+    transition: .3s;
+    transition-timing-function: ease-out;
+}
+.navbar a:hover{
+    color:white;
+    background-color: black;
 }
