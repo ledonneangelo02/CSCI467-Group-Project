@@ -4,15 +4,16 @@
 }
 
 .navbar a{
-    color: black;
-    border-radius: 50%;    
-    padding: 8px;
+    position: flex;
+    color: black;  
+    margin-right: 8px;
     text-decoration: none;
     font-size: x-large;
-    transition: .3s;
-    transition-timing-function: ease-out;
+    transition: .4s ease-out;
+    transform-origin: bottom left;
 }
 .navbar a:hover{
     color:white;
-    background-color: black;
+    border-bottom: 1px solid white;
+    padding-bottom: -1px;
 }
