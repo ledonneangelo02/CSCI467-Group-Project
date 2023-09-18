@@ -4,10 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { QuoteComponent } from './quote/quote.component';
+import { AdminComponent } from './admin/admin.component';
 const routes: Routes = [  
   { path: '', component: HomeComponent },
   {path: 'about', component: AboutComponent},
-  {path: 'quote', component: QuoteComponent}
+  {path: 'quote', component: QuoteComponent},
+  {path: 'admindash', component: AdminComponent}
 ];
 
 @NgModule({
