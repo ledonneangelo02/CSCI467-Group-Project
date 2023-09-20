@@ -1,9 +1,26 @@
+body{
+    display: flex;
+}
 #LoginForm{
     display:none;
 }
 #CloseLogin{
     display:none;
+    border: none;
+    background-color: green;
+    align-items: center;
+    border-radius: 50%;
+    margin-left: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 #OpenLogin{
-    display: block;
+    display: flex;
+    border: none;
+    background-color: green;
+    align-items: center;
+    border-radius: 50%;
+    margin-left: 50px;
+    padding-left: 30px;
+    padding-right: 30px;
 }

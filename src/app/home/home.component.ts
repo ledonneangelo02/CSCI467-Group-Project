@@ -15,7 +15,7 @@ export class HomeComponent {
     if(forDisplay != null && logButton != null && closeButton != null){
       forDisplay.style.display = "block";
       logButton.style.display = "none";
-      closeButton.style.display="block";
+      closeButton.style.display="flex";
     }
   }
 
@@ -26,7 +26,7 @@ export class HomeComponent {
     const closeButton = document.getElementById("CloseLogin");
     if(forDisplay != null && logButton != null && closeButton != null){
       forDisplay.style.display = "none";
-      logButton.style.display = "block";
+      logButton.style.display = "flex";
       closeButton.style.display="none";
     }
   }
