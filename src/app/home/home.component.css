@@ -1,21 +1,3 @@
-.navbar{
-    background-color: grey;
-    padding: 20px;
-}
-
-.navbar a{
-
-    color: black;  
-    margin-right: 8px;
-    text-decoration: none;
-    font-size: x-large;
-    transition: .4s ease-out;
-    transform-origin: bottom left;
-
-}
-
-.navbar a:hover{
-    color:white;
-    border-bottom: 1px solid white;
-    padding-bottom: -1px;
+#LoginForm{
+    display:none;
 }
