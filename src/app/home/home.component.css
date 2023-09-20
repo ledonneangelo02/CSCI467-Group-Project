@@ -4,14 +4,17 @@
 }
 
 .navbar a{
-    position: flex;
+
     color: black;  
     margin-right: 8px;
     text-decoration: none;
     font-size: x-large;
     transition: .4s ease-out;
     transform-origin: bottom left;
+
+    justify-content: space-evenly;
 }
+
 .navbar a:hover{
     color:white;
     border-bottom: 1px solid white;
