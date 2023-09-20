@@ -1,0 +1,9 @@
+#LoginForm{
+    display:none;
+}
+#CloseLogin{
+    display:none;
+}
+#OpenLogin{
+    display: block;
+}

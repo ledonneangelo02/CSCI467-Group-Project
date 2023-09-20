@@ -1,0 +1,28 @@
+.nav{
+    background-color: grey;
+    padding: 20px;
+}
+
+.nav a{
+    
+    color: black;  
+    text-decoration: none;
+    padding: 8px;
+    font-size: x-large;
+    transition: .4s ease-out;
+    transform-origin: bottom left;
+}
+.nav a:hover{
+    color:white;
+    border-bottom: 1px solid white;
+    padding-bottom: -1px;
+}
+
+.footer{
+    background-color: grey;
+    padding: 20px;
+}
+
+.TradeMark{
+    text-align: center;
+}
