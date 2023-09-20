@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  //This function is used to pop up our login form
   Showlogin(): void{
     const forDisplay = document.getElementById("LoginForm");
     const logButton = document.getElementById("OpenLogin");
@@ -18,6 +19,7 @@ export class HomeComponent {
     }
   }
 
+  //This function is used to close the form and redisplay the login button
   CloseLogin(): void{
     const forDisplay = document.getElementById("LoginForm");
     const logButton = document.getElementById("OpenLogin");
