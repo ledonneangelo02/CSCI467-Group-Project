@@ -1,8 +1,36 @@
 body{
     display: flex;
+    padding: 100px;
 }
+
+@keyframes expandLogin{
+    from{
+        transform: scale(0);
+        transform: translate(-60%);
+    }
+    to{
+        transform: scale(1);
+    }
+}
+
+#WholeLogin{
+    position: relative;
+    height: 100vh;
+}
+
 #LoginForm{
-    display:none;
+    display: none;
+    position: absolute;
+    padding: 20px;
+    border-radius: 5px;
+    left: 50%;
+    top: 20%;
+    z-index: 2;
+    min-width: 200px;
+    overflow: hidden;
+    background-color: grey;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    animation: expandLogin 1s ease-in-out forwards;
 }
 #CloseLogin{
     display:none;
@@ -23,4 +51,8 @@ body{
     margin-left: 50px;
     padding-left: 30px;
     padding-right: 30px;
+}
+
+#footer{
+    position: fixed;
 }

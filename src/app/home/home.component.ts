@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
+
 export class HomeComponent {
+
 
   //This function is used to pop up our login form
   Showlogin(): void{
@@ -30,4 +34,19 @@ export class HomeComponent {
       closeButton.style.display="none";
     }
   }
+
+  //This is to Validate the login
+  Email : string="";
+  Password : string="";
+  ValidateLogin(event : Event){
+    event.preventDefault(); // Prevent the default form submission behavior
+    console.log(this.Email);
+    console.log(this.Password);
+    if(this.Email == "name@example.com" && this.Password == "password"){
+      alert("Access Granted");
+    }else{
+      alert("!! Access Denied !!");
+    }
+  }
+
 }
