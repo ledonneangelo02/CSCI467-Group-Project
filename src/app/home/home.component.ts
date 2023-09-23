@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Directive } from '@angular/core';
 
 
 @Component({
@@ -16,22 +16,36 @@ export class HomeComponent {
     const forDisplay = document.getElementById("LoginForm");
     const logButton = document.getElementById("OpenLogin");
     const closeButton = document.getElementById("CloseLogin");
+    
     if(forDisplay != null && logButton != null && closeButton != null){
       forDisplay.style.display = "block";
       logButton.style.display = "none";
       closeButton.style.display="flex";
     }
+    
   }
 
   //This function is used to close the form and redisplay the login button
   CloseLogin(): void{
+    const Spinning = [
+      { transform: "rotate(0) scale(1)" },
+      { transform: "rotate(360deg) scale(0)" },
+    ];
+    
+    const SpinOutTiming = {
+      duration: 1000,
+      iterations: 1,
+    };
     const forDisplay = document.getElementById("LoginForm");
     const logButton = document.getElementById("OpenLogin");
     const closeButton = document.getElementById("CloseLogin");
     if(forDisplay != null && logButton != null && closeButton != null){
-      forDisplay.style.display = "none";
+      forDisplay.animate(Spinning, SpinOutTiming);
       logButton.style.display = "flex";
       closeButton.style.display="none";
+      setTimeout(function(){
+        forDisplay.style.display="none";
+      }, 900);
     }
   }
 
