@@ -7,7 +7,6 @@ body{
 @keyframes expandLogin{
     from{
         transform: scale(0);
-        transform: translate(-60%);
     }
     to{
         transform: scale(1);

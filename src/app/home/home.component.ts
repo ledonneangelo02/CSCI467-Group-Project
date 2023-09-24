@@ -1,5 +1,5 @@
 import { Component, Directive } from '@angular/core';
-
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +10,18 @@ import { Component, Directive } from '@angular/core';
 
 export class HomeComponent {
 
+
+  ngOnInit(){
+    var count = 0;
+    $(".butt").on("click", function(){
+      console.log(count);
+      $('.test').addClass('show').removeClass('hide');
+      count = 1;
+    });
+    if(count == 1){
+      $('.test').removeClass('show').addClass('hide');    
+    }
+  }
 
   //This function is used to pop up our login form
   Showlogin(): void{
@@ -28,8 +40,8 @@ export class HomeComponent {
   //This function is used to close the form and redisplay the login button
   CloseLogin(): void{
     const Spinning = [
-      { transform: "rotate(0) scale(1)" },
-      { transform: "rotate(360deg) scale(0)" },
+      { transform: "scale(1)" },
+      { transform: "scale(0)" },
     ];
     
     const SpinOutTiming = {
