@@ -1,7 +1,20 @@
-
 body{
-    display: flex;
-    padding: 100px;
+    padding:50px;
+}
+
+#LoginForm{
+    display: none;
+    position: absolute;
+    padding-top: 50%;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    overflow: hidden;
+    background-color: grey;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    animation: expandLogin 1s ease-in-out;
 }
 
 @keyframes expandLogin{
@@ -13,47 +26,26 @@ body{
     }
 }
 
-#WholeLogin{
-    position: relative;
-    height: 100vh;
-}
-
-#LoginForm{
-    display: none;
-    position: absolute;
-    padding: 20px;
-    border-radius: 5px;
-    left: 50%;
-    top: 20%;
-    z-index: 2;
-    min-width: 200px;
-    overflow: hidden;
-    background-color: grey;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    animation: expandLogin 1s ease-in-out;
-
+@media screen and (min-width: 769px){
+    #WholeLogin{
+        position: relative;
+        height: 100vh;
+    }
+        
+    #LoginForm{
+        display: none;
+        position: static;
+        padding: 20px;
+        border-radius: 5px;
+        z-index: 1;
+        overflow: hidden;
+        background-color: grey;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        animation: expandLogin 1s ease-in-out;
+        
+    }    
 }
 #CloseLogin{
-    display:none;
-    border: none;
-    background-color:burlywood;
-    align-items: center;
-    border-radius: 5%;
-    margin-left: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
-}
-#OpenLogin{
-    display: flex;
-    border: none;
-    background-color:burlywood;
-    align-items: center;
-    border-radius: 5%;
-    margin-left: 50px;
-    padding-left: 30px;
-    padding-right: 30px;
+    display: none;
 }
 
-#footer{
-    position: fixed;
-}

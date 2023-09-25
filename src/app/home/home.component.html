@@ -3,24 +3,23 @@
     <title>CSCI 467 Group 3B</title>
   </head>
   <body>
-    
     <div class="WholeLogin">
-      <script src="ShowLogin()"></script>
-      <button id="OpenLogin" (click)="Showlogin()">Login</button>
-      <button id="CloseLogin" (click)="CloseLogin()">Close</button>
-      <form id="LoginForm" (ngSubmit)="ValidateLogin($event)" #myForm>
-        <div class="form-group">
-          <label for="InputEmail">Email address</label>
-          <input name="Email" type="email" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="Email" required>
+      <button id="OpenLogin" class="btn btn-primary" (click)="Showlogin()">Login</button>
+      <div id="LoginForm">
+        <form (ngSubmit)="ValidateLogin($event)" #myForm>
+          <div class="form-group">
+            <label for="InputEmail">Email address</label>
+            <input name="Email" type="email" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="Email" required>
 
-        </div>
-        <div class="form-group">
-          <label for="InputPassword">Email address</label>
-          <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
-
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+          </div>
+          <div class="form-group">
+            <label for="InputPassword">Password: </label>
+            <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <button id="CloseLogin" class="btn btn-primary" (click)="CloseLogin()">Close</button>
+    </div>
   </div>
   </body>
 </html>
