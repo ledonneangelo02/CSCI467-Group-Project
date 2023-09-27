@@ -10,19 +10,6 @@ import * as $ from 'jquery';
 
 export class HomeComponent {
 
-
-  ngOnInit(){
-    var count = 0;
-    $(".butt").on("click", function(){
-      console.log(count);
-      $('.test').addClass('show').removeClass('hide');
-      count = 1;
-    });
-    if(count == 1){
-      $('.test').removeClass('show').addClass('hide');    
-    }
-  }
-
   //This function is used to pop up our login form
   Showlogin(): void{
     const forDisplay = document.getElementById("LoginForm");

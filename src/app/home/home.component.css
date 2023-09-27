@@ -1,6 +1,9 @@
 body{
     padding:50px;
 }
+#WholeLogin{
+    position: relative;
+}
 
 #LoginForm{
     display: none;
