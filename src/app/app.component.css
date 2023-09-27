@@ -9,22 +9,24 @@
         margin: 5px auto;
         background-color: #101010;
     }
-    .hamburger:hover{
-        .bar{
-            background-color: white;
-        }
-        cursor: pointer;
-    }
     .menu{
         display: none;
     }
+    #LoginButton{
+        visibility: hidden;
+    }
+
 
 }
+
 .nav{
     max-height: none;
     width: 100%;
     top: 0;
     position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .menu li{

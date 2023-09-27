@@ -13,5 +13,25 @@ import * as $ from 'jquery';
 
 export class AppComponent {
   title = 'CSCI467 Group Project';
+  //This function is used to pop up our login form
+  Showlogin(): void{
 
+    const ScaleIn = [
+      { transform: "scale(0)" },
+      { transform: "scale(1)" },
+    ];
+    const ScaleInTiming = {
+      duration: 1000,
+      iterations: 1,
+    };
+    const forDisplay = document.getElementById("LoginForm");
+    const logButton = document.getElementById("OpenLogin");
+    const closeButton = document.getElementById("CloseLogin");
+    
+    if(forDisplay != null && logButton != null && closeButton != null){
+      forDisplay.animate(ScaleIn, ScaleInTiming);
+      forDisplay.style.visibility = "visible";
+    }
+    
+  }
 }
