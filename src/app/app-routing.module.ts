@@ -5,11 +5,14 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { QuoteComponent } from './quote/quote.component';
 import { AdminComponent } from './admin/admin.component';
+import { QuoteeditComponent } from './quoteedit/quoteedit.component';
+
 const routes: Routes = [  
   { path: '', component: HomeComponent },
   {path: 'login', component: AboutComponent},
   {path: 'quote', component: QuoteComponent},
-  {path: 'admindash', component: AdminComponent}
+  {path: 'admindash', component: AdminComponent},
+  {path: 'quoteedit', component: QuoteeditComponent}
 ];
 
 @NgModule({
