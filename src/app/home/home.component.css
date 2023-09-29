@@ -14,7 +14,7 @@ body{
 }
 
 #LoginForm{
-    visibility: visible;
+    visibility: hidden;
     position: relative;
     text-align: center;
     overflow: hidden;
