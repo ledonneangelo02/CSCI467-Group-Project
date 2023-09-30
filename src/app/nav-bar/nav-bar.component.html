@@ -3,7 +3,7 @@
         <h3>Group 3B</h3>
         <ul class="menu">
           <li><a href="">Home</a></li>
-          <li><a href="/quote" *ngIf="!isQuoteComponent">Create a Quote</a></li>
+          <li><a href="/quote">Create a Quote</a></li>
           <li><a href="/admindash">Admin</a></li>
         </ul>
         <div class="hamburger">
@@ -11,7 +11,9 @@
           <span class="bar"></span>
           <span class="bar"></span>
         </div>
-        <button id="OpenLogin" class="btn btn-primary" (click)="Showlogin()">Login</button>  
-    </nav>
+        <div *ngIf="isHomeComponent">
+          <button id="OpenLogin" class="btn btn-primary" (click)="Showlogin()">Login</button>  
+        </div>
+      </nav>
     
 </body>

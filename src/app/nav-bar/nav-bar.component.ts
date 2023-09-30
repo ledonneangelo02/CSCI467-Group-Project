@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -8,23 +8,21 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./nav-bar.component.css']
 })
 
-export class NavbarComponent implements OnInit {
+export class NavbarComponent{
   isHomeComponent = false;
   isQuoteComponent = false;
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.route.url.subscribe(url => {
-      this.isHomeComponent = url[0].path === 'home';
-      this.isQuoteComponent = url[0].path === 'quote';
-      // Add similar conditions for other components/pages
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        // Check if the current route is the home component
+        this.isHomeComponent = event.url === '/';
+      }
     });
   }
 
   //This function is used to pop up our login form
   Showlogin(): void{
-
     const ScaleIn = [
       { transform: "scale(0)" },
       { transform: "scale(1)" },
