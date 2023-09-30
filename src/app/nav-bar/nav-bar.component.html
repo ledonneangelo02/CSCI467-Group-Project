@@ -2,11 +2,11 @@
     <nav class="nav">
         <h3>Group 3B</h3>
         <ul class="menu">
-          <li><a href="">Home</a></li>
-          <li><a href="/quote">Create a Quote</a></li>
-          <li><a href="/admindash">Admin</a></li>
+          <li><a href="" *ngIf="!isHomeComponent">Home</a></li>
+          <li><a href="/quote" *ngIf="!isHomeComponent">Create a Quote</a></li>
+          <li><a href="/admindash" *ngIf="!isHomeComponent">Admin</a></li>
         </ul>
-        <div class="hamburger">
+        <div class="hamburger" *ngIf="!isHomeComponent">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
