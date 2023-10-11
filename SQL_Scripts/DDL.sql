@@ -41,7 +41,7 @@ CREATE TABLE Quote(
         ID        INT            NOT NULL AUTO_INCREMENT PRIMARY KEY,
         AssocID   VARCHAR(10)    NOT NULL,
         CustID    VARCHAR(10)    NOT NULL,
-        QuoteDate DATE           NOT NULL DEFAULT now(),
+        QuoteDate DATE           NOT NULL DEFAULT,
         Status    CHAR(1)        NOT NULL DEFAULT 'F',
         Total     DECIMAL(15,2)  NOT NULL DEFAULT 0.00,
         Discount  DECIMAL(3,2)   NOT NULL DEFAULT 0.00,

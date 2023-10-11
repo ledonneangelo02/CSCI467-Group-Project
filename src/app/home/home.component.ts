@@ -1,4 +1,4 @@
-import { Component, Directive } from '@angular/core';
+import { Component, Directive, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 
 @Component({
@@ -9,6 +9,7 @@ import * as $ from 'jquery';
 
 
 export class HomeComponent {
+
   //This function is used to close the form and redisplay the login button
   CloseLogin(): void{
     const Spinning = [
