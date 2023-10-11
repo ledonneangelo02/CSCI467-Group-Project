@@ -3,25 +3,29 @@
     <title>CSCI 467 Group 3B</title>
   </head>
   <body>
-    <h1>Hello World</h1>
-    
     <div class="WholeLogin">
-      <button id="OpenLogin" (click)="Showlogin()">Login</button>
-      <button id="CloseLogin" (click)="CloseLogin()">Close</button>
-      <form id="LoginForm" (ngSubmit)="ValidateLogin($event)" #myForm>
-        <div class="form-group">
-          <label for="InputEmail">Email address</label>
-          <input name="Email" type="email" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="Email" required>
-
+      <div id="LoginForm">
+        <h2>Login:</h2>
+        <div *ngIf="loginError" class="ErrorMessage">
+          Incorrect username or password.
         </div>
-        <div class="form-group">
-          <label for="InputPassword">Email address</label>
-          <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
+        <form (ngSubmit)="ValidateLogin($event)" #myForm>
+          <div class="form-group">
+            <label for="InputEmail">Email address:</label>
+            <br/>
+            <input name="Email" type="email" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="Email" required>
 
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-  </div>
+          </div>
+          <div class="form-group">
+            <label for="InputPassword">Password:</label>
+            <br/>
+            <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <button id="CloseLogin" class="btn btn-primary" (click)="CloseLogin()">Close</button>
+      </div>
+    </div>
   </body>
 </html>
  

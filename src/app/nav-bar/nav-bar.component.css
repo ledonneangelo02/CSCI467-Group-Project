@@ -1,0 +1,55 @@
+
+@media screen and (max-width: 768px){
+    .hamburger {
+        display: block;
+    }  
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        margin: 5px auto;
+        background-color: #101010;
+    }
+    .menu{
+        display: none;
+    }
+    #LoginButton{
+        visibility: hidden;
+    }
+
+
+}
+
+.menu li{
+    float: left;
+    padding-left: 20px;
+}
+
+.menu{
+    list-style: none;
+}
+
+
+.nav{
+    height: 100%;
+    width: 100%;
+    background-color: grey;
+    padding: 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
+
+.menu a{ 
+    color: black;  
+    text-decoration: none;
+    font-size: x-large;
+    transition: .4s ease-out;
+    transform-origin: bottom left;
+}
+
+.nav a:hover{
+    color:white;
+    border-bottom: 1px solid white;
+    padding-bottom: -1px;
+}
