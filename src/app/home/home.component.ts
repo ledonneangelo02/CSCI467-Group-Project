@@ -1,5 +1,6 @@
 import { Component, Directive, OnInit } from '@angular/core';
-import * as $ from 'jquery';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,8 @@ import * as $ from 'jquery';
 
 
 export class HomeComponent {
+
+  constructor(private router: Router){}
 
   //This function is used to close the form and redisplay the login button
   CloseLogin(): void{
@@ -42,6 +45,7 @@ export class HomeComponent {
     console.log(this.Password);
     if(this.Email == "name@example.com" && this.Password == "password"){
       this.loginError = false;
+      this.router.navigateByUrl('/quote');
     }else{
       this.loginError = true;
     }

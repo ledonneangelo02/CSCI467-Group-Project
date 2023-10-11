@@ -1,5 +1,9 @@
 body{
-    padding:50px;
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-right: 30%;
+    padding-left: 30%;
+    background-color: aqua;
 }
 
 .ErrorMessage{
@@ -11,6 +15,15 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+
+#subButton{
+    margin-top: 10px;
+}
+
+#CloseLogin{
+    margin-top: 10px;
 }
 
 #LoginForm{
@@ -37,7 +50,8 @@ body{
 }
 
 @media screen and (min-width: 769px){
-        
+    
+
     #LoginForm{
         visibility: hidden;
         position: relative;

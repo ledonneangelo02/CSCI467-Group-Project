@@ -11,6 +11,7 @@ import { AdminComponent } from './admin/admin.component';
 
 import { QuoteeditComponent } from './quoteedit/quoteedit.component';
 import { NavbarComponent } from './nav-bar/nav-bar.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NavbarComponent } from './nav-bar/nav-bar.component';
     QuoteComponent,
     AdminComponent,
     QuoteeditComponent,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
