@@ -1,4 +1,4 @@
-import { Component, Directive } from '@angular/core';
+import { Component, Directive, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 
 @Component({
@@ -9,33 +9,6 @@ import * as $ from 'jquery';
 
 
 export class HomeComponent {
-
-
-  ngOnInit(){
-    var count = 0;
-    $(".butt").on("click", function(){
-      console.log(count);
-      $('.test').addClass('show').removeClass('hide');
-      count = 1;
-    });
-    if(count == 1){
-      $('.test').removeClass('show').addClass('hide');    
-    }
-  }
-
-  //This function is used to pop up our login form
-  Showlogin(): void{
-    const forDisplay = document.getElementById("LoginForm");
-    const logButton = document.getElementById("OpenLogin");
-    const closeButton = document.getElementById("CloseLogin");
-    
-    if(forDisplay != null && logButton != null && closeButton != null){
-      forDisplay.style.display = "block";
-      logButton.style.display = "none";
-      closeButton.style.display="flex";
-    }
-    
-  }
 
   //This function is used to close the form and redisplay the login button
   CloseLogin(): void{
@@ -51,12 +24,11 @@ export class HomeComponent {
     const forDisplay = document.getElementById("LoginForm");
     const logButton = document.getElementById("OpenLogin");
     const closeButton = document.getElementById("CloseLogin");
+
     if(forDisplay != null && logButton != null && closeButton != null){
       forDisplay.animate(Spinning, SpinOutTiming);
-      logButton.style.display = "flex";
-      closeButton.style.display="none";
       setTimeout(function(){
-        forDisplay.style.display="none";
+        forDisplay.style.visibility="hidden";
       }, 900);
     }
   }
@@ -64,14 +36,14 @@ export class HomeComponent {
   //This is to Validate the login
   Email : string="";
   Password : string="";
+  loginError: boolean = false;
   ValidateLogin(event : Event){
-    event.preventDefault(); // Prevent the default form submission behavior
     console.log(this.Email);
     console.log(this.Password);
     if(this.Email == "name@example.com" && this.Password == "password"){
-      alert("Access Granted");
+      this.loginError = false;
     }else{
-      alert("!! Access Denied !!");
+      this.loginError = true;
     }
   }
 

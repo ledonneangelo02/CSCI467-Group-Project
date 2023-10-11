@@ -2,20 +2,30 @@ body{
     padding:50px;
 }
 
+.ErrorMessage{
+    color: red;
+}
+#WholeLogin{
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 #LoginForm{
-    display: none;
-    position: absolute;
-    padding-top: 50%;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 1;
+    visibility: hidden;
+    position: relative;
+    text-align: center;
     overflow: hidden;
     background-color: grey;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     animation: expandLogin 1s ease-in-out;
 }
+
+#ErrorText{
+    visibility: hidden;
+}
+
 
 @keyframes expandLogin{
     from{
@@ -27,25 +37,18 @@ body{
 }
 
 @media screen and (min-width: 769px){
-    #WholeLogin{
-        position: relative;
-        height: 100vh;
-    }
         
     #LoginForm{
-        display: none;
-        position: static;
-        padding: 20px;
+        visibility: hidden;
+        position: relative;
+        text-align: center;
         border-radius: 5px;
         z-index: 1;
         overflow: hidden;
         background-color: grey;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
         animation: expandLogin 1s ease-in-out;
-        
     }    
 }
-#CloseLogin{
-    display: none;
-}
+
+
 
