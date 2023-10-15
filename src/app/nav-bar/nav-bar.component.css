@@ -1,28 +1,7 @@
 
-@media screen and (max-width: 768px){
-    .hamburger {
-        display: block;
-    }  
-    .bar {
-        display: block;
-        width: 25px;
-        height: 3px;
-        margin: 5px auto;
-        background-color: #101010;
-    }
-    .menu{
-        display: none;
-    }
-    #LoginButton{
-        visibility: hidden;
-    }
-
-
-}
-
 .menu li{
     float: left;
-    padding-left: 20px;
+    padding-right: 10px;
 }
 
 .menu{
