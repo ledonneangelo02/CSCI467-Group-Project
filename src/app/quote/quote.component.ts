@@ -1,4 +1,6 @@
 import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
 
 
 @Component({
@@ -9,18 +11,26 @@ import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/co
 })
 
 
-export class QuoteComponent{
+export class QuoteComponent implements OnInit{
 
+  responseFromPHP: any;
+  selectOptions: any[] = [];
+
+  constructor(private renderer: Renderer2, private http: HttpClient) { }
 
   @ViewChild('container', { static: true }) container!: ElementRef;
 
-  constructor(private renderer: Renderer2) { }
+  ngOnInit() {
+    this.http.get('http://localhost:80/phpapi/SalesAssoc.php').subscribe((response: any) => {
+      this.selectOptions = response;
+    });
+  }
+  
 
+  //Number of rows in the quote
   count: number = 2;
 
   AddRow() : void{
-
-
     var htmlContent = `<div class="col col-lg"> 
                           <div class="p-3 border bg-dark"><input id="Item${this.count}" type="text"></div> 
                           </div> 

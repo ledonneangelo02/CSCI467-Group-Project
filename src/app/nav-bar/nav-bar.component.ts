@@ -17,7 +17,7 @@ export class NavbarComponent{
       if (event instanceof NavigationEnd) {
         // Check if the current route is the home component
         this.isHomeComponent = event.url === '/';
-        this.isSalesAssoc = event.url ==='/quote'
+        this.isSalesAssoc = event.url ==='/quote';
       }
     });
   }
