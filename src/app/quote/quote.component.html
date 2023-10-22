@@ -2,9 +2,9 @@
   <body>
     <div class="SelectCustomer">
       <h2 class="item">Select A Customer:</h2>
-      <select class="item2">
+      <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveData()">
         <option value="">Select an option</option>
-        <option *ngFor="let option of selectOptions" [value]="option.id">{{ option.name }}</option>
+        <option *ngFor="let option of selectOptions" [value]="option.name">{{ option.name }}</option>
       </select>
     </div>
     

@@ -15,6 +15,7 @@ export class QuoteComponent implements OnInit{
 
   responseFromPHP: any;
   selectOptions: any[] = [];
+  SelectedVal: any;
 
   constructor(private renderer: Renderer2, private http: HttpClient) { }
 
@@ -57,6 +58,10 @@ export class QuoteComponent implements OnInit{
     this.renderer.appendChild(this.container.nativeElement, newElement2);
 
     this.count++;
+  }
+  
+  RetriveData() : void{
+    console.log(this.SelectedVal);
   }
 
 }
