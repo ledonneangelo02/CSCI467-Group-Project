@@ -3,12 +3,29 @@
     <title>CSCI 467 Group 3B</title>
   </head>
   <body>
-    <nav class="navbar">
-      <a href="/about">About</a>
-      <a href="/quote">Create a Quote</a>
-      <a href="/admindash">Admin</a>
-    </nav>
-    <h1>Hello World</h1>
+    <div class="WholeLogin">
+      <div id="LoginForm">
+        <h2>Login:</h2>
+        <div *ngIf="loginError" class="ErrorMessage">
+          Incorrect username or password.
+        </div>
+        <form (ngSubmit)="ValidateLogin($event)" #myForm>
+          <div class="form-group">
+            <label for="InputEmail">ID:</label>
+            <br/>
+            <input name="Email" type="text" id="InputEmail" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="Ident" required>
+
+          </div>
+          <div class="form-group">
+            <label for="InputPassword">Password:</label>
+            <br/>
+            <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
+          </div>
+          <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
+        </form>
+        <button id="CloseLogin" class="btn btn-primary" (click)="CloseLogin()">Close</button>
+      </div>
+    </div>
   </body>
 </html>
 

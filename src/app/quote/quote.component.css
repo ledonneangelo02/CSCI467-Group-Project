@@ -1,19 +1,28 @@
-.navbar{
-    background-color: grey;
-    padding: 20px;
+
+#Item{
+    width: 100%;
+
 }
 
-.navbar a{
-    position: flex;
-    color: black;  
-    margin-right: 8px;
-    text-decoration: none;
-    font-size: x-large;
-    transition: .4s ease-out;
-    transform-origin: bottom left;
+#Qty{
+    width:60px;
 }
-.navbar a:hover{
-    color:white;
-    border-bottom: 1px solid white;
-    padding-bottom: -1px;
+
+#Price{
+    width:80px;
+}
+body{
+    padding-bottom: 20%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.SelectCustomer{
+    display:inline-flex;
+    justify-content: space-between;
+}
+
+.item2{
+    margin-left: 15px;
+    padding: 5px;
 }

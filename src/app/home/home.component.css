@@ -1,19 +1,68 @@
-.navbar{
-    background-color: grey;
-    padding: 20px;
+body{
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-right: 30%;
+    padding-left: 30%;
+    background-color: aqua;
 }
 
-.navbar a{
-    position: flex;
-    color: black;  
-    margin-right: 8px;
-    text-decoration: none;
-    font-size: x-large;
-    transition: .4s ease-out;
-    transform-origin: bottom left;
+.ErrorMessage{
+    color: red;
 }
-.navbar a:hover{
-    color:white;
-    border-bottom: 1px solid white;
-    padding-bottom: -1px;
+#WholeLogin{
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
+
+
+#subButton{
+    margin-top: 10px;
+}
+
+#CloseLogin{
+    margin-top: 10px;
+}
+
+#LoginForm{
+    visibility: hidden;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    background-color: grey;
+    animation: expandLogin 1s ease-in-out;
+}
+
+#ErrorText{
+    visibility: hidden;
+}
+
+
+@keyframes expandLogin{
+    from{
+        transform: scale(0);
+    }
+    to{
+        transform: scale(1);
+    }
+}
+
+@media screen and (min-width: 769px){
+    
+
+    #LoginForm{
+        visibility: hidden;
+        position: relative;
+        text-align: center;
+        border-radius: 5px;
+        z-index: 1;
+        overflow: hidden;
+        background-color: grey;
+        animation: expandLogin 1s ease-in-out;
+    }    
+}
+
+
+

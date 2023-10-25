@@ -1,12 +1,30 @@
 <html>
-  <head>
-    <title>CSCI 467 Group 3B</title>
-  </head>
   <body>
-    <nav class="navbar">
-        <a href="">Home</a>
-        <a href="/about">About</a>
-    </nav>
-    <h1>This is the quote page</h1>
+    <div class="SelectCustomer">
+      <h2 class="item">Select A Customer:</h2>
+      <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveData()">
+        <option value="">Select an option</option>
+        <option *ngFor="let option of selectOptions" [value]="option.name">{{ option.name }}</option>
+      </select>
+    </div>
+    
+    <div #container>  
+      <div class="row">
+        <div class="col col-lg">
+          <h4>Description</h4>
+          <div class="p-3 border bg-dark"><input id="Item1" type="text"></div>
+        </div>
+        <div class="col col-md-auto">
+          <h4>Qty</h4>
+          <div class="p-3 border bg-dark"><input id="Qty1" type="number"></div>
+        </div>
+        <div class="col col-md-auto">
+          <h4>Price</h4>
+          <div class=" p-3 border bg-dark"><input id="Price1" type="number" step="0.01"></div>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="AddRow()" class="btn btn-primary">Add Row</button>
   </body>
 </html>
