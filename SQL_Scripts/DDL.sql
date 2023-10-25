@@ -34,8 +34,7 @@ CREATE TABLE Quote(
         Status    CHAR(1)        NOT NULL DEFAULT 'F',
         Total     DECIMAL(15,2)  NOT NULL DEFAULT 0.00,
         Discount  DECIMAL(3,2)   NOT NULL DEFAULT 0.00,
-
-        FOREIGN KEY(CustID)  REFERENCES Customer(ID),
+        
         FOREIGN KEY(AssocID) REFERENCES SalesAssoc(ID)
 );
 

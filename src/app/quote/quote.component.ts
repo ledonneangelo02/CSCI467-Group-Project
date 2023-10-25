@@ -22,7 +22,7 @@ export class QuoteComponent implements OnInit{
   @ViewChild('container', { static: true }) container!: ElementRef;
 
   ngOnInit() {
-    this.http.get('http://localhost:80/phpapi/SalesAssoc.php').subscribe((response: any) => {
+    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/Customers.php').subscribe((response: any) => {
       this.selectOptions = response;
     });
   }
