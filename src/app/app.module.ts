@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { QuoteComponent } from './quote/quote.component';
 import { AdminComponent } from './admin/admin.component';
+import { PocreateComponent } from './pocreate/pocreate.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { AdminComponent } from './admin/admin.component';
     HomeComponent,
     AboutComponent,
     QuoteComponent,
-    AdminComponent
+    AdminComponent,
+    PocreateComponent
   ],
   imports: [
     BrowserModule,
