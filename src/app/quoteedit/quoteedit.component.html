@@ -1,25 +1,27 @@
 <html>
-  <head>
-    <title>CSCI 467 Group 3B</title>
-  </head>
   <body>
-    <div class="container">
-      <form>
-        <div class="form-group">
-          <label for="quotenumber">Quote #</label>
-          <select name="quotenumber">
-            <option value="0">0</option>
-          </select>
-        </div>
-        <div class = "form-group">
-          <label for="lineitems">Line Items:</label><br>
-          <textarea name="lineitems" class="form-control"></textarea>
-        </div>
-        <div class = "form-group">
-          <label for="secretnotes">Secret Notes:</label><br>
-          <textarea name="secretnotes" class="form-control">None.</textarea>
-        </div>
-      </form>
+    <div class="Customer">
+      <h2 class="item">Customer: </h2>
+      <div class="name">CUSTOMER NAME</div>
     </div>
+    
+    <div #container>  
+      <div class="row">
+        <div class="col col-lg">
+          <h4>Description</h4>
+        <div class="p-3 border bg-dark"><input id="Item1" type="text"></div>
+      </div>
+      <div class="col col-md-auto">
+        <h4>Qty</h4>
+        <div class="p-3 border bg-dark"><input id="Qty1" type="number"></div>
+      </div>
+      <div class="col col-md-auto">
+        <h4>Price</h4>
+        <div class=" p-3 border bg-dark"><input id="Price1" type="number" step="0.01"></div>
+      </div>
+    </div>
+  </div>
+
+    <button (click)="AddRow()" class="btn btn-primary">Add Row</button>
   </body>
 </html>
