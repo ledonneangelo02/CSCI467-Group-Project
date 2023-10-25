@@ -13,28 +13,17 @@
 ******************************************/
 DROP TABLE QuoteLine;
 DROP TABLE Quote;
-DROP TABLE Customer;
 DROP TABLE SalesAssoc;
 
 
 CREATE TABLE SalesAssoc(
-        ID             VARCHAR(10)   NOT NULL PRIMARY KEY,
-        Name           VARCHAR(50)   NOT NULL,
-        Password       VARCHAR(12)   NOT NULL,
+        ID             VARCHAR(10)    NOT NULL PRIMARY KEY,
+        Name           VARCHAR(50)    NOT NULL,
+        Password       VARCHAR(12)    NOT NULL,
         SalesCommision DECIMAL(10,2)  NOT NULL DEFAULT 0.00,
-        Address        VARCHAR(60)   NOT NULL
+        Address        VARCHAR(60)    NOT NULL
 );
 
-
-CREATE TABLE Customer(
-
-        ID     VARCHAR(10)   NOT NULL PRIMARY KEY,
-        FName  VARCHAR(50)   NOT NULL,
-        LName  VARCHAR(50)   NOT NULL,
-        Addrs  VARCHAR(255)  NOT NULL,
-        Email  VARCHAR(60)   NOT NULL   
-
-); 
 
 CREATE TABLE Quote(
 
@@ -45,8 +34,7 @@ CREATE TABLE Quote(
         Status    CHAR(1)        NOT NULL DEFAULT 'F',
         Total     DECIMAL(15,2)  NOT NULL DEFAULT 0.00,
         Discount  DECIMAL(3,2)   NOT NULL DEFAULT 0.00,
-
-        FOREIGN KEY(CustID)  REFERENCES Customer(ID),
+        
         FOREIGN KEY(AssocID) REFERENCES SalesAssoc(ID)
 );
 

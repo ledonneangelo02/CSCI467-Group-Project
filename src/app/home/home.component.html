@@ -11,9 +11,9 @@
         </div>
         <form (ngSubmit)="ValidateLogin($event)" #myForm>
           <div class="form-group">
-            <label for="InputEmail">Email address:</label>
+            <label for="InputEmail">ID:</label>
             <br/>
-            <input name="Email" type="email" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email" [(ngModel)]="Email" required>
+            <input name="Email" type="text" id="InputEmail" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="Ident" required>
 
           </div>
           <div class="form-group">
@@ -21,7 +21,7 @@
             <br/>
             <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
         </form>
         <button id="CloseLogin" class="btn btn-primary" (click)="CloseLogin()">Close</button>
       </div>

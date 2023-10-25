@@ -1,0 +1,28 @@
+
+#Item{
+    width: 100%;
+
+}
+
+#Qty{
+    width:60px;
+}
+
+#Price{
+    width:80px;
+}
+body{
+    padding-bottom: 20%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.SelectCustomer{
+    display:inline-flex;
+    justify-content: space-between;
+}
+
+.item2{
+    margin-left: 15px;
+    padding: 5px;
+}

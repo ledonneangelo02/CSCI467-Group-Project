@@ -10,13 +10,14 @@ import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 
 export class NavbarComponent{
   isHomeComponent = false;
-  isQuoteComponent = false;
+  isSalesAssoc = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         // Check if the current route is the home component
         this.isHomeComponent = event.url === '/';
+        this.isSalesAssoc = event.url ==='/quote';
       }
     });
   }
@@ -40,6 +41,13 @@ export class NavbarComponent{
       forDisplay.style.visibility = "visible";
     }
     
+  }
+
+  LogOut(): void{
+    this.router.navigateByUrl('/');
+    setTimeout(function(){
+      alert("Succesfully Logged Out!");
+    }, 200);
   }
 
 }

@@ -5,30 +5,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
   <body>
-
-    <nav class="nav">
-      <ul class="menu">
-        <li><a href="">Home</a></li>
-        <li><a href="/quote">Create a Quote</a></li>
-        <li><a href="/admindash">Admin</a></li>
-        <li><a href="quoteedit">Edit a Quote</a></li>
-      </ul>
-      <div class="hamburger">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
-    </nav>
-    <div class="container">
-      <router-outlet></router-outlet>
-    </div> 
       
     <app-nav-bar></app-nav-bar>  
-    <router-outlet></router-outlet> 
-
-    <footer class="footer">
-      <p class="TradeMark">© Designed and Created By: Angelo LeDonne, Caleb Patsch, Fabien Cornejo, Alan Garcia</p>
-    </footer> 
+    <router-outlet></router-outlet>
+    <app-footer></app-footer> 
+    
   </body>
 </html>
 
