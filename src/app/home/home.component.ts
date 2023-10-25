@@ -45,7 +45,6 @@ export class HomeComponent {
   private apiUrl = 'https://phpapicsci467.azurewebsites.net/php_script/QuerySalesAssoc.php';
   ValidateLogin(event : Event){
     const params = new HttpParams()
-    
       .set('Ident', this.Ident)
       .set('password', this.Password);
       
@@ -64,14 +63,6 @@ export class HomeComponent {
           // Handle completion
         }
       });
-      /*
-    if(this.Email == "name@example.com" && this.Password == "password"){
-      this.loginError = false;
-      this.router.navigateByUrl('/quote');
-    }else{
-      this.loginError = true;
-    }
-    */
   }
 
 }
