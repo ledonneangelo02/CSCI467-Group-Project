@@ -49,13 +49,15 @@ export class HomeComponent {
       .set('Ident', this.Ident)
       .set('password', this.Password);
       
-      this.http.get(this.apiUrl).subscribe({
+      this.http.get(this.apiUrl,{params: params}).subscribe({
         next: (data) => {
           // Handle the data
+          this.router.navigateByUrl('/quote');
           console.log(data);
         },
         error: (error) => {
           // Handle errors
+          console.log(error);
           this.loginError = true;
         },
         complete: () => {
