@@ -1,5 +1,5 @@
 
-#Item{
+#Item1 {
     width: 100%;
 
 }
@@ -22,7 +22,3 @@ body{
     justify-content: space-between;
 }
 
-.item2{
-    margin-left: 15px;
-    padding: 5px;
-}

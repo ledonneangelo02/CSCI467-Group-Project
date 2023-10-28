@@ -49,18 +49,16 @@ export class HomeComponent {
       .set('password', this.Password);
       
       this.http.get(this.apiUrl,{params: params}).subscribe({
-        next: (data) => {
+        next: (data: any) => {
           // Handle the data
+          localStorage.setItem('CurrentAssoc', JSON.stringify(data[0]['ID']));
+          localStorage.setItem('AssocName', JSON.stringify(data[0]['Name']));
           this.router.navigateByUrl('/quote');
-          console.log(data);
         },
         error: (error) => {
           // Handle errors
           console.log(error);
           this.loginError = true;
-        },
-        complete: () => {
-          // Handle completion
         }
       });
   }

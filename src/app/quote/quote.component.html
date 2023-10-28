@@ -1,10 +1,13 @@
 <html>
   <body>
+    <div class="Greeting">
+      <h1>Hello {{ EmpName }}</h1>
+    </div>
     <div class="SelectCustomer">
-      <h2 class="item">Select A Customer:</h2>
+      <h3 class="item">Select A Customer:</h3>
       <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveData()">
-        <option value="">Select an option</option>
-        <option *ngFor="let option of selectOptions" [value]="option.name">{{ option.name }}</option>
+        <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
+        <option *ngFor="let option of selectOptions" [value]="option.id">{{ option.name }}</option>
       </select>
     </div>
     
@@ -12,19 +15,25 @@
       <div class="row">
         <div class="col col-lg">
           <h4>Description</h4>
-          <div class="p-3 border bg-dark"><input id="Item1" type="text"></div>
+          <div class="p-3 border bg-dark"><input style="width:100%;" [(ngModel)]="QuoteRow[0].Item" id="Item0" type="text"></div>
         </div>
         <div class="col col-md-auto">
           <h4>Qty</h4>
-          <div class="p-3 border bg-dark"><input id="Qty1" type="number"></div>
+          <div class="p-3 border bg-dark"><input [(ngModel)]="QuoteRow[0].Qty" id="Qty0" type="number"></div>
         </div>
         <div class="col col-md-auto">
           <h4>Price</h4>
-          <div class=" p-3 border bg-dark"><input id="Price1" type="number" step="0.01"></div>
+          <div class="p-3 border bg-dark"><input [(ngModel)]="QuoteRow[0].Price" id="Price0" type="number" step="0.01"></div>
         </div>
       </div>
     </div>
 
+    <div #SecretNote>
+
+    </div>
+
     <button (click)="AddRow()" class="btn btn-primary">Add Row</button>
+    <button (click)="AddNote()" class="btn btn-primary">Add Secret Note</button>
+    <button (click)="QuoteFinish()" class="btn btn-primary">Submit Quote</button>
   </body>
 </html>
