@@ -5,35 +5,48 @@
     </div>
     <div class="SelectCustomer">
       <h3 class="item">Select A Customer:</h3>
-      <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveData()">
+      <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveCustomer()">
         <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
         <option *ngFor="let option of selectOptions" [value]="option.id">{{ option.name }}</option>
       </select>
     </div>
-    
-    <div #container>  
-      <div class="row">
-        <div class="col col-lg">
-          <h4>Description</h4>
-          <div class="p-3 border bg-dark"><input style="width:100%;" [(ngModel)]="QuoteRow[0].Item" id="Item0" type="text"></div>
-        </div>
-        <div class="col col-md-auto">
-          <h4>Qty</h4>
-          <div class="p-3 border bg-dark"><input [(ngModel)]="QuoteRow[0].Qty" id="Qty0" type="number"></div>
-        </div>
-        <div class="col col-md-auto">
-          <h4>Price</h4>
-          <div class="p-3 border bg-dark"><input [(ngModel)]="QuoteRow[0].Price" id="Price0" type="number" step="0.01"></div>
+
+    <form [formGroup]="quoteForm">
+      <div formArrayName="rows">
+        <div class="row" *ngFor="let control of rowControls; let i = index" [formGroupName]="i">
+          <div class="col col-lg">
+            <h4>Description</h4>
+            <div class="p-3 border bg-dark">
+              <input style="width:100%;" formControlName="Item" type="text">
+            </div>
+          </div>
+          <div class="col col-md-auto">
+            <h4>Qty</h4>
+            <div class="p-3 border bg-dark">
+              <input formControlName="Qty" type="number">
+            </div>
+          </div>
+          <div class="col col-md-auto">
+            <h4>Price</h4>
+            <div class="p-3 border bg-dark">
+              <input formControlName="Price" type="number" step="0.01">
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+      <div class="secretSection" *ngIf="showSecretNote">
+        <hr style="border-width:10px; background-color:rgb(0,0,0)">
+        <h4>Secret Note</h4>
+        <div class="p-3 border bg-dark">
+          <input style="width:100%;" formControlName="SecretNote" type="text">
+        </div>
+      </div>
+    </form>
 
-    <div #SecretNote>
 
-    </div>
-
-    <button (click)="AddRow()" class="btn btn-primary">Add Row</button>
+    <button (click)="addRow()" class="btn btn-primary">Add Row</button>
     <button (click)="AddNote()" class="btn btn-primary">Add Secret Note</button>
     <button (click)="QuoteFinish()" class="btn btn-primary">Submit Quote</button>
+    
   </body>
 </html>

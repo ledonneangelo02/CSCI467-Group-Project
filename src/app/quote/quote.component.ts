@@ -1,6 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -20,16 +21,106 @@ export class QuoteComponent implements OnInit{
   selectOptions: any[] = [];
   SelectedVal: any;
   EmpName: any;
-  QuoteRow: any[] = [{Item: '', Qty: 0, Price: 0.0 }];
+  quoteForm: FormGroup;
+  showSecretNote: boolean = false;
 
-  constructor(private renderer: Renderer2, private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) {
+    this.quoteForm = this.formBuilder.group({
+      rows: this.formBuilder.array([
+        this.createRow()
+      ]),
+      SecretNote: ['']
+    });
+  }
 
-  @ViewChild('container', { static: true }) container!: ElementRef;
-  @ViewChild('SecretNote', { static: true }) SecretNote!: ElementRef;
   ngOnInit() {
+
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/Customers.php').subscribe((response: any) => {
       this.selectOptions = response;
     });
+
+    //This will check the localStorage for the Associate ID and if there is a customer currently picked
+    this.Datacheck();
+  }
+
+  get rowControls() {
+    return (this.quoteForm.get('rows') as FormArray).controls;
+  }
+
+  /* This function will add another row to the current Quote */
+  addRow() {
+    const newRow = this.formBuilder.group({
+      Item: '',
+      Qty: 0,
+      Price: 0.0,
+    });
+
+    (this.quoteForm.get('rows') as FormArray).push(newRow);
+  }
+
+  private createRow() {
+    return this.formBuilder.group({
+      Item: '',
+      Qty: 0,
+      Price: 0.0,
+    });
+  }
+
+
+  /* **********************************************************
+   * This function will aquire the customer that was selected *
+   *   and store it for later use.                            *
+   * **********************************************************/
+  RetriveCustomer() : void{
+    console.log(this.SelectedVal);
+    localStorage.setItem('CurrentCustomer',this.SelectedVal);
+  }
+
+  AddNote() : void{
+    this.showSecretNote = !this.showSecretNote;
+  }
+
+
+  private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
+  QuoteFinish() : any{
+    const formData = this.quoteForm.value;
+    let params = new HttpParams();
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        if (key === 'SecretNote') {
+          // Add the "SecretNote" field to the end of the HttpParams
+          params = params.append(key, formData[key]);
+        } else {
+          params = params.set(key, formData[key]);
+        }
+      }
+    }
+    // Include the additional input field if it exists
+    if(this.showSecretNote){
+      const secretNoteControl = this.quoteForm.get('SecretNote');
+      if (secretNoteControl) {
+        formData.SecretNote = secretNoteControl.value;
+      }
+    }
+    
+    this.http.post(this.quoteUrl, {params: params}).subscribe({        
+      next: (data: any) => {
+      // Handle the data
+      console.log('Data saved successfully');
+      },
+      error: (error) => {
+        console.error('Error saving data', error);
+      }
+    });
+  
+}
+
+  /* *********************************************************
+   * This function will check to make sure a sales associate *
+   *   is properly logged in, and it will check if we have a *
+   *   current customer selected.                            *
+   * *********************************************************/
+  Datacheck(): void{
     var CustomerSelect = localStorage.getItem('CurrentCustomer');
     if(CustomerSelect !== null){
       this.SelectedVal = JSON.parse(CustomerSelect);
@@ -50,82 +141,4 @@ export class QuoteComponent implements OnInit{
       }, 200);
     }
   }
-  
-
-  //Number of rows in the quote
-  count: number = 1;
-  /* This function will Add another row to the current Quote */
-  AddRow() : void{
-    this.QuoteRow.push({ Item: '', Qty: 0, Price: 0.0 });
-    //HTML content for adding another row to the quote
-    var htmlContent = `<div class="col col-lg"> 
-                          <div class="p-3 border bg-dark"><input style="width: 100%;" [(ngModel)]="QuoteRow[${this.count}].Item" [id]="Item${this.count}" type="text"></div> 
-                          </div> 
-                          <div class="col col-md-auto"> 
-                              <div class="p-3 border bg-dark"><input [(ngModel)]="QuoteRow[${this.count}].Qty" [id]="Qty${this.count}" type="number"></div>
-                          </div> 
-                          <div class="col col-md-auto"> 
-                              <div class=" p-3 border bg-dark"><input [(ngModel)]="QuoteRow[${this.count}].Price" [id]="Price${this.count}" type="number" step="0.01"></div> 
-                          </div>
-                       </div>`;
-
-    //Creating the Seperating Line
-    const newElement = this.renderer.createElement('hr');
-    newElement.style.borderWidth = '5px';
-    newElement.style.color = 'rgb(0,0,0)';
-    newElement.style.backgroundColor = 'black';
-    //Creating the new Quote Row
-    const newElement2 = this.renderer.createElement('div');
-    newElement2.className = 'row';
-    newElement2.innerHTML = htmlContent;
-
-    // Append the new element as the last child of the div
-    this.renderer.appendChild(this.container.nativeElement, newElement);
-    
-    this.renderer.appendChild(this.container.nativeElement, newElement2);
-
-    this.count++;
-  }
-  
-  RetriveData() : void{
-    console.log(this.SelectedVal);
-    localStorage.setItem('CurrentCustomer',this.SelectedVal);
-  }
-
-  //We only want 1 Secret Note per Quote
-  NoteCount: number = 0;
-  AddNote() : void{
-
-    if(this.NoteCount == 0){
-      var htmlContent = `<div class="col col-lg"> 
-                            <h4>Secret Note</h4>
-                            <div class="p-3 border bg-dark"><input style="width:100%;" id="SecretNote" type="text"></div>
-                          </div>`;
-      //Creating a 'Secret Note'
-      const SecretNote = this.renderer.createElement('div');
-      SecretNote.className = 'row';
-      SecretNote.innerHTML = htmlContent;
-
-      //Creating the Seperating Line
-      const newElement = this.renderer.createElement('hr');
-      newElement.style.borderWidth = '10px';
-      newElement.style.color = 'rgb(0,0,0)';
-      newElement.style.backgroundColor = 'black';
-
-      this.renderer.appendChild(this.SecretNote.nativeElement, newElement);
-      this.renderer.appendChild(this.SecretNote.nativeElement, SecretNote);
-      ++this.NoteCount;
-    }else{
-      alert("There is already a Secret Note, on this Quote");
-    }
-  }
-
-  QuoteFinish() : any{
-    for (let i = 0; i < this.count; i++) {
-      const inputId = `Item${i}`;
-      const inputValue = this.container.nativeElement.querySelector(`#${inputId}`).value;
-      console.log(`Value of input with ID ${inputId}: ${inputValue}`);
-    }
-  }
-
 }
