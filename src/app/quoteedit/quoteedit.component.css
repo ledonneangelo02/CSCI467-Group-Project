@@ -31,3 +31,48 @@ body{
     margin-left: 15px;
     padding: 5px;
 }
+
+.header, .quote{
+    margin-left: 15px;
+    padding: 5px;
+    display:flex;
+    align-content: space-between;
+}
+
+.hid, .qid{
+    width:30%;
+}
+.hname, .qname{
+    width:70%;
+}
+
+.qid {
+    border-left: 4px solid black;
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.qname {
+    border-right: 4px solid black;
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.qid, .qname {
+    padding-left: 5px;
+    padding-right: 5px;
+    height:50px;
+    line-height: 50px;
+}
+
+p {
+    line-height: normal;
+    display: inline-block;
+    vertical-align: middle;
+}
