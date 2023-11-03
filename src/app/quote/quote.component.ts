@@ -23,6 +23,10 @@ export class QuoteComponent implements OnInit{
   EmpName: any;
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
+  savedAssoc: any;
+  CustomerName: any;
+  QuoteLineCount: number = 1;
+  total: number = 0.0;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) {
     this.quoteForm = this.formBuilder.group({
@@ -54,7 +58,7 @@ export class QuoteComponent implements OnInit{
       Qty: 0,
       Price: 0.0,
     });
-
+    this.QuoteLineCount++;
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
 
@@ -72,38 +76,53 @@ export class QuoteComponent implements OnInit{
    *   and store it for later use.                            *
    * **********************************************************/
   RetriveCustomer() : void{
-    console.log(this.SelectedVal);
+    var CustName = this.selectOptions[this.SelectedVal-1].name;
     localStorage.setItem('CurrentCustomer',this.SelectedVal);
+    localStorage.setItem('CurrentCustomerName',CustName);
   }
+
 
   AddNote() : void{
     this.showSecretNote = !this.showSecretNote;
   }
 
-
-  private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
-  QuoteFinish() : any{
-    const formData = this.quoteForm.value;
-    let params = new HttpParams();
-    for (const key in formData) {
-      if (formData.hasOwnProperty(key)) {
-        if (key === 'SecretNote') {
-          // Add the "SecretNote" field to the end of the HttpParams
-          params = params.append(key, formData[key]);
-        } else {
-          params = params.set(key, formData[key]);
+  calculateRunningTotal() {
+    const rows = this.quoteForm.get('rows') as FormArray;
+  
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows.at(i);
+      if (row) {
+        const qtyControl = row.get('Qty');
+        const priceControl = row.get('Price');
+  
+        if (qtyControl && priceControl) {
+          const qty = qtyControl.value;
+          const price = priceControl.value;
+          this.total += qty * price;
         }
       }
     }
-    // Include the additional input field if it exists
-    if(this.showSecretNote){
-      const secretNoteControl = this.quoteForm.get('SecretNote');
-      if (secretNoteControl) {
-        formData.SecretNote = secretNoteControl.value;
-      }
-    }
-    
-    this.http.post(this.quoteUrl, {params: params}).subscribe({        
+  
+    // Update the total in your form or any other way you want to display it
+    //this.quoteForm.patchValue({ Total: total });
+  }
+
+
+  private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
+  QuoteFinish() : any{
+
+    this.calculateRunningTotal();
+    const formData = this.quoteForm.value;
+    const FinalformData = {
+      formData,
+      AssocID: this.savedAssoc,
+      CustID: this.SelectedVal,
+      LineCount: this.QuoteLineCount,
+      CustomerName: this.CustomerName,
+      QuoteTotal: this.total
+    };
+
+    this.http.post(this.quoteUrl, FinalformData).subscribe({        
       next: (data: any) => {
       // Handle the data
       console.log('Data saved successfully');
@@ -121,18 +140,27 @@ export class QuoteComponent implements OnInit{
    *   current customer selected.                            *
    * *********************************************************/
   Datacheck(): void{
+    //Stored Customer ID
     var CustomerSelect = localStorage.getItem('CurrentCustomer');
     if(CustomerSelect !== null){
       this.SelectedVal = JSON.parse(CustomerSelect);
       console.log(this.SelectedVal);
     }
+    //Stored Customer Name
+    var CustomerSelectName = localStorage.getItem('CurrentCustomerName');
+    if(CustomerSelectName !== null){
+      this.CustomerName = CustomerSelectName;
+      console.log(this.CustomerName);
+    }
+    //Stored Associate Name
     var AssocName = localStorage.getItem('AssocName');
     if(AssocName !== null){
       this.EmpName = JSON.parse(AssocName);
     }
+    //Stored Associate ID
     var savedAssoc = localStorage.getItem('CurrentAssoc');
     if(savedAssoc !== null){
-      savedAssoc = JSON.parse(savedAssoc);
+      this.savedAssoc = JSON.parse(savedAssoc);
       console.log(savedAssoc);
     }else{
       this.router.navigateByUrl('/');

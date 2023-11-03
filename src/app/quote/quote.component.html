@@ -7,7 +7,7 @@
       <h3 class="item">Select A Customer:</h3>
       <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveCustomer()">
         <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
-        <option *ngFor="let option of selectOptions" [value]="option.id">{{ option.name }}</option>
+        <option *ngFor="let option of selectOptions" [value]="option.id" >{{ option.name }}</option>
       </select>
     </div>
 
