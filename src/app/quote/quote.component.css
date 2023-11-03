@@ -22,3 +22,7 @@ body{
     justify-content: space-between;
 }
 
+.QuoteButtons button{
+    margin-right: 5%;
+}
+
