@@ -18,11 +18,28 @@ body{
 }
 
 .SelectCustomer{
-    display:inline-flex;
-    justify-content: space-between;
+    display: flex;
+    gap: 3%;
+    padding-bottom: 3%;
 }
 
-.QuoteButtons button{
-    margin-right: 5%;
+.Greeting{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3%;
 }
+
+.QuoteButtons{
+    justify-content: center;
+    display: flex;
+    gap: 5%;
+}
+
+.QuoteTotal{
+    display: flex;
+    align-items: baseline;
+    gap: 10%;
+
+}
+
 

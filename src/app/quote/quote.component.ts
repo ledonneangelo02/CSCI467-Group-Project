@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild, OnInit, ChangeDetectorRef} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
@@ -20,15 +20,15 @@ export class QuoteComponent implements OnInit{
   responseFromPHP: any;
   selectOptions: any[] = [];
   SelectedVal: any;
+  CustName: any;
   EmpName: any;
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
   savedAssoc: any;
   CustomerName: any;
-  QuoteLineCount: number = 1;
   total: number = 0.0;
 
-  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
         this.createRow()
@@ -58,7 +58,7 @@ export class QuoteComponent implements OnInit{
       Qty: 0,
       Price: 0.0,
     });
-    this.QuoteLineCount++;
+    this.calculateRunningTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
 
@@ -76,9 +76,11 @@ export class QuoteComponent implements OnInit{
    *   and store it for later use.                            *
    * **********************************************************/
   RetriveCustomer() : void{
-    var CustName = this.selectOptions[this.SelectedVal-1].name;
+    this.CustName = this.selectOptions[this.SelectedVal-1].name;
     localStorage.setItem('CurrentCustomer',this.SelectedVal);
-    localStorage.setItem('CurrentCustomerName',CustName);
+    localStorage.setItem('CurrentCustomerName',this.CustName);
+    console.log(this.SelectedVal);
+    console.log(this.CustName);
   }
 
 
@@ -86,6 +88,9 @@ export class QuoteComponent implements OnInit{
     this.showSecretNote = !this.showSecretNote;
   }
 
+  /* **********************************************
+   * This function will calculate the Quote Total *
+   * **********************************************/
   calculateRunningTotal() {
     const rows = this.quoteForm.get('rows') as FormArray;
   
@@ -99,39 +104,43 @@ export class QuoteComponent implements OnInit{
           const qty = qtyControl.value;
           const price = priceControl.value;
           this.total += qty * price;
+          this.cd.markForCheck();
         }
       }
     }
   
-    // Update the total in your form or any other way you want to display it
-    //this.quoteForm.patchValue({ Total: total });
   }
 
 
   private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
   QuoteFinish() : any{
 
-    this.calculateRunningTotal();
-    const formData = this.quoteForm.value;
-    const FinalformData = {
-      formData,
-      AssocID: this.savedAssoc,
-      CustID: this.SelectedVal,
-      LineCount: this.QuoteLineCount,
-      CustomerName: this.CustomerName,
-      QuoteTotal: this.total
-    };
-
-    this.http.post(this.quoteUrl, FinalformData).subscribe({        
-      next: (data: any) => {
-      // Handle the data
-      console.log('Data saved successfully');
-      },
-      error: (error) => {
-        console.error('Error saving data', error);
-      }
-    });
+    if(this.CustName == null && this.SelectedVal == null){
+      alert("No customer selected, please select a customer and try again!");
+    }else{
+      this.calculateRunningTotal();
+      const formData = this.quoteForm.value;
+      const FinalformData = {
+        formData,
+        AssocID: this.savedAssoc,
+        CustID: this.SelectedVal,
+        CustomerName: this.CustName,
+        QuoteTotal: this.total
+      };
   
+      this.http.post(this.quoteUrl, FinalformData).subscribe({        
+        next: (data: any) => {
+        // Handle the data
+        alert("Quote Submitted!");
+        localStorage.removeItem('CurrentCustomer');
+        localStorage.removeItem('CurrentCustomerName');
+        location.reload();
+        },
+        error: (error) => {
+          console.error('Error saving data', error);
+        }
+      });
+    }
 }
 
   /* *********************************************************
@@ -149,8 +158,8 @@ export class QuoteComponent implements OnInit{
     //Stored Customer Name
     var CustomerSelectName = localStorage.getItem('CurrentCustomerName');
     if(CustomerSelectName !== null){
-      this.CustomerName = CustomerSelectName;
-      console.log(this.CustomerName);
+      this.CustName = CustomerSelectName;
+      console.log(this.CustName);
     }
     //Stored Associate Name
     var AssocName = localStorage.getItem('AssocName');
