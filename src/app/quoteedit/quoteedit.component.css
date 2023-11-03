@@ -32,11 +32,29 @@ body{
     padding: 5px;
 }
 
-.header, .quote{
+.search, .header, .quote, .quotenav{
     margin-left: 15px;
     padding: 5px;
     display:flex;
     align-content: space-between;
+}
+
+.search input {
+    border: 0;
+    outline: 0;
+    border-bottom: 3px solid lightgray;
+
+    color: lightgray;
+    text-align: center;
+    background-image: "../../imgs/search.png";
+
+    margin: auto;
+    display: block;
+    width: 75%;
+}
+
+.quotenav{
+    justify-content: center;
 }
 
 .hid, .qid{
@@ -47,18 +65,18 @@ body{
 }
 
 .qid {
-    border-left: 4px solid black;
-    border-top: 4px solid black;
-    border-bottom: 4px solid black;
+    border-left: 4px solid lightgray;
+    border-top: 4px solid lightgray;
+    border-bottom: 4px solid lightgray;
 
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
 
 .qname {
-    border-right: 4px solid black;
-    border-top: 4px solid black;
-    border-bottom: 4px solid black;
+    border-right: 4px solid lightgray;
+    border-top: 4px solid lightgray;
+    border-bottom: 4px solid lightgray;
 
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
