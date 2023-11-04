@@ -61,7 +61,10 @@ body{
     width:30%;
 }
 .hname, .qname{
-    width:70%;
+    width:50%;
+}
+.hstatus, .qstatus{
+    width:20%;
 }
 
 .qid {
@@ -72,8 +75,13 @@ body{
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
 }
-
 .qname {
+    border-top: 4px solid lightgray;
+    border-bottom: 4px solid lightgray;
+}
+
+
+.qstatus {
     border-right: 4px solid lightgray;
     border-top: 4px solid lightgray;
     border-bottom: 4px solid lightgray;
@@ -82,7 +90,7 @@ body{
     border-bottom-right-radius: 20px;
 }
 
-.qid, .qname {
+.qid, .qname, .qstatus {
     padding-left: 5px;
     padding-right: 5px;
     height:50px;
