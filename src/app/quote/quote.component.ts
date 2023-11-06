@@ -1,7 +1,7 @@
-import { Component, ElementRef, Renderer2, ViewChild, OnInit, ChangeDetectorRef} from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { Router} from '@angular/router';
+import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
 
 
 @Component({
@@ -19,13 +19,14 @@ export class QuoteComponent implements OnInit{
 
   responseFromPHP: any;
   selectOptions: any[] = [];
+
   SelectedVal: any;
   CustName: any;
   EmpName: any;
+  savedAssoc: any;
+
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
-  savedAssoc: any;
-  CustomerName: any;
   total: number = 0.0;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
