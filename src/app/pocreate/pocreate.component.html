@@ -1,46 +1,33 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+</script>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="https://fonts.google.com/specimen/Sometype+Mono?preview.text=,mlm" rel="stylesheet">
     <link rel="stylesheet" href="pocreate.component.css">
     <title>group</title>
 </head>
 <body>
-    <div class="header"> 
-        <div class="inner_header">
-            <div class="logo_container">
-                <h1>MY<span>SITE</span></h1> 
-            </div>
-            <ul class="navigation"> 
-                <a href="/home"><li>Home</li></a>
-                <a href="/about"><li>About</li></a>
-                <a href="/home"><li>Log out</li></a>
-            </ul>
-        </div>
-    </div> 
-    <select>  <!--drop down menu -->
-        <option> 
-            quote-id 
-        </option>
-        <option>
-            custie-names
-        </option>
-    </select>
+    <!--Code Below is for Drop Down Menu-->
+    <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveData()">
+        <option value="">Select a quote</option>
+        <option *ngFor="let option of selectOptions" [value]="option.ID">Quote #: {{ option.ID }}, Customer ID: {{option.CustID}}</option>
+    </select> 
+    <!--End of Drop Down Menu Code-->
+
+    <!--Code below is  for table-->
     <table class="main-table">
         <thead>
             <tr>
-                <td>Customer Name</td>
+                <td>Name</td>
                 <td>Description</td>
                 <td>Quantity</td>
-                <td>Total Amount</td>
+                <td>Total</td>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
             <tr>
-                <td>Malawn Deeck </td>
-                <td>Bought hella shit </td>
-                <td>10000 </td>
-                <td>20,000 </td>
+
             </tr>
         </tbody>
         <tfoot>
@@ -51,10 +38,6 @@
             </tr>
         </tfoot>
     </table>
-    <div class="footer"> 
-        <h2>&copy; Copyright Reserved.</h2>
-    </div>
 </body>  
 </html>
-
 
