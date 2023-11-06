@@ -44,6 +44,7 @@ export class NavbarComponent{
   }
 
   LogOut(): void{
+    localStorage.clear();
     this.router.navigateByUrl('/');
     setTimeout(function(){
       alert("Succesfully Logged Out!");
