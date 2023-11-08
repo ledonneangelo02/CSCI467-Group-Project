@@ -166,7 +166,7 @@ export class QuoteComponent implements OnInit{
     if(AssocName !== null){
       this.EmpName = JSON.parse(AssocName);
     }
-    //Stored Associate Name
+    //Stored Admin Flag
     var AdminFlag = localStorage.getItem('AdminFlag');
     if(AdminFlag !== null){
       this.AdminFlag = JSON.parse(AdminFlag);
