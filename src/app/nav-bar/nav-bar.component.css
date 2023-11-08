@@ -1,4 +1,7 @@
-
+body{
+    position: fixed;
+    width:100%;
+}
 .menu li{
     float: left;
     padding-right: 10px;
