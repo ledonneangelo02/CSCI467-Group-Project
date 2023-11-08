@@ -1,9 +1,12 @@
 body{
-    padding-top: 10%;
-    padding-bottom: 10%;
-    padding-right: 30%;
-    padding-left: 30%;
-    background-color: rgb(55, 125, 255);
+    margin: 0;
+    padding: 0;
+    background: url("src\imgs\home.jpg") no-repeat center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
 }
 
 .ErrorMessage{
@@ -27,6 +30,7 @@ body{
 }
 
 #LoginForm{
+    margin-top: 10%;
     visibility: hidden;
     position: relative;
     text-align: center;
@@ -53,14 +57,17 @@ body{
     
 
     #LoginForm{
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 10%;
         visibility: hidden;
         position: relative;
         text-align: center;
         border-radius: 5px;
-        z-index: 1;
         overflow: hidden;
         background-color: grey;
         animation: expandLogin 1s ease-in-out;
+        border: 10px solid #000;
     }    
 }
 
