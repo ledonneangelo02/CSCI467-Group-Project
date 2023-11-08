@@ -1,5 +1,5 @@
 
-#Item{
+#Item1 {
     width: 100%;
 
 }
@@ -18,11 +18,28 @@ body{
 }
 
 .SelectCustomer{
-    display:inline-flex;
-    justify-content: space-between;
+    display: flex;
+    gap: 3%;
+    padding-bottom: 3%;
 }
 
-.item2{
-    margin-left: 15px;
-    padding: 5px;
+.Greeting{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3%;
 }
+
+.QuoteButtons{
+    justify-content: center;
+    display: flex;
+    gap: 5%;
+}
+
+.QuoteTotal{
+    display: flex;
+    align-items: baseline;
+    gap: 10%;
+
+}
+
+

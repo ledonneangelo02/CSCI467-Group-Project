@@ -1,6 +1,5 @@
 <html>
   <head>
-    <title>CSCI 467 Group 3B</title>
   </head>
   <body>
     <div class="WholeLogin">
@@ -11,9 +10,9 @@
         </div>
         <form (ngSubmit)="ValidateLogin($event)" #myForm>
           <div class="form-group">
-            <label for="InputEmail">ID:</label>
+            <label for="InputId">ID:</label>
             <br/>
-            <input name="Email" type="text" id="InputEmail" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="Ident" required>
+            <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="Ident" required>
 
           </div>
           <div class="form-group">

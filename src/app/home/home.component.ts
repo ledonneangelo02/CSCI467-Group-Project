@@ -45,31 +45,22 @@ export class HomeComponent {
   private apiUrl = 'https://phpapicsci467.azurewebsites.net/php_script/QuerySalesAssoc.php';
   ValidateLogin(event : Event){
     const params = new HttpParams()
-    
       .set('Ident', this.Ident)
       .set('password', this.Password);
       
-      this.http.get(this.apiUrl).subscribe({
-        next: (data) => {
+      this.http.get(this.apiUrl,{params: params}).subscribe({
+        next: (data: any) => {
           // Handle the data
-          console.log(data);
+          localStorage.setItem('CurrentAssoc', JSON.stringify(data[0]['ID']));
+          localStorage.setItem('AssocName', JSON.stringify(data[0]['Name']));
+          this.router.navigateByUrl('/quote');
         },
         error: (error) => {
           // Handle errors
+          console.log(error);
           this.loginError = true;
-        },
-        complete: () => {
-          // Handle completion
         }
       });
-      /*
-    if(this.Email == "name@example.com" && this.Password == "password"){
-      this.loginError = false;
-      this.router.navigateByUrl('/quote');
-    }else{
-      this.loginError = true;
-    }
-    */
   }
 
 }
