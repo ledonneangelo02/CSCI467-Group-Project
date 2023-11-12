@@ -20,19 +20,18 @@
   </div>
 
 
-  <div class="quote">
+  <div class="quote" *ngFor="let rows of Quote" (click)="ViewQuote()">
+    <span class="qid">
+      <p>{{rows.ID}}</p>
+    </span>
 
-    <div class="qid">
-      <p>ID number</p>
-    </div>
-
-    <div class="qname">
-      <p>Company Name</p>
-    </div>
+    <span class="qname">
+      <p>{{rows.CustName}}</p>
+    </span>
     
-    <div class="qstatus">
-      <p>Status</p>
-    </div>
+    <span class="qstatus">
+      <p>{{rows.Status}}</p>
+    </span>
   </div>
 
   <div class="quotenav">
