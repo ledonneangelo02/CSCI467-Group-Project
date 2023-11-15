@@ -13,6 +13,7 @@
 
     <!--Code below is  for table-->
     <table class="main-table">
+        <!--Table Header-->
         <thead>
             <tr>
                 <td>Description</td>
@@ -20,6 +21,9 @@
                 <td>Price</td>
             </tr>
         </thead>
+        <!--End of Table Header-->
+
+        <!--Table Body Contents-->
         <tbody id="myTable">
             <tr *ngFor="let rows of QuoteLine">
                 <ng-container *ngIf="rows.SecretFlag == 'N'">
@@ -29,14 +33,49 @@
             </ng-container>
             </tr>
         </tbody>
+        <!--End of Table Body Contents-->
+
+        <!--Table footer Secret Message-->
         <tfoot>
-            <tr>
-                <td><label for="dscnt">Final Discount:</label></td>
-                <td><input type="number" id="dscnt" placeholder="Enter Number"></td>
-                <td colspan="2"><button type="button">Enter</button></td>
+            <tr class="note">
+                <td class="secretLabel" colspan="3">
+                    Secret Message:
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr *ngFor="let rows of QuoteLine" >
+                <ng-container *ngIf="rows.SecretFlag == 'Y'">
+                <td>{{rows.RowDesc}}</td>
+            </ng-container>
             </tr>
         </tfoot>
+        <!--End of Table footer Secret Message-->
     </table>
+    <!--End of Table-->
+
+    <select class="item2" [(ngModel)]="DiscountType" (ngModelChange)="DiscountSelect()">
+        <option value="P">Percentage (%)</option>
+        <option value="D">Dollar Amount ($)</option>
+    </select>
+
+    <label for="dscnt">Final Discount:</label>
+
+        <ng-container *ngIf="DiscountType == 'P'">
+            <input type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
+        </ng-container>
+
+        <ng-container *ngIf="DiscountType == 'D'">
+            <input type="number" step=".5" [(ngModel)]="DiscountDollar">
+        </ng-container>
+
+            <div>
+                <button (click)="ApplyDiscount()" matt-raised-button>
+                    Enter
+                </button>
+            </div>
+            
+
     <div class="row justify-content-center">           
         <div class="QuoteTotal col-auto">
           <h4>Total:</h4>

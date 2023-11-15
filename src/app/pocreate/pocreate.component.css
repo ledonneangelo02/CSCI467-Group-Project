@@ -5,6 +5,15 @@
     text-decoration: none;
 }
 
+body
+{
+    padding-top: 5%;
+    padding-bottom: 10%;
+    padding-right:20%;
+    padding-left: 20%;
+    background-color: rgb(243, 243, 243);
+}
+
 select{
     margin: 40px;
     background-color: grey;
@@ -23,6 +32,10 @@ select{
 
 .main-table thead tr{
     border-bottom: 1px dashed black;
+}
+
+.secretLabel{
+    float: left;
 }
 
 .main-table tfoot tr{
@@ -75,4 +88,8 @@ select{
 .main-table tfoot tr td:nth-last-child(1)
 {
     text-align: right;
+}
+
+button{
+    margin-right: 3rem;
 }
