@@ -1,5 +1,7 @@
-import { Component, Input, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
 
 @Component({
   selector: 'app-quoteedit',
@@ -11,13 +13,24 @@ import { HttpClient } from '@angular/common/http';
 export class QuoteeditComponent {
   responseFromPHP: any;
   selectOptions: any[] = [];
+
   SelectedVal: any;
+  CustName: any;
+  EmpName: any;
+  savedAssoc: any;
 
+  quoteForm: FormGroup;
+  showSecretNote: boolean = false;
+  total: number = 0.0;
 
-  constructor(private renderer: Renderer2, private http: HttpClient) { }
-
-  @ViewChild('container', { static: true }) container!: ElementRef;
-
+  constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
+    this.quoteForm = this.formBuilder.group({
+      rows: this.formBuilder.array([
+        this.createRow()
+      ]),
+      SecretNote: ['']
+    });
+  }
 
   ngOnInit() {
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/Customers.php').subscribe((response: any) => {
@@ -28,40 +41,98 @@ export class QuoteeditComponent {
   }
   
 
-  //Number of rows in the quote
-  count: number = 2;
-
-  AddRow() : void{
-    var htmlContent = `<div class="col col-lg"> 
-                          <div class="p-3 border bg-dark"><input id="Item${this.count}" type="text"></div> 
-                          </div> 
-                          <div class="col col-md-auto"> 
-                              <div class="p-3 border bg-dark"><input id="Qty${this.count}" type="number"></div>
-                          </div> 
-                          <div class="col col-md-auto"> 
-                              <div class=" p-3 border bg-dark"><input id="Price${this.count}" type="number" step="0.01"></div> 
-                          </div>
-                       </div>`;
-
-    // Create a new HTML element
-    const newElement = this.renderer.createElement('hr');
-    const newElement2 = this.renderer.createElement('div');
-    newElement2.className = 'row';
-    newElement.style.borderWidth = '5px';
-    newElement.style.color = 'rgb(0,0,0)';
-    newElement.style.backgroundColor = 'black';
-    newElement2.innerHTML = htmlContent;
-
-    // Append the new element as the last child of the div
-    this.renderer.appendChild(this.container.nativeElement, newElement);
-    
-    this.renderer.appendChild(this.container.nativeElement, newElement2);
-
-    this.count++;
+  get rowControls() {
+    return (this.quoteForm.get('rows') as FormArray).controls;
   }
-  
-  RetriveData() : void{
+
+  /* This function will add another row to the current Quote */
+  addRow() {
+    const newRow = this.formBuilder.group({
+      Item: '',
+      Qty: 0,
+      Price: 0.0,
+    });
+    this.calculateRunningTotal();
+    (this.quoteForm.get('rows') as FormArray).push(newRow);
+  }
+
+  private createRow() {
+    return this.formBuilder.group({
+      Item: '',
+      Qty: 0,
+      Price: 0.0,
+    });
+  }
+
+
+  /* **********************************************************
+   * This function will aquire the customer that was selected *
+   *   and store it for later use.                            *
+   * **********************************************************/
+  RetriveCustomer() : void{
+    this.CustName = this.selectOptions[this.SelectedVal-1].name;
+    localStorage.setItem('CurrentCustomer',this.SelectedVal);
+    localStorage.setItem('CurrentCustomerName',this.CustName);
     console.log(this.SelectedVal);
+    console.log(this.CustName);
+  }
+
+
+  AddNote() : void{
+    this.showSecretNote = !this.showSecretNote;
+  }
+
+  /* **********************************************
+   * This function will calculate the Quote Total *
+   * **********************************************/
+  calculateRunningTotal() {
+    const rows = this.quoteForm.get('rows') as FormArray;
+  
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows.at(i);
+      if (row) {
+        const qtyControl = row.get('Qty');
+        const priceControl = row.get('Price');
+  
+        if (qtyControl && priceControl) {
+          const qty = qtyControl.value;
+          const price = priceControl.value;
+          this.total += qty * price;
+          this.cd.markForCheck();
+        }
+      }
+    }
+  
+  }
+
+  private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
+  QuoteFinish() : any{
+    if(this.CustName == null && this.SelectedVal == null){
+      alert("No customer selected, please select a customer and try again!");
+    }else{
+      this.calculateRunningTotal();
+      const formData = this.quoteForm.value;
+      const FinalformData = {
+        formData,
+        AssocID: this.savedAssoc,
+        CustID: this.SelectedVal,
+        CustomerName: this.CustName,
+        QuoteTotal: this.total
+      };
+  
+      this.http.post(this.quoteUrl, FinalformData).subscribe({        
+        next: (data: any) => {
+        // Handle the data
+        alert("Quote Submitted!");
+        localStorage.removeItem('CurrentCustomer');
+        localStorage.removeItem('CurrentCustomerName');
+        location.reload();
+        },
+        error: (error) => {
+          console.error('Error saving data', error);
+        }
+      });
+    }
   }
 
 
