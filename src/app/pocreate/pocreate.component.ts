@@ -10,15 +10,18 @@ import { HttpClient } from '@angular/common/http';
 export class PocreateComponent {
   responseFromPHP: any;
   selectOptions: any[] = [];
+  selectedQuote: any[] = [];
   QuoteLine: any;
   SelectedVal: any;
-  DiscountType: any = 'P';
   EmpName: any;
   savedAssoc: any;
+  //Discount and Total Amounts
   total: any = 0.0;
+  DiscountType: any = 'P';
   DiscountDollar: any = 0.00;
   DiscountPercent: any = 0.00;
   TempTotal: any = 0;
+
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -56,6 +59,7 @@ export class PocreateComponent {
       if(this.selectOptions[i]['ID'] == this.SelectedVal)
       {
         this.total = this.selectOptions[i]['Total'];
+        this.selectedQuote = this.selectOptions[i];
       }
     }
     console.log(this.SelectedVal);
@@ -95,12 +99,39 @@ ApplyDiscount():void
   {
     console.log("This is %: " + this.DiscountPercent);
     this.total = this.total - (this.total * this.DiscountPercent);
+    if(this.total < 0){
+      this.total = this.TempTotal;
+      this.DiscountPercent = 0.0;
+    }
   }
   else if(this.DiscountType == 'D')
   {
     console.log("This is $: " + this.DiscountDollar);
     this.total = this.total - this.DiscountDollar;
+    if(this.total < 0){
+      this.DiscountDollar = 0.0;
+      this.total = this.TempTotal;
+     }
   }
+}
+QuoteProcessUrl = "https://phpapicsci467.azurewebsites.net/php_script/ProcessingSystem.php";
+SubmitFinal(): void{
+
+  const FinalQuoteData = {
+    QuoteData: this.selectedQuote,
+    NewTotal: this.total
+  };
+
+  this.http.post(this.QuoteProcessUrl, FinalQuoteData).subscribe({        
+    next: (data: any) => {
+    // Handle the data
+    console.log(data);
+    },
+    error: (error) => {
+      console.error('Error Sending data', error);
+    }
+  });
+    console.log(this.selectedQuote);
 }
 }
 
