@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpParams} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
 
@@ -12,7 +12,9 @@ import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
 
 export class QuoteeditComponent {
   responseFromPHP: any;
-  selectOptions: any[] = [];
+  selectedID: number = 0;
+  selectedQuote: any[] = [];
+  selectedQuoteLines: any[] = [];
 
   SelectedVal: any;
   CustName: any;
@@ -30,11 +32,22 @@ export class QuoteeditComponent {
       ]),
       SecretNote: ['']
     });
+
+    this.selectedID = history.state.data;
+    console.log(this.selectedID);
   }
 
   ngOnInit() {
-    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/Customers.php').subscribe((response: any) => {
-      this.selectOptions = response;
+    let params = new HttpParams();
+    params = params.append('whereTerm', "ID");
+    params = params.append('whereValue', this.selectedID);
+
+    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteWhere.php', {params}).subscribe((response: any) => {
+      this.selectedQuote = response;
+    });
+
+    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLineWhere.php', {params}).subscribe((response: any) => {
+      this.selectedQuoteLines = response;
     });
 
     console.log(history.state);
@@ -70,7 +83,7 @@ export class QuoteeditComponent {
    *   and store it for later use.                            *
    * **********************************************************/
   RetriveCustomer() : void{
-    this.CustName = this.selectOptions[this.SelectedVal-1].name;
+    //this.CustName = this.selectOptions[this.SelectedVal-1].name;
     localStorage.setItem('CurrentCustomer',this.SelectedVal);
     localStorage.setItem('CurrentCustomerName',this.CustName);
     console.log(this.SelectedVal);

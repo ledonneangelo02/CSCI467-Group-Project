@@ -3,7 +3,7 @@
 
     <div class="Customer">
       <h2 class="item">Customer: </h2>
-      <div class="name">CUSTOMER NAME</div>
+      <div class="name" *ngFor="let quote of selectedQuote">{{quote.CustName}}</div>
     </div>
     
     <div class = "EntireQuote">
