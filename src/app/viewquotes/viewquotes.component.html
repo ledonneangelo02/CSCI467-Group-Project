@@ -20,7 +20,7 @@
   </div>
 
 
-  <div class="quote" *ngFor="let rows of Quote" (click)="ViewQuote()">
+  <div class="quote" *ngFor="let rows of Quote" (click)="ViewQuote(rows.ID)">
     <span class="qid">
       <p>{{rows.ID}}</p>
     </span>

@@ -19,8 +19,8 @@ export class ViewquotesComponent {
     });
   }
 
-  ViewQuote() {
-    this.router.navigateByUrl('/quoteedit');
+  ViewQuote(id: number) {
+    this.router.navigate(['/quoteedit'], {state: {data: id}});
   }
 
 }

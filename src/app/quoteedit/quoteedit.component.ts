@@ -1,4 +1,4 @@
-import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -6,19 +6,25 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './quoteedit.component.html',
   styleUrls: ['./quoteedit.component.css']
 })
+
+
 export class QuoteeditComponent {
   responseFromPHP: any;
   selectOptions: any[] = [];
   SelectedVal: any;
 
+
   constructor(private renderer: Renderer2, private http: HttpClient) { }
 
   @ViewChild('container', { static: true }) container!: ElementRef;
+
 
   ngOnInit() {
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/Customers.php').subscribe((response: any) => {
       this.selectOptions = response;
     });
+
+    console.log(history.state);
   }
   
 
