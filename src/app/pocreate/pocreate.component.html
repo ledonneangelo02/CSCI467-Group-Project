@@ -53,36 +53,34 @@
         <!--End of Table footer Secret Message-->
     </table>
     <!--End of Table-->
-
-    <select class="item2" [(ngModel)]="DiscountType" (ngModelChange)="DiscountSelect()">
-        <option value="P">Percentage (%)</option>
-        <option value="D">Dollar Amount ($)</option>
-    </select>
-
-        
-        <label for="dscnt">Final Discount:</label>
-
-        <ng-container *ngIf="DiscountType == 'P'">
-            <input type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
-        </ng-container>
-
-
-        <ng-container *ngIf="DiscountType == 'D'">
-            <input type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
-        </ng-container>
-
-        <div>
-            <button (click)="SubmitFinal()" matt-raised-button>Enter</button>
-        </div>
-                
-
-
+    
     <div class="row justify-content-center">           
         <div class="QuoteTotal col-auto">
             <h4>Total:</h4>
             <h5>${{ total | number: '1.2-2'}}</h5>
         </div>  
     </div>
+
+    <select class="item2" [(ngModel)]="DiscountType" (ngModelChange)="DiscountSelect()">
+        <option value="P">Percentage (%)</option>
+        <option value="D">Dollar Amount ($)</option>
+    </select>
+
+    
+        <ng-container *ngIf="DiscountType == 'P'">
+            <label for="dscnt">Final Discount(%):</label>
+            <input id="dscnt" type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
+        </ng-container>
+
+
+        <ng-container *ngIf="DiscountType == 'D'">
+            <label for="dscnt">Final Discount($):</label>
+            <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
+        </ng-container>
+
+        <div>
+            <button (click)="SubmitFinal()" matt-raised-button>Enter</button>
+        </div>
 
 </body>  
 </html>
