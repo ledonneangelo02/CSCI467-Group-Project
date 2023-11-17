@@ -122,10 +122,31 @@ SubmitFinal(): void{
     NewTotal: this.total
   };
 
+
   this.http.post(this.QuoteProcessUrl, FinalQuoteData).subscribe({        
     next: (data: any) => {
-    // Handle the data
+    // This shows array of response
     console.log(data);
+
+    //New Amount
+    const saleAmt: number = data['amount'];
+
+    //tempPct removes "%" -> Pct creates a float
+    const tempPct = data['commission'].replace('%','');
+    const Pct = parseFloat(tempPct);
+
+    //getting commission rate
+    const assocCom = saleAmt * (Pct / 100);
+
+      //array of new associate data
+    const assocData = 
+    {
+      assoc: data['associate'],
+      comAmt: assocCom
+    }
+
+    this.UpdateAssoc(assocData);
+
     },
     error: (error) => {
       console.error('Error Sending data', error);
@@ -133,6 +154,22 @@ SubmitFinal(): void{
   });
     console.log(this.selectedQuote);
 }
+
+    UpdateAssocUrl = "https://phpapicsci467.azurewebsites.net/php_script/UpdateSalesAssoc.php";
+
+    UpdateAssoc(assocData:any): void
+    {
+      console.log(assocData);
+
+      this.http.post(this.UpdateAssocUrl, assocData).subscribe({        
+        next: (data: any) => {
+          console.log(data);
+        },
+        error: (error) => {
+          console.error('Error Sending data', error);
+        }
+      });
+    }
 }
 
 
