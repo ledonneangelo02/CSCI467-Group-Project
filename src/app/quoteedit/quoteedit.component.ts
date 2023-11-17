@@ -26,6 +26,8 @@ export class QuoteeditComponent {
   total: number = 0.0;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
+
+    
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
         this.createRow()
@@ -34,17 +36,22 @@ export class QuoteeditComponent {
     });
 
     this.selectedID = history.state.data;
-    console.log(this.selectedID);
   }
 
   ngOnInit() {
     let params = new HttpParams();
+
     params = params.append('whereTerm', "ID");
     params = params.append('whereValue', this.selectedID);
+
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuote = response;
     });
+
+    params = params.delete('whereTerm');
+    params = params.append('whereTerm', "QuoteID");
+ //   params = params.append('whereValue', this.selectedID);
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLineWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuoteLines = response;
@@ -67,6 +74,11 @@ export class QuoteeditComponent {
     });
     this.calculateRunningTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
+  }
+
+  private populateRow() {
+    return this.formBuilder.group({
+    })
   }
 
   private createRow() {

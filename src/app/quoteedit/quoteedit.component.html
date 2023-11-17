@@ -5,7 +5,7 @@
       <h2 class="item">Customer: </h2>
       <div class="name" *ngFor="let quote of selectedQuote">{{quote.CustName}}</div>
     </div>
-    
+
     <div class = "EntireQuote">
       <form [formGroup]="quoteForm">
         <div formArrayName="rows">
