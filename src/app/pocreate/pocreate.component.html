@@ -61,6 +61,13 @@
         </div>  
     </div>
 
+    <div class="row justify-content-center">           
+        <div class="QuoteTotal col-auto">
+            <h4>Total:</h4>
+            <h5>${{ total | number: '1.2-2'}}</h5>
+        </div>  
+    </div>
+
     <select class="item2" [(ngModel)]="DiscountType" (ngModelChange)="DiscountSelect()">
         <option value="P">Percentage (%)</option>
         <option value="D">Dollar Amount ($)</option>
@@ -81,7 +88,6 @@
         <div>
             <button (click)="SubmitFinal()" matt-raised-button>Enter</button>
         </div>
-
 </body>  
 </html>
 

@@ -22,6 +22,7 @@ export class PocreateComponent {
   DiscountPercent: any = 0.00;
   TempTotal: any = 0;
 
+
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
@@ -113,7 +114,6 @@ ApplyDiscount():void
      }
   }
 }
-
 QuoteProcessUrl = "https://phpapicsci467.azurewebsites.net/php_script/ProcessingSystem.php";
 SubmitFinal(): void{
 
@@ -133,7 +133,6 @@ SubmitFinal(): void{
   });
     console.log(this.selectedQuote);
 }
-
 
 }
 
