@@ -120,33 +120,12 @@ SubmitFinal(): void{
   const FinalQuoteData = {
     QuoteData: this.selectedQuote,
     NewTotal: this.total
-  };
 
+  };
 
   this.http.post(this.QuoteProcessUrl, FinalQuoteData).subscribe({        
     next: (data: any) => {
-    // This shows array of response
-    console.log(data);
-
-    //New Amount
-    const saleAmt: number = data['amount'];
-
-    //tempPct removes "%" -> Pct creates a float
-    const tempPct = data['commission'].replace('%','');
-    const Pct = parseFloat(tempPct);
-
-    //getting commission rate
-    const assocCom = saleAmt * (Pct / 100);
-
-      //array of new associate data
-    const assocData = 
-    {
-      assoc: data['associate'],
-      comAmt: assocCom
-    }
-
-    this.UpdateAssoc(assocData);
-
+    // Handle the data
     },
     error: (error) => {
       console.error('Error Sending data', error);
@@ -155,21 +134,23 @@ SubmitFinal(): void{
     console.log(this.selectedQuote);
 }
 
-    UpdateAssocUrl = "https://phpapicsci467.azurewebsites.net/php_script/UpdateSalesAssoc.php";
 
-    UpdateAssoc(assocData:any): void
-    {
-      console.log(assocData);
+UpdateAssocUrl = "https://phpapicsci467.azurewebsites.net/php_script/UpdateSalesAssoc.php";
 
-      this.http.post(this.UpdateAssocUrl, assocData).subscribe({        
-        next: (data: any) => {
-          console.log(data);
-        },
-        error: (error) => {
-          console.error('Error Sending data', error);
-        }
-      });
+UpdateAssoc(assocData:any): void
+{
+  console.log(assocData);
+
+  this.http.post(this.UpdateAssocUrl, assocData).subscribe({        
+    next: (data: any) => {
+      console.log(data);
+    },
+    error: (error) => {
+      console.error('Error Sending data', error);
     }
+  });
+}
+
 }
 
 

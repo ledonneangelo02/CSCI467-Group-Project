@@ -53,6 +53,7 @@ export class HomeComponent {
           // Handle the data
           localStorage.setItem('CurrentAssoc', JSON.stringify(data[0]['ID']));
           localStorage.setItem('AssocName', JSON.stringify(data[0]['Name']));
+          localStorage.setItem('AdminFlag',JSON.stringify(data[0]['AdminFlag']));
           this.router.navigateByUrl('/quote');
         },
         error: (error) => {
