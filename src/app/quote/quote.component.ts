@@ -33,7 +33,7 @@ export class QuoteComponent implements OnInit{
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
-        this.createRow()
+        this.createRow() // Creates our inital row, so the page isn't empty
       ]),
       SecretNote: ['']
     });
