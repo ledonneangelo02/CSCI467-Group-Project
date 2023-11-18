@@ -134,6 +134,23 @@ SubmitFinal(): void{
     console.log(this.selectedQuote);
 }
 
+
+UpdateAssocUrl = "https://phpapicsci467.azurewebsites.net/php_script/UpdateSalesAssoc.php";
+
+UpdateAssoc(assocData:any): void
+{
+  console.log(assocData);
+
+  this.http.post(this.UpdateAssocUrl, assocData).subscribe({        
+    next: (data: any) => {
+      console.log(data);
+    },
+    error: (error) => {
+      console.error('Error Sending data', error);
+    }
+  });
+}
+
 }
 
 
