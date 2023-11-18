@@ -26,13 +26,12 @@ export class QuoteeditComponent {
   total: number = 0.0;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
-
-    
+  
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
-        this.createRow()
+        //this.createRow()
       ]),
-      SecretNote: ['']
+  //    SecretNote: ['']
     });
 
     this.selectedID = history.state.data;
@@ -55,6 +54,9 @@ export class QuoteeditComponent {
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLineWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuoteLines = response;
+      for (let line of this.selectedQuoteLines) {
+        this.populateRow(line)
+      }
     });
 
     console.log(history.state);
@@ -76,9 +78,14 @@ export class QuoteeditComponent {
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
 
-  private populateRow() {
-    return this.formBuilder.group({
-    })
+  populateRow(line: any) {
+    const newRow = this.formBuilder.group({
+      Item: line['RowDesc'],
+      Qty: line['RowQty'],
+      Price: line['RowPrice'],
+    });
+    this.calculateRunningTotal();
+    (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
 
   private createRow() {
