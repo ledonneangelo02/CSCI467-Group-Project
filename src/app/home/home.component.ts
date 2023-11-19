@@ -54,7 +54,13 @@ export class HomeComponent {
           localStorage.setItem('CurrentAssoc', JSON.stringify(data[0]['ID']));
           localStorage.setItem('AssocName', JSON.stringify(data[0]['Name']));
           localStorage.setItem('AdminFlag',JSON.stringify(data[0]['AdminFlag']));
-          this.router.navigateByUrl('/quote');
+          if(data[0]['AdminFlag'] == 'M'){
+            this.router.navigateByUrl('/quoteedit');
+          }else if(data[0]['AdminFlag'] == 'Y'){
+            this.router.navigateByUrl('/admindash');
+          }else{
+            this.router.navigateByUrl('/quote');
+          }
         },
         error: (error) => {
           // Handle errors
