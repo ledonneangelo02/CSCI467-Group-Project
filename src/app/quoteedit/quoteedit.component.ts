@@ -57,6 +57,7 @@ export class QuoteeditComponent {
       for (let line of this.selectedQuoteLines) {
         this.populateRow(line)
       }
+      this.calculateRunningTotal();
     });
 
     console.log(history.state);
@@ -84,7 +85,6 @@ export class QuoteeditComponent {
       Qty: line['RowQty'],
       Price: line['RowPrice'],
     });
-    this.calculateRunningTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
 
