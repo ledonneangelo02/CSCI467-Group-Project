@@ -14,6 +14,9 @@ html, body {
   .router-content {
     flex-grow: 1;
   }
+  .app-nav-bar{
+    margin-bottom: auto;
+  }
 
   .app-footer {
     margin-top: auto;

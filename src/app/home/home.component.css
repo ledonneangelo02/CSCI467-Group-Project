@@ -30,15 +30,15 @@ body{
 }
 
 #LoginForm{
-    margin-top: 10%;
+    margin-top: 20%;
     visibility: hidden;
     position: relative;
     text-align: center;
-    overflow: hidden;
+    border-radius: 5px;
     background-color: grey;
     animation: expandLogin 1s ease-in-out;
-}
-
+    border: 10px solid #000;
+}    
 #ErrorText{
     visibility: hidden;
 }

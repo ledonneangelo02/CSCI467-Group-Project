@@ -3,7 +3,8 @@
         <h3>4 Guys & 1 Computer</h3>
         <ul class="menu" *ngIf="!isHomeComponent && !isSalesAssoc">
           <li><a href="/quote">Create a Quote</a></li>
-          <li><a href="/admindash">Admin</a></li>
+          <li><a href="/quoteedit">Manager</a></li>
+          <li><a href="/pocreate">Create PO</a></li>
         </ul>
         <div *ngIf="isHomeComponent">
           <button id="OpenLogin" class="btn btn-primary" (click)="Showlogin()">Login</button>  

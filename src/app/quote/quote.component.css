@@ -1,4 +1,27 @@
+@media (max-width: 767px) {
+    .row {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .col {
+      width: 100%;
+    }
+  }
 
+  .row:first-child{
+    padding-top: none;
+  }
+  .row {
+    border-bottom: 10px solid #000000; 
+    padding-top: 10px;
+    padding-bottom: 15px; 
+    width: 100%;
+  }
+  
+  .row:last-child {
+    border-bottom: none; /* Remove border from the last row */
+  }
 #Item1 {
     width: 100%;
 
