@@ -50,16 +50,20 @@ export class HomeComponent {
       
       this.http.get(this.apiUrl,{params: params}).subscribe({
         next: (data: any) => {
-          // Handle the data
-          localStorage.setItem('CurrentAssoc', JSON.stringify(data[0]['ID']));
-          localStorage.setItem('AssocName', JSON.stringify(data[0]['Name']));
-          localStorage.setItem('AdminFlag',JSON.stringify(data[0]['AdminFlag']));
-          if(data[0]['AdminFlag'] == 'M'){
-            this.router.navigateByUrl('/quoteedit');
-          }else if(data[0]['AdminFlag'] == 'Y'){
-            this.router.navigateByUrl('/admindash');
+          //if Login data is not a valid user
+          if(data.length === 0){
+            this.loginError = true;
           }else{
-            this.router.navigateByUrl('/quote');
+            localStorage.setItem('CurrentAssoc', JSON.stringify(data[0]['ID']));
+            localStorage.setItem('AssocName', JSON.stringify(data[0]['Name']));
+            localStorage.setItem('AdminFlag',JSON.stringify(data[0]['AdminFlag']));
+            if(data[0]['AdminFlag'] == 'M'){
+              this.router.navigateByUrl('/quoteedit');
+            }else if(data[0]['AdminFlag'] == 'Y'){
+              this.router.navigateByUrl('/admindash');
+            }else{
+              this.router.navigateByUrl('/quote');
+            }
           }
         },
         error: (error) => {
