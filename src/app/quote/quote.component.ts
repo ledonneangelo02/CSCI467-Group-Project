@@ -1,7 +1,7 @@
-import { Component, ElementRef, Renderer2, ViewChild, OnInit, ChangeDetectorRef} from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormArray} from '@angular/forms';
 
 
 @Component({
@@ -19,13 +19,15 @@ export class QuoteComponent implements OnInit{
 
   responseFromPHP: any;
   selectOptions: any[] = [];
+
   SelectedVal: any;
   CustName: any;
   EmpName: any;
+  savedAssoc: any;
+  AdminFlag: any;
+
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
-  savedAssoc: any;
-  CustomerName: any;
   total: number = 0.0;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
@@ -38,7 +40,6 @@ export class QuoteComponent implements OnInit{
   }
 
   ngOnInit() {
-
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/Customers.php').subscribe((response: any) => {
       this.selectOptions = response;
     });
@@ -114,7 +115,6 @@ export class QuoteComponent implements OnInit{
 
   private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
   QuoteFinish() : any{
-
     if(this.CustName == null && this.SelectedVal == null){
       alert("No customer selected, please select a customer and try again!");
     }else{
@@ -166,6 +166,14 @@ export class QuoteComponent implements OnInit{
     if(AssocName !== null){
       this.EmpName = JSON.parse(AssocName);
     }
+    
+    //Stored Admin Flag
+    var AdminFlag = localStorage.getItem('AdminFlag');
+    if(AdminFlag !== null){
+      this.AdminFlag = JSON.parse(AdminFlag);
+      console.log(AdminFlag);
+    }
+
     //Stored Associate ID
     var savedAssoc = localStorage.getItem('CurrentAssoc');
     if(savedAssoc !== null){
