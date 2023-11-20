@@ -1,6 +1,19 @@
-import { Component, ElementRef, Renderer2, ViewChild, OnInit, createComponent } from '@angular/core';
+import { Component, Inject, ElementRef, Renderer2, ViewChild, OnInit, createComponent } from '@angular/core';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import {FormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-pocreate',
@@ -10,11 +23,12 @@ import { HttpClient } from '@angular/common/http';
 export class PocreateComponent {
   responseFromPHP: any;
   selectOptions: any[] = [];
-  selectedQuote: any[] = [];
+  selectedQuote: any = [];
   QuoteLine: any;
   SelectedVal: any;
   EmpName: any;
   savedAssoc: any;
+  quoteSelected: boolean = false;
   //Discount and Total Amounts
   total: any = 0.0;
   DiscountType: any = 'P';
@@ -26,6 +40,7 @@ export class PocreateComponent {
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
+    this.Datacheck();
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuote.php').subscribe((response: any) => {
       this.selectOptions = response;
     });
@@ -53,17 +68,18 @@ export class PocreateComponent {
 
   private quoteURL='https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLine.php';
 
-  RetriveData() : void{
+  RetriveData(QID: any) : void{
+    this.quoteSelected = true;
     for(let i = 0; i < this.selectOptions.length; ++i)
     {
-      if(this.selectOptions[i]['ID'] == this.SelectedVal)
+      if(this.selectOptions[i]['ID'] == QID)
       {
         this.total = this.selectOptions[i]['Total'];
         this.selectedQuote = this.selectOptions[i];
       }
     }
-    console.log(this.SelectedVal);
-    const quoteData={quoteID: this.SelectedVal}
+    console.log(this.selectedQuote['ID']);
+    const quoteData={quoteID: QID}
     this.http.post(this.quoteURL,quoteData, {responseType:'json'}).subscribe(
       responseData=>{
         this.QuoteLine=responseData;
@@ -137,12 +153,13 @@ SubmitFinal(): void{
 
     //getting commission rate
     const assocCom = saleAmt * (Pct / 100);
-
-      //array of new associate data
+    
+    //array of new associate data
     const assocData = 
     {
       assoc: data['associate'],
-      comAmt: assocCom
+      comAmt: assocCom,
+      quoteID: this.selectedQuote['ID']
     }
 
     this.UpdateAssoc(assocData);
