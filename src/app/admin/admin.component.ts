@@ -13,14 +13,15 @@ export class AdminComponent {
   quote: any[]=[];
   SalesAssoc: any;
   newAssociate: any = {};
-  Quote: any;
   EmpName: any;
   add: any;
   savedAssoc: any;
   isAddAssocModal: boolean = false;
-test: any="Alan";
-Password: string= "password";
-
+  test: any="Alan";
+  Password: string= "password";
+  Name: string = "Name";
+  SalesCommision: string = "SalesCommision";
+  Address: string="Address";
   ngOnInit () {
 //private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
 
@@ -50,6 +51,18 @@ this.isAddAssocModal = true;
 
   }
   delAssoc(): void {
+
+  }
+  searchAssoc(): void {
+
+  }
+  viewAssoc(): void {
+
+  }
+  searchQuote (): void {
+
+  }
+  viewQuote(): void {
 
   }
 Datacheck(): void

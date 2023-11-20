@@ -1,11 +1,43 @@
+<h1> 4 Guys & 1 Computer Admin Page</h1>
 <h1> Sales associate records</h1>
 <div class = "assocnav">
-    <a class="active" href="admin.component.css">H</a>
+    <a class="active" href="admin.component.css"></a>
     <script src="admin.component.ts"></script>
     <input type="text" placeholder="Search Associates">
 </div> 
 <div class="button-container">
-    <button onclick="addAssociateModal()"> Add</button>
+    <button (click)="addAssociateModal()"> Add</button>
+    <div *ngIf= "isAddAssocModal" >
+        <form (ngSubmit)="addAssoc($event)" #myForm>
+           <div class="form-group">
+             <label for="InputId">ID:</label>
+             <br/>
+             <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="test" required>
+           </div>
+           <div class="form-group">
+             <label for="InputName">Name:</label>
+             <br/>
+             <input name="EmpName" type="text" id="InputName" aria-describedby="nameHelp" placeholder="Enter Name" [(ngModel)]="Name" required>
+           </div>
+           <div class= "form-group"> 
+             <label for="InputPass">Password:</label>
+             <br/>
+             <input name="EmpPass" type="text" id="InputPass" aria-describedby="passHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
+           </div>
+           <div class="form-group">
+               <label for="InputComm">Sales Commission:</label>
+               <br/>
+               <input name="EmpComm" type="text" id="InputComm" aria-describedby="commHelp" placeholder="Enter SalesCommision" [(ngModel)]="SalesCommision" required>
+           </div>
+           <div class="form-group">
+               <label for="InputAddress">Address:</label>
+               <br/>
+               <input name="EmpAddress" type="text" id="InputAddress" aria-describedby="addressHelp" placeholder="Enter Address" [(ngModel)]="Address" required>
+           </div>
+           <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
+           <button (click)="closeAddAssocModal()"> close</button>
+         </form>
+       </div>
     <button> Edit</button>
     <button> delete</button>
     <button> More options</button>
@@ -64,21 +96,4 @@
         </tr>
     </tbody>
 </table>
-<div *ngIf= "isAddAssocModal" >
- <form (ngSubmit)="addAssoc($event)" #myForm>
-    <div class="form-group">
-      <label for="InputId">ID:</label>
-      <br/>
-      <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="test" required>
 
-    </div>
-    <div class="form-group">
-      <label for="InputPassword">Password:</label>
-      <br/>
-      <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
-    </div>
-    <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
-    <button (click)="closeAddAssocModal()"> close</button>
-  </form>
-</div>
-<button (click)="addAssociateModal()" > Add</button>

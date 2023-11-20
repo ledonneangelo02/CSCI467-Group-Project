@@ -5,3 +5,10 @@ body{
     padding-left: 30%;
     background-color: aqua;
 }
+table {
+    background-color: green;
+    border: blue;
+}
+text {
+    color: white;
+}
