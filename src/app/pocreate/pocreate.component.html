@@ -36,18 +36,20 @@
         <!--End of Table Body Contents-->
 
         <!--Table footer Secret Message-->
-        <tfoot>
+        <tfoot class="tFooter">
+            <tr *ngFor="let rows of QuoteLine" >
+                <ng-container *ngIf="rows.SecretFlag == 'Y'">
+                <td>{{rows.RowDesc}}</td>
+                </ng-container>
+            </tr>
+        </tfoot>
+        <tfoot class="tFooter2">
             <tr class="note">
                 <td class="secretLabel" colspan="3">
                     Secret Message:
                 </td>
                 <td></td>
                 <td></td>
-            </tr>
-            <tr *ngFor="let rows of QuoteLine" >
-                <ng-container *ngIf="rows.SecretFlag == 'Y'">
-                <td>{{rows.RowDesc}}</td>
-            </ng-container>
             </tr>
         </tfoot>
         <!--End of Table footer Secret Message-->
@@ -61,33 +63,37 @@
         </div>  
     </div>
 
+    <!--Prints out Total Price-->
     <div class="row justify-content-center">           
         <div class="QuoteTotal col-auto">
             <h4>Total:</h4>
             <h5>${{ total | number: '1.2-2'}}</h5>
         </div>  
     </div>
+    <!--End of Total Price-->
 
+    <!--Drop Down Menu-->
     <select class="item2" [(ngModel)]="DiscountType" (ngModelChange)="DiscountSelect()">
         <option value="P">Percentage (%)</option>
         <option value="D">Dollar Amount ($)</option>
     </select>
+    <!--End of Drop Down-->
 
-    
+    <!--Code below is for Percentage Option-->
         <ng-container *ngIf="DiscountType == 'P'">
             <label for="dscnt">Final Discount(%):</label>
             <input id="dscnt" type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
+            <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
         </ng-container>
+    <!--End of Percentage Option-->
 
-
+    <!--Code below is for Dollar Option-->
         <ng-container *ngIf="DiscountType == 'D'">
             <label for="dscnt">Final Discount($):</label>
             <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
+            <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
         </ng-container>
-
-        <div>
-            <button (click)="SubmitFinal()" matt-raised-button>Enter</button>
-        </div>
+    <!--End of Dollar Option-->
 </body>  
 </html>
 

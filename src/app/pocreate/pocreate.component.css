@@ -38,7 +38,11 @@ select{
     float: left;
 }
 
-.main-table tfoot tr{
+.note{
+    border-collapse: collapse;
+}
+
+.tFooter2{
     border-top: 1px dashed black;
 }
 
@@ -90,6 +94,8 @@ select{
     text-align: right;
 }
 
-button{
-    margin-right: 3rem;
+.SubButton
+{
+    margin-left: 15px;
+    padding: 2px;
 }
