@@ -38,6 +38,23 @@ select{
     float: left;
 }
 
+.po-button{
+    padding: 5px;
+    border-radius: 10%;
+}
+.quote-table th{
+    padding-right: 40px;
+}
+
+.quote-table tr{
+    border: solid;
+}
+
+.quote-table td{
+    padding-right: 40px;
+    padding:10px;
+}
+
 .note{
     border-collapse: collapse;
 }
