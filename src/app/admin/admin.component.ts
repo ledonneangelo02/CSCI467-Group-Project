@@ -22,6 +22,7 @@ export class AdminComponent {
   Name: string = "Name";
   SalesCommision: string = "SalesCommision";
   Address: string="Address";
+  searchTerm: string = "";
   ngOnInit () {
 //private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
 
@@ -53,9 +54,19 @@ this.isAddAssocModal = true;
   delAssoc(): void {
 
   }
-  searchAssoc(): void {
+  // Existing methods ...
 
-  }
+// New method for searching associates
+searchAssoc(): void {
+  // Use the search term to make a request to the PHP script
+  this.http.post('https://phpapicsci467.azurewebsites.net/php_script/AssocSearch.php', { searchTerm: this.searchTerm }).subscribe((response: any) => {
+    this.assoc = response;
+  });
+}
+
+
+// Existing methods ...
+
   viewAssoc(): void {
 
   }

@@ -3,7 +3,8 @@
 <div class = "assocnav">
     <a class="active" href="admin.component.css"></a>
     <script src="admin.component.ts"></script>
-    <input type="text" placeholder="Search Associates">
+    <input type="text" placeholder="Search Associates" [(ngModel)]="searchTerm">
+    <button (click)="searchAssoc()">Search</button>
 </div> 
 <div class="button-container">
     <button (click)="addAssociateModal()"> Add</button>
@@ -96,4 +97,3 @@
         </tr>
     </tbody>
 </table>
-
