@@ -13,7 +13,7 @@
            <div class="form-group">
              <label for="InputId">ID:</label>
              <br/>
-             <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="test" required>
+             <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="ID" required>
            </div>
            <div class="form-group">
              <label for="InputName">Name:</label>
@@ -39,15 +39,24 @@
            <button (click)="closeAddAssocModal()"> close</button>
          </form>
        </div>
-    <button> Edit</button>
+    <button (click)="editAssoc($event)"> Edit</button>
+    <div *ngIf="isEditAssocModal" class="modal">
+        <div class="modal-content">
+          <button (click)="closeEditAssocModal()">close </button>
+          <h2>Edit Associate</h2>
+          <!-- Add form fields to edit associate details here -->
+          <!-- For simplicity, I'll add a sample input for the associate's name -->
+          <div class="form-group">
+            <label for="editedName">Name:</label>
+            <br/>
+            <input name="editedName" type="text" id="editedName" placeholder="Edit Name" [(ngModel)]="selectedAssoc.Name" required>
+          </div>
+          <button (click)="saveEditedAssoc()">Save Changes</button>
+        </div>
+      </div>
     <button> delete</button>
     <button> More options</button>
 </div>
-<style>
-    table, th, td {
-        border: 1px solid black;
-    }
-</style>
 <table class="main-table">
     <thead>
         <tr>
@@ -56,6 +65,7 @@
             <td>Password</td>
             <td> Sales Commission</td>
             <td> Address</td>
+            <td> </td>
         </tr>
     </thead>
     <tbody id="myTable">
@@ -65,11 +75,13 @@
             <td>{{rows.Password}}</td>
             <td>{{rows.SalesCommission}}</td>
             <td>{{rows.Address}}</td>
+            <button> edit</button>
         </tr>
     </tbody>
 </table>
 <h2> Current Quotes and status</h2>
-<input type="text" placeholder="Search for Quotes">
+<input type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
+<button (click)="searchQuote()"> Search</button>
 <button> Search based on status</button>
 <table class="main-table">
     <thead>
@@ -77,6 +89,7 @@
             <td>ID</td>
             <td>AssocID</td>
             <td>CustID</td>
+            <td>Customer Name</td>
             <td> QuoteDate</td>
             <td> Status</td>
             <td> Total</td>
@@ -89,6 +102,7 @@
             <td>{{rows.ID}}</td>
             <td>{{rows.AssocID}}</td>
             <td>{{rows.CustID}}</td>
+            <td>{{rows.CustName}}</td>
             <td>{{rows.QuoteDate}}</td>
             <td>{{rows.Status}}</td>
             <td>{{rows.Total}}</td>
