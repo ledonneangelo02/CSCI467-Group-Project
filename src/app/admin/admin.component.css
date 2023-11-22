@@ -1,0 +1,14 @@
+body{
+    padding-top: 10%;
+    padding-bottom: 10%;
+    padding-right: 30%;
+    padding-left: 30%;
+    background-color: aqua;
+}
+table {
+    background-color: green;
+    border: blue;
+}
+text {
+    color: white;
+}
