@@ -13,7 +13,7 @@ export class ViewquotesComponent {
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
-    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuote.php').subscribe((response: any) => {
+    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/pocreate/selectQuote.php').subscribe((response: any) => {
       this.Quote = response;
       console.log(this.Quote);
     });

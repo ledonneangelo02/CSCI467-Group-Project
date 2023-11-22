@@ -30,8 +30,7 @@ export class QuoteeditComponent {
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
         //this.createRow()
-      ]),
-  //    SecretNote: ['']
+      ])
     });
 
     this.selectedID = history.state.data;
@@ -54,10 +53,7 @@ export class QuoteeditComponent {
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLineWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuoteLines = response;
-      for (let line of this.selectedQuoteLines) {
-        this.populateRow(line)
-      }
-      this.calculateRunningTotal();
+      this.fillRows();
     });
 
     console.log(history.state);
@@ -66,6 +62,10 @@ export class QuoteeditComponent {
 
   get rowControls() {
     return (this.quoteForm.get('rows') as FormArray).controls;
+  }
+
+  get secretControls() {
+    return (this.quoteForm.get('secrets') as FormArray).controls;
   }
 
   /* This function will add another row to the current Quote */
@@ -79,6 +79,20 @@ export class QuoteeditComponent {
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
 
+  fillRows() {
+    for (let line of this.selectedQuoteLines) {
+      if (line['SecretFlag'] == 'N')
+      {
+        this.populateRow(line);
+      }
+      else
+      {
+        this.populateSecretNote(line);
+      }
+    }
+    this.calculateRunningTotal();
+  }
+
   populateRow(line: any) {
     const newRow = this.formBuilder.group({
       Item: line['RowDesc'],
@@ -86,6 +100,14 @@ export class QuoteeditComponent {
       Price: line['RowPrice'],
     });
     (this.quoteForm.get('rows') as FormArray).push(newRow);
+  }
+
+  populateSecretNote(line:any) {
+    this.showSecretNote = true;
+    const newRow = this.formBuilder.group({
+      SecretNote: line['RowDesc'],
+    });
+    (this.quoteForm.get('secrets') as FormArray).push(newRow);
   }
 
   private createRow() {
