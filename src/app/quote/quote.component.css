@@ -64,5 +64,14 @@ body{
     gap: 10%;
 
 }
+.buttons{
+    padding: 5px;
+    border-radius: 10%;
+}
+
+.buttons:hover{
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+}
 
 

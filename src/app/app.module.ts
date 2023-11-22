@@ -13,7 +13,7 @@ import { PocreateComponent } from './pocreate/pocreate.component';
 import { QuoteeditComponent } from './quoteedit/quoteedit.component';
 import { NavbarComponent } from './nav-bar/nav-bar.component';
 import { FooterComponent } from './footer/footer.component';
-import { PopUpComponent } from './pop-up/pop-up.component';
+import { ViewquotesComponent } from './viewquotes/viewquotes.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { PopUpComponent } from './pop-up/pop-up.component';
     NavbarComponent,
     FooterComponent,
     PocreateComponent,
-    PopUpComponent
+    ViewquotesComponent
   ],
   imports: [
     BrowserModule,
