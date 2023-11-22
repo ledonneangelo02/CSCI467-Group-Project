@@ -7,11 +7,10 @@
           <li><a href="/pocreate">Create PO</a></li>
         </ul>
         <div *ngIf="isHomeComponent">
-          <button id="OpenLogin" class="btn btn-primary" (click)="Showlogin()">Login</button>  
+          <button id="OpenLogin" class="button" (click)="Showlogin()">Login</button>  
         </div>
         <div *ngIf="!isHomeComponent">
-          <button class="btn btn-primary" (click)="LogOut()">Logout</button>
+          <button class="button" (click)="LogOut()">Logout</button>
         </div>
       </nav>
-    
 </body>

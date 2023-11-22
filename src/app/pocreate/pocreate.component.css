@@ -42,6 +42,11 @@ select{
     padding: 5px;
     border-radius: 10%;
 }
+
+.quote-table{
+    margin: 0 auto;
+}
+
 .quote-table th{
     padding-right: 40px;
 }
@@ -109,6 +114,10 @@ select{
 .main-table tfoot tr td:nth-last-child(1)
 {
     text-align: right;
+}
+
+.discount{
+    padding-left: 10%;
 }
 
 .SubButton
