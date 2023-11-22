@@ -1,48 +1,119 @@
 <html>
-<head>
-    <link rel="stylesheet" href="pocreate.component.css">
-    <title>group</title>
-</head>
-<body>
-    <!--Code Below is for Drop Down Menu-->
-    <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveData()">
-        <option value="">Select a quote</option>
-        <option *ngFor="let option of selectOptions" [value]="option.ID">Quote #: {{ option.ID }}, Customer Name: {{option.CustName}}</option>
-    </select> 
-    <!--End of Drop Down Menu Code-->
+    <head>
+        <link rel="stylesheet" href="pocreate.component.css">
+    </head>
+    <body>
+        <ng-container *ngIf="quoteSelected">
+            <div>
+                <div class="">
+                    <h3>Quote For: {{CustomerName}}</h3>
+                </div>
+                <h4>{{CustomerAddyLn1}}</h4>
+                <h4>{{CustomerAddyLn2}}</h4>
+                <h4>{{CustomerContact}}</h4>
+               <button (click)="changeQuote()">Select Another Quote</button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!quoteSelected">
+            <table class="quote-table">
+                <thead>
+                    <th>Quote</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let option of selectOptions">
+                        <td>{{option.ID }} ({{option.QuoteDate}}): {{option.AssocID}}</td>
+                        <td>{{option.CustName}}</td>
+                        <td>${{option.Total | number: '1.2-2'}}</td>
+                        <td><button class="po-button" (click)="RetriveData(option.ID)">Purchase Order</button></td>
+                    </tr>
+                </tbody>    
+            </table>
+        </ng-container>
 
-    <!--Code below is  for table-->
-    <table class="main-table">
-        <thead>
-            <tr>
-                <td>Description</td>
-                <td>Quantity</td>
-                <td>Price</td>
-            </tr>
-        </thead>
-        <tbody id="myTable">
-            <tr *ngFor="let rows of QuoteLine">
-                <ng-container *ngIf="rows.SecretFlag == 'N'">
-                <td>{{rows.RowDesc}}</td>
-                <td>{{rows.RowQty}}</td>
-                <td>{{rows.RowPrice}}</td>
-            </ng-container>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td><label for="dscnt">Final Discount:</label></td>
-                <td><input type="number" id="dscnt" placeholder="Enter Number"></td>
-                <td colspan="2"><button type="button">Enter</button></td>
-            </tr>
-        </tfoot>
-    </table>
-    <div class="row justify-content-center">           
-        <div class="QuoteTotal col-auto">
-          <h4>Total:</h4>
-          <h5>${{ total | number: '1.2-2'}}</h5>
+        <ng-container *ngIf="quoteSelected">
+            <!--Code below is  for table-->
+            <table class="main-table">
+                <!--Table Header-->
+                <thead>
+                    <tr>
+                        <td>Description</td>
+                        <td>Quantity</td>
+                        <td>Price</td>
+                    </tr>
+                </thead>
+                <!--End of Table Header-->
+
+                <!--Table Body Contents-->
+                <tbody id="myTable">
+                    <tr *ngFor="let rows of QuoteLine">
+                        <ng-container *ngIf="rows.SecretFlag == 'N'">
+                        <td>{{rows.RowDesc}}</td>
+                        <td>{{rows.RowQty}}</td>
+                        <td>{{rows.RowPrice}}</td>
+                    </ng-container>
+                    </tr>
+                </tbody>
+                <!--End of Table Body Contents-->
+
+            <!--Table footer Secret Message-->
+            <tfoot class="tFooter">
+                <tr *ngFor="let rows of QuoteLine" >
+                    <ng-container *ngIf="rows.SecretFlag == 'Y'">
+                    <td>{{rows.RowDesc}}</td>
+                    </ng-container>
+                </tr>
+            </tfoot>
+            <tfoot class="tFooter2">
+                <tr class="note">
+                    <td class="secretLabel" colspan="3">
+                        Secret Message:
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+            <!--End of Table footer Secret Message-->
+        </table>
+        <!--End of Table-->
+
+        <!--Prints out Total Price-->
+        <div class="row justify-content-center">           
+            <div class="QuoteTotal col-auto">
+                <h4>Total:</h4>
+                <h5>${{ total | number: '1.2-2'}}</h5>
+            </div>  
         </div>
-      </div>
-</body>  
+        <!--End of Total Price-->
+
+        <div class="discount">
+            <!--Drop Down Menu-->
+            <select class="item2" [(ngModel)]="DiscountType" (ngModelChange)="DiscountSelect()">
+                <option value="P">Percentage (%)</option>
+                <option value="D">Dollar Amount ($)</option>
+            </select>
+            <!--End of Drop Down-->
+
+            <!--Code below is for Percentage Option-->
+                <ng-container *ngIf="DiscountType == 'P'">
+                    <label for="dscnt">Final Discount(%):</label>
+                    <input id="dscnt" type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
+                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
+                </ng-container>
+            <!--End of Percentage Option-->
+
+            <!--Code below is for Dollar Option-->
+                <ng-container *ngIf="DiscountType == 'D'">
+                    <label for="dscnt">Final Discount($):</label>
+                    <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
+                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
+                </ng-container>
+            <!--End of Dollar Option-->
+            </div>
+
+        </ng-container>
+    </body>  
 </html>
 

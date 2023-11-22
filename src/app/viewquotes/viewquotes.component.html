@@ -1,0 +1,42 @@
+<html>
+  <body>
+
+    <div class="search">
+        <input type="text" id="iqid" name="iqi" value="Search by ID"/>
+    </div>
+
+    <div class="header">
+        <div class="hid">
+            <h4>Quote ID</h4>
+        </div>
+
+        <div class="hname">
+            <h4>Name</h4>
+        </div>
+
+        <div class="hstatus">
+            <h4>Status</h4>
+        </div>
+  </div>
+
+
+  <div class="quote" *ngFor="let rows of Quote" (click)="ViewQuote(rows.ID)">
+    <span class="qid">
+      <p>{{rows.ID}}</p>
+    </span>
+
+    <span class="qname">
+      <p>{{rows.CustName}}</p>
+    </span>
+    
+    <span class="qstatus">
+      <p>{{rows.Status}}</p>
+    </span>
+  </div>
+
+  <div class="quotenav">
+    &lt; 1 &gt;
+  </div>
+
+  </body>
+</html>
