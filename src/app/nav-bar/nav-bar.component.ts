@@ -11,6 +11,8 @@ import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 export class NavbarComponent{
   isHomeComponent = false;
   isSalesAssoc = false;
+  isManagerPageOne = false;
+  isManagerPageTwo = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
@@ -18,6 +20,8 @@ export class NavbarComponent{
         // Check if the current route is the home component
         this.isHomeComponent = event.url === '/';
         this.isSalesAssoc = event.url ==='/quote';
+        this.isManagerPageOne = event.url === '/quoteedit'
+        this.isManagerPageTwo = event.url === '/pocreate'
       }
     });
   }

@@ -1,10 +1,14 @@
 <body>
     <nav class="nav">
-        <h3>4 Guys & 1 Computer</h3>
+        <h3>Quote Maker 4000</h3>
         <ul class="menu" *ngIf="!isHomeComponent && !isSalesAssoc">
           <li><a href="/quote">Create a Quote</a></li>
-          <li><a href="/quoteedit">Manager</a></li>
-          <li><a href="/pocreate">Create PO</a></li>
+          <ng-container *ngIf="!isManagerPageOne">
+            <li><a href="/quoteedit">Edit a Quote</a></li>
+          </ng-container>
+          <ng-container *ngIf="!isManagerPageTwo">
+            <li><a href="/pocreate">Purchase Order</a></li>
+          </ng-container>
         </ul>
         <div *ngIf="isHomeComponent">
           <button id="OpenLogin" class="button" (click)="Showlogin()">Login</button>  
