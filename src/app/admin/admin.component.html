@@ -39,8 +39,7 @@
            <button (click)="closeAddAssocModal()"> close</button>
          </form>
        </div>
-    <button (click)="editAssoc($event)"> Edit</button>
-    <div *ngIf="isEditAssocModal" class="modal">
+    <div *ngIf="editAssocModal()" class="modal">
         <div class="modal-content">
           <button (click)="closeEditAssocModal()">close </button>
           <h2>Edit Associate</h2>
@@ -75,7 +74,8 @@
             <td>{{rows.Password}}</td>
             <td>{{rows.SalesCommission}}</td>
             <td>{{rows.Address}}</td>
-            <button> edit</button>
+            <button (click)="editAssoc($event)"> Edit</button>
+            <button> view</button>
         </tr>
     </tbody>
 </table>
