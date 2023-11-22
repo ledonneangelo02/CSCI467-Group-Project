@@ -7,7 +7,7 @@
       <h3 class="item">Select A Customer:</h3>
       <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveCustomer()">
         <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
-        <option *ngFor="let option of selectOptions" [value]="option.id" >{{ option.name }}</option>
+        <option *ngFor="let option of selectOptions" [value]="option.id" >{{ option.name }} </option>
       </select>
     </div>
 
@@ -53,9 +53,9 @@
     </div>
 
     <div class="QuoteButtons">
-      <button (click)="addRow()" class="btn btn-primary">Add Row</button>
-      <button (click)="AddNote()" class="btn btn-primary">Add Secret Note</button>
-      <button (click)="QuoteFinish()" class="btn btn-primary">Submit Quote</button>
+      <button (click)="addRow()" class="buttons">Add Row</button>
+      <button (click)="AddNote()" class="buttons">Add Secret Note</button>
+      <button (click)="QuoteFinish()" class="buttons">Submit Quote</button>
     </div>
     
   </body>

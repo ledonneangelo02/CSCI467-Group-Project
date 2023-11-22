@@ -35,13 +35,19 @@ export class PocreateComponent {
   DiscountDollar: any = 0.00;
   DiscountPercent: any = 0.00;
   TempTotal: any = 0;
+  //Customer Information For PO View
+  Customer: any;
+  CustomerName: any;
+  CustomerContact: any;
+  CustomerAddyLn1: any;
+  CustomerAddyLn2: any;
 
 
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
     this.Datacheck();
-    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuote.php').subscribe((response: any) => {
+    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/pocreate/selectQuote.php').subscribe((response: any) => {
       this.selectOptions = response;
     });
   }
@@ -66,16 +72,18 @@ export class PocreateComponent {
     }
   }
 
-  private quoteURL='https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLine.php';
+  private quoteURL='https://phpapicsci467.azurewebsites.net/php_script/pocreate/selectQuoteLine.php';
 
   RetriveData(QID: any) : void{
     this.quoteSelected = true;
+    this.ChangeCounter = 0;
     for(let i = 0; i < this.selectOptions.length; ++i)
     {
       if(this.selectOptions[i]['ID'] == QID)
       {
         this.total = this.selectOptions[i]['Total'];
         this.selectedQuote = this.selectOptions[i];
+        this.RetriveCustInfo(this.selectOptions[i]['CustID']);
       }
     }
     console.log(this.selectedQuote['ID']);
@@ -83,11 +91,24 @@ export class PocreateComponent {
     this.http.post(this.quoteURL,quoteData, {responseType:'json'}).subscribe(
       responseData=>{
         this.QuoteLine=responseData;
-        if (this.QuoteLine['SecretFlag']==='Y')
-        {
-        }
+
     });
   }
+
+  private custURL='https://phpapicsci467.azurewebsites.net/php_script/pocreate/CustomerInfo.php';
+  RetriveCustInfo(CustID: any) : void{
+    const quoteData={custID: CustID}
+    this.http.post(this.custURL,quoteData, {responseType:'json'}).subscribe(
+      response=>{
+        this.Customer = response;
+        console.log(this.Customer);
+        this.CustomerName = this.Customer[0]['name'];
+        this.CustomerAddyLn1 = this.Customer[0]['street'];
+        this.CustomerAddyLn2 = this.Customer[0]['city'];
+        this.CustomerContact = this.Customer[0]['contact'];
+    });
+  }
+
   count: number=2;
 
 DiscountSelect():void
@@ -130,7 +151,7 @@ ApplyDiscount():void
      }
   }
 }
-QuoteProcessUrl = "https://phpapicsci467.azurewebsites.net/php_script/ProcessingSystem.php";
+QuoteProcessUrl = "https://phpapicsci467.azurewebsites.net/php_script/pocreate/ProcessingSystem.php";
 SubmitFinal(): void{
 
   const FinalQuoteData = {
@@ -172,7 +193,7 @@ SubmitFinal(): void{
 }
 
 
-UpdateAssocUrl = "https://phpapicsci467.azurewebsites.net/php_script/UpdateSalesAssoc.php";
+UpdateAssocUrl = "https://phpapicsci467.azurewebsites.net/php_script/pocreate/UpdateSalesAssoc.php";
 
 UpdateAssoc(assocData:any): void
 {
@@ -186,6 +207,10 @@ UpdateAssoc(assocData:any): void
       console.error('Error Sending data', error);
     }
   });
+}
+
+changeQuote():void{
+  this.quoteSelected = false;
 }
 
 }

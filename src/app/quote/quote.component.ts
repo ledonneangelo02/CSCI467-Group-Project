@@ -77,11 +77,13 @@ export class QuoteComponent implements OnInit{
    *   and store it for later use.                            *
    * **********************************************************/
   RetriveCustomer() : void{
-    this.CustName = this.selectOptions[this.SelectedVal-1].name;
-    localStorage.setItem('CurrentCustomer',this.SelectedVal);
-    localStorage.setItem('CurrentCustomerName',this.CustName);
-    console.log(this.SelectedVal);
-    console.log(this.CustName);
+    for(let i = 0; i < this.selectOptions.length; ++i){
+      if(this.selectOptions[i].id == this.SelectedVal){
+        this.CustName = this.selectOptions[i].name;
+        localStorage.setItem('CurrentCustomer',this.SelectedVal);
+        localStorage.setItem('CurrentCustomerName',this.CustName);
+      }
+    }
   }
 
 
@@ -153,13 +155,11 @@ export class QuoteComponent implements OnInit{
     var CustomerSelect = localStorage.getItem('CurrentCustomer');
     if(CustomerSelect !== null){
       this.SelectedVal = JSON.parse(CustomerSelect);
-      console.log(this.SelectedVal);
     }
     //Stored Customer Name
     var CustomerSelectName = localStorage.getItem('CurrentCustomerName');
     if(CustomerSelectName !== null){
       this.CustName = CustomerSelectName;
-      console.log(this.CustName);
     }
     //Stored Associate Name
     var AssocName = localStorage.getItem('AssocName');
@@ -171,14 +171,12 @@ export class QuoteComponent implements OnInit{
     var AdminFlag = localStorage.getItem('AdminFlag');
     if(AdminFlag !== null){
       this.AdminFlag = JSON.parse(AdminFlag);
-      console.log(AdminFlag);
     }
 
     //Stored Associate ID
     var savedAssoc = localStorage.getItem('CurrentAssoc');
     if(savedAssoc !== null){
       this.savedAssoc = JSON.parse(savedAssoc);
-      console.log(savedAssoc);
     }else{
       this.router.navigateByUrl('/');
       setTimeout(function(){

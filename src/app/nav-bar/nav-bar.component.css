@@ -11,6 +11,7 @@ body{
 
 .menu{
     list-style: none;
+    padding-right: 15%;
 }
 
 
@@ -36,4 +37,16 @@ body{
     color:white;
     border-bottom: 1px solid white;
     padding-bottom: -1px;
+}
+
+.button{
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10%;
+}
+
+.button:hover{
+  background-color: #000000;
+  color: rgb(255, 255, 255);
 }
