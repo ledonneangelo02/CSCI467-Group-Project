@@ -29,8 +29,6 @@ export class AdminComponent {
   selectedAssocForEdit: any ={};
   isEditAssocModal: boolean = false;
   ngOnInit () {
-//private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
-
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/AssociateTable.php').subscribe((response:any) => {
       this.assoc= response;
       console.log(this.assoc);

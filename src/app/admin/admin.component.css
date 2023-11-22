@@ -6,8 +6,7 @@ table, th, td {
 .table-container {
     display: flex;
     justify-content: space-between;
-    padding-left: 5%;
-    padding-right: 5%;
+
   }
 .header-container{
     display: flex;
@@ -32,4 +31,18 @@ table {
 }
 text {
     color: white;
+}
+
+.buttons{
+    padding: 5px;
+    border-radius: 10%;
+}
+
+.buttons:hover{
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+}
+
+.row-buttons{
+    display: inline-flex;
 }
