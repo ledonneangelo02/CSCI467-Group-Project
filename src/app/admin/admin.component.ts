@@ -13,14 +13,21 @@ export class AdminComponent {
   quote: any[]=[];
   SalesAssoc: any;
   newAssociate: any = {};
-  Quote: any;
   EmpName: any;
   add: any;
   savedAssoc: any;
+  saveEditedAssoc: any;
   isAddAssocModal: boolean = false;
-test: any="Alan";
-Password: string= "password";
-
+  ID: string= "ID";
+  Password: string= "password";
+  Name: string = "Name";
+  SalesCommision: string = "SalesCommision";
+  Address: string="Address";
+  searchTerm: string = "";
+  searchTerm2: string="";
+  selectedAssoc: any;
+  selectedAssocForEdit: any ={};
+  isEditAssocModal: boolean = false;
   ngOnInit () {
 //private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
 
@@ -46,10 +53,52 @@ this.isAddAssocModal = true;
     console.log(this.add);
     });
   }
-  editAssoc(): void {
+  // Add a new function to open the edit modal
+editAssocModal(): void {
+  this.isEditAssocModal = true;
+  // Assign the selected associate to the property
+}
+closeEditAssocModal(): void {
+  this.isEditAssocModal = false;
+}
+
+// Add a new function to handle the edit action
+editAssoc(event: Event): void {
+  // Update the selected associate using the API endpoint or another method
+  this.http.post('https://phpapicsci467.azurewebsites.net/php_script/EditAssoc.php', this.selectedAssocForEdit).subscribe((response: any) => {
+    // Handle the response as needed
+    console.log(response);
+  });
+
+  // Close the edit modal
+  this.isEditAssocModal = false;
+}
+  
+  delAssoc(): void {
 
   }
-  delAssoc(): void {
+  // Existing methods ...
+
+// New method for searching associates
+searchAssoc(): void {
+  // Use the search term to make a request to the PHP script
+  this.http.post('https://phpapicsci467.azurewebsites.net/php_script/AssocSearch.php', { searchTerm: this.searchTerm }).subscribe((response: any) => {
+    this.assoc = response;
+  });
+}
+
+
+// Existing methods ...
+
+  viewAssoc(): void {
+
+  }
+  searchQuote (): void {
+    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/QuoteSearch.php', { searchTerm2: this.searchTerm2 }).subscribe((response: any) => {
+      this.quote = response;
+    });
+  }
+  viewQuote(): void {
 
   }
 Datacheck(): void

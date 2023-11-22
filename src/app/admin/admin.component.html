@@ -1,105 +1,87 @@
-<html>
-<head></head>
-<body>
-    <div class="header-container">
-        <h1>Sales Associates</h1>
-        <h1>Quotes & Purchase Orders</h1>    
-    </div>  
-    <div class = "search-container">
-        <div class="assoc-search">
-            <select>
-                <option>ID</option>
-                <option>Name</option>
-                <option>Password</option>
-                <option>Commission</option>
-                <option>Address</option>
-            </select>
-            <input type="text" placeholder="Search">
-        </div>
-        <div class="quote-search">
-            <select>
-                <option>ID</option>
-                <option>Associate ID</option>
-                <option>Customer ID</option>
-                <option>Date</option>
-                <option>Status</option>
-            </select>
-            <input type="text" placeholder="Search">
-        </div>
-    </div> 
-
-    <div class="button-container">
-        <button (click)="addAssociateModal()">Add</button>
-        <button>Edit</button>
-        <button>delete</button>
-        <button>More options</button>
-    </div>
-
-    <div class="table-container">
-        <table class="assoc-table">
-            <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Name</td>
-                    <td>Password</td>
-                    <td>Sales Commission</td>
-                    <td>Address</td>
-                </tr>
-            </thead>
-            <tbody id="myTable">
-                <tr *ngFor="let rows of assoc">
-                    <td>{{rows.ID}}</td>
-                    <td>{{rows.Name}}</td>
-                    <td>{{rows.Password}}</td>
-                    <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
-                    <td>{{rows.Address}}</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table class="quote-table">
-            <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>AssocID</td>
-                    <td>CustID</td>
-                    <td>QuoteDate</td>
-                    <td>Status</td>
-                    <td>Total</td>
-                    <td>Discount</td>
-                </tr>
-            </thead>
-            <tbody id="myTable">
-                <tr *ngFor="let rows of quote">   
-                    <td>{{rows.ID}}</td>
-                    <td>{{rows.AssocID}}</td>
-                    <td>{{rows.CustID}}</td>
-                    <td>{{rows.QuoteDate}}</td>
-                    <td>{{rows.Status}}</td>
-                    <td>{{rows.Total}}</td>
-                    <td>{{rows.Discount | number: '1.2-2'}}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<h1> Sales associate records</h1>
+<div class = "assocnav">
+    <a class="active" href="admin.component.css">H</a>
+    <script src="admin.component.ts"></script>
+    <input type="text" placeholder="Search Associates">
+</div> 
+<div class="button-container">
+    <button onclick="addAssociateModal()"> Add</button>
+    <button> Edit</button>
+    <button> delete</button>
+    <button> More options</button>
+</div>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+<table class="main-table">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Password</td>
+            <td> Sales Commission</td>
+            <td> Address</td>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        <tr *ngFor="let rows of assoc">
+            <td>{{rows.ID}}</td>
+            <td>{{rows.Name}}</td>
+            <td>{{rows.Password}}</td>
+            <td>{{rows.SalesCommission}}</td>
+            <td>{{rows.Address}}</td>
+        </tr>
+    </tbody>
+</table>
+<h2> Current Quotes and status</h2>
+<input type="text" placeholder="Search for Quotes">
+<button> Search based on status</button>
+<table class="main-table">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>AssocID</td>
+            <td>CustID</td>
+            <td> QuoteDate</td>
+            <td> Status</td>
+            <td> Total</td>
+            <td> Discount</td>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        <tr *ngFor="let rows of quote">
+          
+            <td>{{rows.ID}}</td>
+            <td>{{rows.AssocID}}</td>
+            <td>{{rows.CustID}}</td>
+            <td>{{rows.QuoteDate}}</td>
+            <td>{{rows.Status}}</td>
+            <td>{{rows.Total}}</td>
+            <td>{{rows.Discount}}</td>
     
-    <div *ngIf= "isAddAssocModal" >
-    <form (ngSubmit)="addAssoc($event)" #myForm>
-        <div class="form-group">
-        <label for="InputId">ID:</label>
-        <br/>
-        <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="test" required>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf= "isAddAssocModal" >
+ <form (ngSubmit)="addAssoc($event)" #myForm>
+    <div class="form-group">
+      <label for="InputId">ID:</label>
+      <br/>
+      <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="test" required>
 
-        </div>
-        <div class="form-group">
-        <label for="InputPassword">Password:</label>
-        <br/>
-        <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
-        </div>
-        <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
-        <button (click)="closeAddAssocModal()"> close</button>
-    </form>
     </div>
+    <div class="form-group">
+      <label for="InputPassword">Password:</label>
+      <br/>
+      <input name="Password" type="password" id="InputPassword" aria-describedby="passwordHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
+    </div>
+    <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
+    <button (click)="closeAddAssocModal()"> close</button>
+  </form>
+</div>
+<button (click)="addAssociateModal()" > Add</button>
 
 </body>
 </html>

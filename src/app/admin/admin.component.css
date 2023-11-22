@@ -26,3 +26,10 @@ table, th, td {
 .button-container{
     padding-left: 5%;
 }
+table {
+    background-color: green;
+    border: blue;
+}
+text {
+    color: white;
+}

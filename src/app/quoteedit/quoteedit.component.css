@@ -1,0 +1,45 @@
+
+#Item1 {
+    width: 100%;
+
+}
+
+#Qty{
+    width:60px;
+}
+
+#Price{
+    width:80px;
+}
+body{
+    padding-bottom: 20%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.SelectCustomer{
+    display: flex;
+    gap: 3%;
+    padding-bottom: 3%;
+}
+
+.Greeting{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3%;
+}
+
+.QuoteButtons{
+    justify-content: center;
+    display: flex;
+    gap: 5%;
+}
+
+.QuoteTotal{
+    display: flex;
+    align-items: baseline;
+    gap: 10%;
+
+}
+
+
