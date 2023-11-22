@@ -100,6 +100,7 @@ export class QuoteeditComponent {
       Price: line['RowPrice'],
     });
     (this.quoteForm.get('rows') as FormArray).push(newRow);
+    this.calculateRunningTotal();
   }
 
   populateSecretNote(line:any) {
