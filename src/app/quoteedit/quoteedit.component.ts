@@ -30,7 +30,8 @@ export class QuoteeditComponent {
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
         //this.createRow()
-      ])
+      ]),
+      secrets: this.formBuilder.array([])
     });
 
     this.selectedID = history.state.data;
@@ -100,7 +101,6 @@ export class QuoteeditComponent {
       Price: line['RowPrice'],
     });
     (this.quoteForm.get('rows') as FormArray).push(newRow);
-    this.calculateRunningTotal();
   }
 
   populateSecretNote(line:any) {
