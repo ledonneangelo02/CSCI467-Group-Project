@@ -29,12 +29,14 @@ export class PocreateComponent {
   EmpName: any;
   savedAssoc: any;
   quoteSelected: boolean = false;
+  QuoteID: any;
   //Discount and Total Amounts
   total: any = 0.0;
   DiscountType: any = 'P';
   DiscountDollar: any = 0.00;
   DiscountPercent: any = 0.00;
   TempTotal: any = 0;
+  DiscountAmount: number = 0.00;
   //Customer Information For PO View
   Customer: any;
   CustomerName: any;
@@ -85,6 +87,9 @@ export class PocreateComponent {
         this.total = this.selectOptions[i]['Total'];
         this.selectedQuote = this.selectOptions[i];
         this.CustomerEmail = this.selectedQuote['CustEmail'];
+        this.DiscountAmount = +this.selectedQuote['Discount'];
+        console.log(this.DiscountAmount);
+        this.QuoteID = QID;
         this.RetriveCustInfo(this.selectOptions[i]['CustID']);
       }
     }
@@ -111,7 +116,7 @@ export class PocreateComponent {
     });
   }
 
-  count: number=2;
+count: number=2;
 
 DiscountSelect():void
 {
@@ -123,6 +128,7 @@ ChangeCounter: number = 0;
 //Code below is for applying discount when the button is click
 ApplyDiscount():void
 {
+  //Check if we have changed the Discount before, so we can reset the Original Total
   if (this.ChangeCounter < 1)
   {
     this.TempTotal = this.total;
@@ -134,9 +140,9 @@ ApplyDiscount():void
 
   ++this.ChangeCounter;
 
+  //Check what kind of Discount we are applying
   if(this.DiscountType == 'P')
   {
-    console.log("This is %: " + this.DiscountPercent);
     this.total = this.total - (this.total * this.DiscountPercent);
     if(this.total < 0){
       this.total = this.TempTotal;
@@ -145,7 +151,6 @@ ApplyDiscount():void
   }
   else if(this.DiscountType == 'D')
   {
-    console.log("This is $: " + this.DiscountDollar);
     this.total = this.total - this.DiscountDollar;
     if(this.total < 0){
       this.DiscountDollar = 0.0;
@@ -153,13 +158,24 @@ ApplyDiscount():void
      }
   }
 }
+
+/*
+ * This function will submit the quote data to the Purchase Order Processing System
+ *   So we can get the commission amount and date for our DB records
+*/
 QuoteProcessUrl = "https://phpapicsci467.azurewebsites.net/php_script/pocreate/ProcessingSystem.php";
 SubmitFinal(): void{
 
+  //Depending on the Type of Discount, apply that to the discount total on the Quote
+  if(this.DiscountType == 'D'){
+    this.DiscountAmount += Number(this.DiscountDollar);
+  }else{
+    this.DiscountAmount += Number(this.total * this.DiscountPercent);
+  }
+  //Quote Data we need to send to PHP
   const FinalQuoteData = {
     QuoteData: this.selectedQuote,
     NewTotal: this.total
-
   };
 
   this.http.post(this.QuoteProcessUrl, FinalQuoteData).subscribe({        
@@ -169,21 +185,22 @@ SubmitFinal(): void{
 
     //New Amount
     const saleAmt: number = data['amount'];
-
     //tempPct removes "%" -> Pct creates a float
     const tempPct = data['commission'].replace('%','');
     const Pct = parseFloat(tempPct);
 
     //getting commission rate
     const assocCom = saleAmt * (Pct / 100);
-
-      //array of new associate data
+    //array of new associate data
     const assocData = 
     {
       assoc: data['associate'],
-      comAmt: assocCom
+      comAmt: assocCom,
+      quoteID: this.QuoteID,
+      discountAmt: this.DiscountAmount
     }
 
+    //Call the UpdateAssoc Function to place all the new data in our DB
     this.UpdateAssoc(assocData);
 
     },
@@ -195,15 +212,16 @@ SubmitFinal(): void{
 }
 
 
+/*
+ * This function will update our DB with the new sales data as well as 
+ *    updating the commission for the Sales Associate who is on the quote
+*/
 UpdateAssocUrl = "https://phpapicsci467.azurewebsites.net/php_script/pocreate/UpdateSalesAssoc.php";
-
 UpdateAssoc(assocData:any): void
 {
-  console.log(assocData);
-
   this.http.post(this.UpdateAssocUrl, assocData).subscribe({        
     next: (data: any) => {
-      console.log(data);
+
     },
     error: (error) => {
       console.error('Error Sending data', error);
