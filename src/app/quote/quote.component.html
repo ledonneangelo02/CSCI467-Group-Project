@@ -4,13 +4,17 @@
       <h1>Hello {{ EmpName }}!</h1>
     </div>
     <div class="SelectCustomer">
-      <h3 class="item">Select A Customer:</h3>
-      <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveCustomer()">
-        <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
-        <option *ngFor="let option of selectOptions" [value]="option.id" >{{ option.name }} </option>
-      </select>
-      <h3 for="cust-email">Customer Email:</h3>
-      <input type="text" id="cust-email" [(ngModel)]="CustEmail" placeholder="Customer Email">
+      <div class="email-container">
+        <h4>Customer Email:</h4>
+        <input class="email-input" type="text" id="cust-email" [(ngModel)]="CustEmail" placeholder="Customer Email">
+      </div>
+      <div class="select-container">
+        <h4 class="item">Select A Customer:</h4>
+        <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveCustomer()">
+          <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
+          <option *ngFor="let option of selectOptions" [value]="option.id" >{{ option.name }} </option>
+        </select>
+      </div>
     </div>
 
     <div class = "EntireQuote">

@@ -62,6 +62,7 @@ export class QuoteComponent implements OnInit{
     });
     this.calculateRunningTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
+    console.log(this.CustEmail);
   }
 
   private createRow() {
@@ -129,7 +130,7 @@ export class QuoteComponent implements OnInit{
         CustID: this.SelectedVal,
         CustomerName: this.CustName,
         QuoteTotal: this.total,
-        CutomerEmail: this.CustEmail
+        CustomerEmail: this.CustEmail
       };
   
       this.http.post(this.quoteUrl, FinalformData).subscribe({        

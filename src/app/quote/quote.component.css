@@ -7,6 +7,12 @@
     .col {
       width: 100%;
     }
+   
+    .select-container, .email-container{
+      width: 100%;
+      gap: 3%;
+      padding-bottom: 3%;
+    }
   }
 
   .row:first-child{
@@ -40,10 +46,24 @@ body{
     padding-right: 5%;
 }
 
-.SelectCustomer{
-    display: flex;
-    gap: 3%;
-    padding-bottom: 3%;
+.SelectCustomer {
+  gap: 200px; /* Space between the child divs */
+}
+
+.select-container,
+.email-container {
+  display: flex;
+  gap: 10px;
+}
+
+.email-container{
+  gap: 40px;
+  padding-bottom: 20px;
+}
+
+/* Adjust widths or specific styling as needed */
+.email-container input{
+  width: 300px;
 }
 
 .Greeting{
@@ -74,4 +94,7 @@ body{
   color: rgb(255, 255, 255);
 }
 
+.email-input{
+  width: 30%;
+}
 
