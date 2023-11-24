@@ -18,11 +18,11 @@ export class AdminComponent {
   savedAssoc: any;
   saveEditedAssoc: any;
   isAddAssocModal: boolean = false;
-  ID: string= "ID";
-  Password: string= "password";
-  Name: string = "Name";
-  SalesCommision: string = "SalesCommision";
-  Address: string="Address";
+  ID: string= "";
+  Password: string= "";
+  Name: string = "";
+  SalesCommision: string = "";
+  Address: string="";
   searchTerm: string = "";
   searchTerm2: string="";
   selectedAssoc: any;

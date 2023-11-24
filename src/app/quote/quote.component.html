@@ -9,6 +9,8 @@
         <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
         <option *ngFor="let option of selectOptions" [value]="option.id" >{{ option.name }} </option>
       </select>
+      <h3 for="cust-email">Customer Email:</h3>
+      <input type="text" id="cust-email" [(ngModel)]="CustEmail" placeholder="Customer Email">
     </div>
 
     <div class = "EntireQuote">

@@ -25,6 +25,7 @@ export class QuoteComponent implements OnInit{
   EmpName: any;
   savedAssoc: any;
   AdminFlag: any;
+  CustEmail: any;
 
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
@@ -127,7 +128,8 @@ export class QuoteComponent implements OnInit{
         AssocID: this.savedAssoc,
         CustID: this.SelectedVal,
         CustomerName: this.CustName,
-        QuoteTotal: this.total
+        QuoteTotal: this.total,
+        CutomerEmail: this.CustEmail
       };
   
       this.http.post(this.quoteUrl, FinalformData).subscribe({        
