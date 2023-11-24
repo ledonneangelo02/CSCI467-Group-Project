@@ -24,6 +24,10 @@
     padding-bottom: 15px; 
     width: 100%;
   }
+
+  .secret-note{
+    margin-top: 20px;
+  }
   
   .row:last-child {
     border-bottom: none; /* Remove border from the last row */

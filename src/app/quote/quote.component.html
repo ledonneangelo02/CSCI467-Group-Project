@@ -49,10 +49,13 @@
           </div>
         </div>
         <div class="secretSection" *ngIf="showSecretNote">
-          <hr style="border-width:10px; background-color:rgb(0,0,0)">
-          <h4>Secret Note</h4>
-          <div class="p-3 border bg-dark">
-            <input style="width:100%;" formControlName="SecretNote" type="text">
+          <h4>Secret Notes: </h4>
+          <div formArrayName="SecretNotes">
+            <div class="secret-note" *ngFor="let control of SecretNotesControls; let x = index" [formGroupName]="x">
+              <div class="p-3 border bg-dark">
+                <input style="width:100%;" formControlName="SecretNote" type="text">
+              </div>
+            </div>
           </div>
         </div>
       </form>

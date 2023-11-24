@@ -29,9 +29,11 @@ export class QuoteeditComponent {
   
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
-        //this.createRow()
+        
       ]),
-      SecretNote: ['']
+      SecretNotes: this.formBuilder.array([
+
+      ])
     });
 
     this.selectedID = history.state.data;
@@ -66,8 +68,9 @@ export class QuoteeditComponent {
     return (this.quoteForm.get('rows') as FormArray).controls;
   }
 
-  get secretControls() {
-    return (this.quoteForm.get('SecretNote') as FormArray).controls;
+  /* Controls for Secret Notes rows in Responsive Form */
+  get SecretNotesControls() {
+    return (this.quoteForm.get('SecretNotes') as FormArray).controls;
   }
 
   /* This function will add another row to the current Quote */
@@ -110,10 +113,10 @@ export class QuoteeditComponent {
   populateSecretNote(line:any) {
     this.showSecretNote = true;
 
-    this.quoteForm.patchValue({
+    const secretNote = this.formBuilder.group({
       SecretNote: line['RowDesc']
     });
-    //(this.quoteForm.get('SecretNote') as FormArray).push(newRow);
+    (this.quoteForm.get('SecretNotes') as FormArray).push(secretNote);
   }
 
   private createRow() {

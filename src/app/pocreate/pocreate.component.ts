@@ -39,6 +39,7 @@ export class PocreateComponent {
   Customer: any;
   CustomerName: any;
   CustomerContact: any;
+  CustomerEmail: any;
   CustomerAddyLn1: any;
   CustomerAddyLn2: any;
 
@@ -83,6 +84,7 @@ export class PocreateComponent {
       {
         this.total = this.selectOptions[i]['Total'];
         this.selectedQuote = this.selectOptions[i];
+        this.CustomerEmail = this.selectedQuote['CustEmail'];
         this.RetriveCustInfo(this.selectOptions[i]['CustID']);
       }
     }

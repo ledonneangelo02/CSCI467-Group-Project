@@ -19,6 +19,7 @@ export class QuoteComponent implements OnInit{
 
   responseFromPHP: any;
   selectOptions: any[] = [];
+  NoteCounter: number = 0;
 
   SelectedVal: any;
   CustName: any;
@@ -31,15 +32,23 @@ export class QuoteComponent implements OnInit{
   showSecretNote: boolean = false;
   total: number = 0.0;
 
+  /* 
+   * Constructor for creating the QuoteForm
+  */
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
         this.createRow() // Creates our inital row, so the page isn't empty
       ]),
-      SecretNote: ['']
+      SecretNotes: this.formBuilder.array([
+
+      ])
     });
   }
 
+  /*  
+   * This is the ngOnInit function that will be called when the Component is loaded to grab the customers
+  */
   ngOnInit() {
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/Customers.php').subscribe((response: any) => {
       this.selectOptions = response;
@@ -49,8 +58,14 @@ export class QuoteComponent implements OnInit{
     this.Datacheck();
   }
 
+  /* Controls for Quote Line rows in Responsive Form */
   get rowControls() {
     return (this.quoteForm.get('rows') as FormArray).controls;
+  }
+
+  /* Controls for Secret Notes rows in Responsive Form */
+  get SecretNotesControls() {
+    return (this.quoteForm.get('SecretNotes') as FormArray).controls;
   }
 
   /* This function will add another row to the current Quote */
@@ -62,9 +77,11 @@ export class QuoteComponent implements OnInit{
     });
     this.calculateRunningTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
-    console.log(this.CustEmail);
   }
 
+  /*
+   * Init the first row of the quote to blanks so the page isn't empty
+  */
   private createRow() {
     return this.formBuilder.group({
       Item: '',
@@ -72,6 +89,7 @@ export class QuoteComponent implements OnInit{
       Price: 0.0,
     });
   }
+
 
 
   /* **********************************************************
@@ -90,7 +108,15 @@ export class QuoteComponent implements OnInit{
 
 
   AddNote() : void{
-    this.showSecretNote = !this.showSecretNote;
+    if(this.NoteCounter <= 0){
+      this.calculateRunningTotal();
+      this.showSecretNote = !this.showSecretNote;
+    }
+    const newNote = this.formBuilder.group({
+      SecretNote: ''
+    });
+    (this.quoteForm.get('SecretNotes') as FormArray).push(newNote);
+    this.NoteCounter++;
   }
 
   /* **********************************************
