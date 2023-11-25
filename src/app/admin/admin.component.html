@@ -1,17 +1,18 @@
 <html>
     <body>
-        <h1> 4 Guys & 1 Computer Admin Page</h1>
-        <h1> Sales associate records</h1>
+        <div class="header-container">
+            <h1>Sales Associates</h1>
+            <h1 id="quote-header">Quotes & Purchase Orders</h1>
+        </div>
         <div class = "search-container">
             <div>
-                <input type="text" placeholder="Search Associates" [(ngModel)]="searchTerm">
-                <button class="buttons" (click)="searchAssoc()">Search</button>
+                <input (ngModelChange)="ResetAssoc()" type="text" placeholder="Search Associates" [(ngModel)]="searchTerm">
+                <button (click)="SearchAssoc()" class="buttons">Search</button>
                 <button class="buttons" (click)="addAssociateModal()">Add</button>
             </div>
             <div>
-                <input type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
+                <input (ngModelChange)="ResetQuote()" type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
                 <button class="buttons" (click)="searchQuote()"> Search</button>
-                <button class="buttons"> Search based on status</button>
             </div>
         </div> 
         
@@ -21,27 +22,22 @@
                    <div class="form-group">
                      <label for="InputId">ID:</label>
                      <br/>
-                     <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="ID" required>
+                     <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Employee ID" [(ngModel)]="ID" required>
                    </div>
                    <div class="form-group">
                      <label for="InputName">Name:</label>
                      <br/>
-                     <input name="EmpName" type="text" id="InputName" aria-describedby="nameHelp" placeholder="Enter Name" [(ngModel)]="Name" required>
+                     <input name="EmpName" type="text" id="InputName" aria-describedby="nameHelp" placeholder="Name" [(ngModel)]="Name" required>
                    </div>
                    <div class= "form-group"> 
                      <label for="InputPass">Password:</label>
                      <br/>
-                     <input name="EmpPass" type="text" id="InputPass" aria-describedby="passHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
-                   </div>
-                   <div class="form-group">
-                       <label for="InputComm">Sales Commission:</label>
-                       <br/>
-                       <input name="EmpComm" type="text" id="InputComm" aria-describedby="commHelp" placeholder="Enter SalesCommision" [(ngModel)]="SalesCommision" required>
+                     <input name="EmpPass" type="text" id="InputPass" aria-describedby="passHelp" placeholder="Password" [(ngModel)]="Password" required>
                    </div>
                    <div class="form-group">
                        <label for="InputAddress">Address:</label>
                        <br/>
-                       <input name="EmpAddress" type="text" id="InputAddress" aria-describedby="addressHelp" placeholder="Enter Address" [(ngModel)]="Address" required>
+                       <input name="EmpAddress" type="text" id="InputAddress" aria-describedby="addressHelp" placeholder="Address" [(ngModel)]="Address" required>
                    </div>
                    <button type="submit" id="subButton" class="buttons">Submit</button>
                    <button class="buttons"(click)="closeAddAssocModal()"> close</button>
@@ -64,48 +60,48 @@
             <table class="main-table">
                 <thead>
                     <tr>
-                        <td>ID</td>
-                        <td>Name</td>
-                        <td>Password</td>
-                        <td>Sales Commission</td>
-                        <td>Address</td>
-                        <td> </td>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Password</th>
+                        <th>Sales Commission</th>
+                        <th>Address</th>
+                        <th>Options</th>
                     </tr>
                 </thead>
                 <tbody id="myTable">
-                    <tr *ngFor="let rows of assoc">
+                    <tr *ngFor="let rows of FilteredAssoc">
                         <td>{{rows.ID}}</td>
                         <td>{{rows.Name}}</td>
                         <td>{{rows.Password}}</td>
                         <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
                         <td>{{rows.Address}}</td>
-                        <div class="row-buttons">
-                            <button (click)="editAssoc($event)">Edit</button>
-                            <button class="buttons">Delete</button>
-                            <button class="buttons">View</button>
-                        </div>
+                        <td>
+                            <select [(ngModel)]="SelectedAction" (ngModelChange)="AssocAction(rows)">
+                                <option [value]="'Edit'">Edit</option>
+                                <option [value]="'Delete'">Delete</option>
+                                <option [value]="'View'">View</option>
+                            </select>
+                        </td>
                     </tr>
                 </tbody>
             </table>
             <table class="main-table">
                 <thead>
                     <tr>
-                        <td>ID</td>
-                        <td>AssocID</td>
-                        <td>CustID</td>
-                        <td>Customer Name</td>
-                        <td> QuoteDate</td>
-                        <td>Status</td>
-                        <td>Total</td>
-                        <td>Discount</td>
+                        <th>ID</th>
+                        <th>AssocID</th>
+                        <th>Customer Name</th>
+                        <th>QuoteDate</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Discount</th>
                     </tr>
                 </thead>
                 <tbody id="myTable">
-                    <tr *ngFor="let rows of quote">
+                    <tr *ngFor="let rows of FilteredQuote">
                     
                         <td>{{rows.ID}}</td>
                         <td>{{rows.AssocID}}</td>
-                        <td>{{rows.CustID}}</td>
                         <td>{{rows.CustName}}</td>
                         <td>{{rows.QuoteDate}}</td>
                         <td>{{rows.Status}}</td>

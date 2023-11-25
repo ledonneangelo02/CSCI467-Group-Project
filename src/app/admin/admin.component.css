@@ -5,30 +5,32 @@ table, th, td {
 }
 .table-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 
   }
 .header-container{
     display: flex;
-    justify-content: space-between;
-    padding-left: 5%;
-    padding-right: 5%;
+    justify-content: space-around;
+    padding-left: 125px;
 }
+.header-container #quote-header{
+    padding-left: 140px;
+}
+
 
 .search-container{
     display: flex;
-    justify-content: space-between;
-    padding-left: 12%;
-    padding-right: 12%; 
+    justify-content: space-around;
+
 }
 
 .button-container{
     padding-left: 5%;
 }
-table {
-    background-color: green;
-    border: blue;
+table{
+    border-width: 5px;
 }
+
 text {
     color: white;
 }
@@ -46,3 +48,5 @@ text {
 .row-buttons{
     display: inline-flex;
 }
+
+
