@@ -106,7 +106,7 @@
                 <ng-container *ngIf="DiscountType == 'P'">
                     <label for="dscnt">Final Discount(%):</label>
                     <input id="dscnt" type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
-                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
+                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Submit</button>
                 </ng-container>
             <!--End of Percentage Option-->
 
@@ -114,12 +114,14 @@
                 <ng-container *ngIf="DiscountType == 'D'">
                     <label for="dscnt">Final Discount($):</label>
                     <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
-                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
+                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Submit</button>
                 </ng-container>
             <!--End of Dollar Option-->
-            </div>
-
-        </ng-container>
-    </body>  
+        </div>
+    </ng-container>
+    <div>
+        
+    </div>
+</body>  
 </html>
 
