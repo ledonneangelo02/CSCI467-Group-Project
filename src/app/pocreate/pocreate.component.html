@@ -5,12 +5,18 @@
     <body>
         <ng-container *ngIf="quoteSelected">
             <div>
-                <div class="">
+                <div class="custname-container">
                     <h3>Quote For: {{CustomerName}}</h3>
                 </div>
-                <h4>{{CustomerAddyLn1}}</h4>
-                <h4>{{CustomerAddyLn2}}</h4>
-                <h4>{{CustomerContact}}</h4>
+                <div class="custinfo-container">
+                    <h5>{{CustomerAddyLn1}}</h5>
+                    <h5>{{CustomerAddyLn2}}</h5>
+                    <h5>{{CustomerContact}}</h5>
+                </div>
+                <div class="custemail-container">
+                    <h5>Email:</h5>
+                    <input disabled type="text" value="{{CustomerEmail}}" id="CustEmail">
+                </div>
                <button (click)="changeQuote()">Select Another Quote</button>
             </div>
         </ng-container>
