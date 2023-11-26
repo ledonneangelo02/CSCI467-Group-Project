@@ -15,6 +15,7 @@ export class QuoteeditComponent {
   selectedID: number = 0;
   selectedQuote: any[] = [];
   selectedQuoteLines: any[] = [];
+  NoteCounter: number = 0;
 
   SelectedVal: any;
   CustName: any;
@@ -23,7 +24,14 @@ export class QuoteeditComponent {
 
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
-  total: number = 0.0;
+  
+  //Discount and Total Amounts
+  total: any = 0.0;
+  DiscountType: any = 'P';
+  DiscountDollar: any = 0.00;
+  DiscountPercent: any = 0.00;
+  TempTotal: any = 0;
+  DiscountAmount: number = 0.00;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
   
@@ -96,7 +104,8 @@ export class QuoteeditComponent {
         this.populateSecretNote(line);
       }
     }
-    this.calculateRunningTotal();
+    this.addRow();
+    //this.calculateRunningTotal();
   }
 
   populateRow(line: any) {
@@ -116,6 +125,7 @@ export class QuoteeditComponent {
       SecretNote: line['RowDesc']
     });
     (this.quoteForm.get('SecretNotes') as FormArray).push(secretNote);
+    this.NoteCounter++;
   }
 
   private createRow() {
@@ -142,7 +152,15 @@ export class QuoteeditComponent {
 
 
   AddNote() : void{
-    this.showSecretNote = !this.showSecretNote;
+    if(this.NoteCounter <= 0){
+      this.calculateRunningTotal();
+      this.showSecretNote = !this.showSecretNote;
+    }
+    const newNote = this.formBuilder.group({
+      SecretNote: ''
+    });
+    (this.quoteForm.get('SecretNotes') as FormArray).push(newNote);
+    this.NoteCounter++;
   }
 
   /* **********************************************
@@ -150,6 +168,8 @@ export class QuoteeditComponent {
    * **********************************************/
   calculateRunningTotal() {
     const rows = this.quoteForm.get('rows') as FormArray;
+
+    this.total = 0;
   
     for (let i = 0; i < rows.length; i++) {
       const row = rows.at(i);
@@ -198,9 +218,29 @@ export class QuoteeditComponent {
     }
   }
 
+  CancelEdit() {
+    console.log("CANCEL");
+  }
+
+  QuoteUpdate() {
+    console.log("UPDATE");
+  }
+
   DeleteRow(LineID: any): void{
 
     console.log(LineID);
+  }
+
+  DiscountSelect(){
+    console.log("DISCOUNTSELECT");
+  }
+
+  SubmitFinal() {
+    console.log("SUBMITFINAL");
+  }
+
+  ApplyDiscount(){
+    console.log("APPLYDISCOUNT");
   }
 
 

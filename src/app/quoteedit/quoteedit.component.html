@@ -56,10 +56,36 @@
       </form>
     </div>
 
+    <div class="discount">
+      <!--Drop Down Menu-->
+      <select class="item2" [(ngModel)]="DiscountType" (ngModelChange)="DiscountSelect()">
+          <option value="P">Percentage (%)</option>
+          <option value="D">Dollar Amount ($)</option>
+      </select>
+      <!--End of Drop Down-->
+
+      <!--Code below is for Percentage Option-->
+          <ng-container *ngIf="DiscountType == 'P'">
+              <label for="dscnt">Final Discount(%):</label>
+              <input id="dscnt" type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
+              <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
+          </ng-container>
+      <!--End of Percentage Option-->
+
+      <!--Code below is for Dollar Option-->
+          <ng-container *ngIf="DiscountType == 'D'">
+              <label for="dscnt">Final Discount($):</label>
+              <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
+              <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
+          </ng-container>
+      <!--End of Dollar Option-->
+    </div>
+
     <div class="QuoteButtons">
       <button (click)="addRow()" class="btn btn-primary">Add Row</button>
       <button (click)="AddNote()" class="btn btn-primary">Add Secret Note</button>
-      <button (click)="QuoteFinish()" class="btn btn-primary">Submit Quote</button>
+      <button (click)="CancelEdit()" class="btn btn-primary">Cancel</button>
+      <button (click)="QuoteUpdate()" class="btn btn-primary">Update Quote</button>
     </div>
 
 
