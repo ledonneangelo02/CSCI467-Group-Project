@@ -10,25 +10,22 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
-import { PopUpComponent } from '../pop-up/pop-up.component';
 
+export interface DialogData {
+  Email: string;
+  Customername: string;
+}
 @Component({
   selector: 'app-pocreate',
   templateUrl: './pocreate.component.html',
   styleUrls: ['./pocreate.component.css']
 })
-
-//@Component({
-//  selector: 'app-pop-up',
-  //templateUrl: './pop-up.component.html',
-  //styleUrls: ['./pop-up.component.css'],
-  //standalone: true,
-//})
 
 export class PocreateComponent {
   responseFromPHP: any;
@@ -51,12 +48,12 @@ export class PocreateComponent {
   CustomerContact: any;
   CustomerAddyLn1: any;
   CustomerAddyLn2: any;
+  Email: any;
 
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  //private dialogRef : MatDialog
- // openDialog(){
+ //openDialog(){
    // this.dialogRef.open(PopUpComponent);
   //}
 
@@ -228,6 +225,3 @@ changeQuote():void{
 }
 
 }
-
-
-

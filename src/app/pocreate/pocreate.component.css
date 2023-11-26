@@ -125,3 +125,8 @@ select{
     margin-left: 15px;
     padding: 2px;
 }
+
+.emailText{
+    width: 200px; 
+    height: 25px; 
+  }
