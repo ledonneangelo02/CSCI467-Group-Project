@@ -24,7 +24,7 @@ export class QuoteeditComponent {
 
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
-  
+
   //Discount and Total Amounts
   total: any = 0.0;
   DiscountType: any = 'P';
@@ -219,7 +219,7 @@ export class QuoteeditComponent {
   }
 
   CancelEdit() {
-    console.log("CANCEL");
+    this.router.navigate(['/viewquotes']);
   }
 
   QuoteUpdate() {
