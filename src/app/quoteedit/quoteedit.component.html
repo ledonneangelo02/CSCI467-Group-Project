@@ -81,6 +81,17 @@
       <!--End of Dollar Option-->
     </div>
 
+    <div>
+      <div>
+        <input type="radio" [(ngModel)]="Status" value="U" />
+        <label for="U">Unsanctioned</label>
+      </div>
+      <div>
+        <input type="radio" [(ngModel)]="Status" value="S"/>
+        <label for="S">Sanctioned</label>
+      </div>
+    </div>
+
     <div class="QuoteButtons">
       <button (click)="addRow()" class="btn btn-primary">Add Row</button>
       <button (click)="AddNote()" class="btn btn-primary">Add Secret Note</button>

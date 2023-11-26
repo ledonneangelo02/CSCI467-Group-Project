@@ -238,11 +238,8 @@ export class QuoteeditComponent {
     this.calculateRunningTotal();
     const formData = this.quoteForm.value;
     const FinalformData = {
-      formData,
-      QuoteTotal: this.total,
-      CustomerEmail: this.CustEmail,
-
-      Status: this.Status
+      quoteID: this.selectedID,
+      quoteStatus: this.Status
     };
   
     this.http.post(this.quoteUrl, FinalformData).subscribe({        
@@ -254,6 +251,8 @@ export class QuoteeditComponent {
         console.error('Error saving data', error);
       }
     });
+
+    //this.router.navigate(['/viewquotes']);
   }
 
   DeleteRow(LineID: any): void{
