@@ -22,6 +22,10 @@ export class QuoteeditComponent {
   EmpName: any;
   savedAssoc: any;
 
+  //Quote Details
+  Status: any;
+  CustEmail: any;
+
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
 
@@ -56,6 +60,8 @@ export class QuoteeditComponent {
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuote = response;
+
+      this.getQuoteDetails(this.selectedQuote);
     });
 
     params = params.delete('whereTerm');
@@ -71,6 +77,11 @@ export class QuoteeditComponent {
     console.log(history.state);
   }
   
+  getQuoteDetails(quotes: any) {
+    for (let quote of quotes) {
+      this.Status = quote['Status'];
+    }
+  }
 
   get rowControls() {
     return (this.quoteForm.get('rows') as FormArray).controls;
@@ -187,7 +198,7 @@ export class QuoteeditComponent {
     }
   
   }
-
+/*
   private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
   QuoteFinish() : any{
     if(this.CustName == null && this.SelectedVal == null){
@@ -217,13 +228,32 @@ export class QuoteeditComponent {
       });
     }
   }
-
+*/
   CancelEdit() {
     this.router.navigate(['/viewquotes']);
   }
 
-  QuoteUpdate() {
-    console.log("UPDATE");
+  private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/updateQuote.php';
+  QuoteUpdate() :any {
+    this.calculateRunningTotal();
+    const formData = this.quoteForm.value;
+    const FinalformData = {
+      formData,
+      QuoteTotal: this.total,
+      CustomerEmail: this.CustEmail,
+
+      Status: this.Status
+    };
+  
+    this.http.post(this.quoteUrl, FinalformData).subscribe({        
+      next: (data: any) => {
+      // Handle the data
+      alert("Quote Updated!");
+      },
+      error: (error) => {
+        console.error('Error saving data', error);
+      }
+    });
   }
 
   DeleteRow(LineID: any): void{
