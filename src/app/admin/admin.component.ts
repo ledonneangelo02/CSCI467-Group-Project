@@ -43,6 +43,7 @@ export class AdminComponent {
 
 
   ngOnInit () {
+    this.Datacheck();
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/AssociateTable.php').subscribe((response:any) => {
       this.assoc = response;
       this.FilteredAssoc = this.assoc;
@@ -177,7 +178,6 @@ viewQuote(): void {
 }
 
 Datacheck(): void{
-
     //Stored Associate Name
     var AssocName = localStorage.getItem('AssocName');
     if(AssocName !== null){

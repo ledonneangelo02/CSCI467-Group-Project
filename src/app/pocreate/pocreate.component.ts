@@ -37,6 +37,7 @@ export class PocreateComponent {
   DiscountPercent: any = 0.00;
   TempTotal: any = 0;
   DiscountAmount: number = 0.00;
+  ProcessDate: any;
   //Customer Information For PO View
   Customer: any;
   CustomerName: any;
@@ -55,26 +56,6 @@ export class PocreateComponent {
     });
   }
 
-  Datacheck(): void
-  {
-    //Stored Associate Name
-    var AssocName = localStorage.getItem('AssocName');
-    if(AssocName !== null){
-      this.EmpName = JSON.parse(AssocName);
-    }
-    //Stored Associate ID
-    var savedAssoc = localStorage.getItem('CurrentAssoc');
-    if(savedAssoc !== null){
-      this.savedAssoc = JSON.parse(savedAssoc);
-      console.log(savedAssoc);
-    }else{
-      this.router.navigateByUrl('/');
-      setTimeout(function(){
-        alert("Error: User not found, please Login");
-      }, 200);
-    }
-  }
-
   private quoteURL='https://phpapicsci467.azurewebsites.net/php_script/pocreate/selectQuoteLine.php';
 
   RetriveData(QID: any) : void{
@@ -88,7 +69,6 @@ export class PocreateComponent {
         this.selectedQuote = this.selectOptions[i];
         this.CustomerEmail = this.selectedQuote['CustEmail'];
         this.DiscountAmount = +this.selectedQuote['Discount'];
-        console.log(this.DiscountAmount);
         this.QuoteID = QID;
         this.RetriveCustInfo(this.selectOptions[i]['CustID']);
       }
@@ -117,11 +97,6 @@ export class PocreateComponent {
   }
 
 count: number=2;
-
-DiscountSelect():void
-{
-  console.log(this.DiscountType);
-}
 
 ChangeCounter: number = 0;
 
@@ -185,6 +160,7 @@ SubmitFinal(): void{
 
     //New Amount
     const saleAmt: number = data['amount'];
+    this.ProcessDate = data['processDay'];
     //tempPct removes "%" -> Pct creates a float
     const tempPct = data['commission'].replace('%','');
     const Pct = parseFloat(tempPct);
@@ -197,18 +173,19 @@ SubmitFinal(): void{
       assoc: data['associate'],
       comAmt: assocCom,
       quoteID: this.QuoteID,
-      discountAmt: this.DiscountAmount
+      discountAmt: this.DiscountAmount,
+      processDate: this.ProcessDate,
+      NewTotal: this.total
     }
 
     //Call the UpdateAssoc Function to place all the new data in our DB
-    this.UpdateAssoc(assocData);
+    this.UpdateDB(assocData);
 
     },
     error: (error) => {
       console.error('Error Sending data', error);
     }
   });
-    console.log(this.selectedQuote);
 }
 
 
@@ -217,10 +194,16 @@ SubmitFinal(): void{
  *    updating the commission for the Sales Associate who is on the quote
 */
 UpdateAssocUrl = "https://phpapicsci467.azurewebsites.net/php_script/pocreate/UpdateSalesAssoc.php";
-UpdateAssoc(assocData:any): void
+UpdateDB(assocData:any): void
 {
   this.http.post(this.UpdateAssocUrl, assocData).subscribe({        
     next: (data: any) => {
+      let x = confirm("PO has been processed (" + this.ProcessDate + ")\n Commission of $" + assocData['comAmt'].toFixed(2) + " has been given to: " + assocData['assoc']);
+
+      if(x){
+        location.reload();
+      }
+
 
     },
     error: (error) => {
@@ -231,6 +214,26 @@ UpdateAssoc(assocData:any): void
 
 changeQuote():void{
   this.quoteSelected = false;
+}
+
+Datacheck(): void
+{
+  //Stored Associate Name
+  var AssocName = localStorage.getItem('AssocName');
+  if(AssocName !== null){
+    this.EmpName = JSON.parse(AssocName);
+  }
+  //Stored Associate ID
+  var savedAssoc = localStorage.getItem('CurrentAssoc');
+  if(savedAssoc !== null){
+    this.savedAssoc = JSON.parse(savedAssoc);
+    console.log(savedAssoc);
+  }else{
+    this.router.navigateByUrl('/');
+    setTimeout(function(){
+      alert("Error: User not found, please Login");
+    }, 200);
+  }
 }
 
 }
