@@ -29,7 +29,10 @@ export class QuoteeditComponent {
   
     this.quoteForm = this.formBuilder.group({
       rows: this.formBuilder.array([
-        //this.createRow()
+        
+      ]),
+      SecretNotes: this.formBuilder.array([
+
       ])
     });
 
@@ -53,6 +56,7 @@ export class QuoteeditComponent {
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLineWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuoteLines = response;
+      console.log(this.selectedQuoteLines);
       this.fillRows();
     });
 
@@ -64,13 +68,15 @@ export class QuoteeditComponent {
     return (this.quoteForm.get('rows') as FormArray).controls;
   }
 
-  get secretControls() {
-    return (this.quoteForm.get('secrets') as FormArray).controls;
+  /* Controls for Secret Notes rows in Responsive Form */
+  get SecretNotesControls() {
+    return (this.quoteForm.get('SecretNotes') as FormArray).controls;
   }
 
   /* This function will add another row to the current Quote */
   addRow() {
     const newRow = this.formBuilder.group({
+      ID: '',
       Item: '',
       Qty: 0,
       Price: 0.0,
@@ -95,6 +101,7 @@ export class QuoteeditComponent {
 
   populateRow(line: any) {
     const newRow = this.formBuilder.group({
+      ID: line['LineID'],
       Item: line['RowDesc'],
       Qty: line['RowQty'],
       Price: line['RowPrice'],
@@ -105,14 +112,16 @@ export class QuoteeditComponent {
 
   populateSecretNote(line:any) {
     this.showSecretNote = true;
-    const newRow = this.formBuilder.group({
-      SecretNote: line['RowDesc'],
+
+    const secretNote = this.formBuilder.group({
+      SecretNote: line['RowDesc']
     });
-    (this.quoteForm.get('secrets') as FormArray).push(newRow);
+    (this.quoteForm.get('SecretNotes') as FormArray).push(secretNote);
   }
 
   private createRow() {
     return this.formBuilder.group({
+      ID: '',
       Item: '',
       Qty: 0,
       Price: 0.0,
@@ -188,6 +197,11 @@ export class QuoteeditComponent {
         }
       });
     }
+  }
+
+  DeleteRow(LineID: any): void{
+
+    console.log(LineID);
   }
 
 

@@ -5,13 +5,12 @@
     <body>
         <ng-container *ngIf="quoteSelected">
             <div>
-                <div class="">
+                <div class="custname-container">
                     <h3>Quote For: {{CustomerName}}</h3>
                 </div>
                 <h4>{{CustomerAddyLn1}}</h4>
                 <h4>{{CustomerAddyLn2}}</h4>
                 <h4>{{CustomerContact}}</h4>
-                <h5>Email: <textarea class="emailText" placeholder="kilda@collectors.au"></textarea> </h5>
                <button (click)="changeQuote()">Select Another Quote</button>
             </div>
         </ng-container>
@@ -91,7 +90,7 @@
 
         <div class="discount">
             <!--Drop Down Menu-->
-            <select class="item2" [(ngModel)]="DiscountType" (ngModelChange)="DiscountSelect()">
+            <select class="item2" [(ngModel)]="DiscountType">
                 <option value="P">Percentage (%)</option>
                 <option value="D">Dollar Amount ($)</option>
             </select>
@@ -101,7 +100,7 @@
                 <ng-container *ngIf="DiscountType == 'P'">
                     <label for="dscnt">Final Discount(%):</label>
                     <input id="dscnt" type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
-                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
+                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Submit</button>
                 </ng-container>
             <!--End of Percentage Option-->
 
@@ -109,11 +108,13 @@
                 <ng-container *ngIf="DiscountType == 'D'">
                     <label for="dscnt">Final Discount($):</label>
                     <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
-                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Enter</button>
+                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Submit</button>
                 </ng-container>
             <!--End of Dollar Option-->
-            </div>
-
-        </ng-container>
-    </body>  
+        </div>
+    </ng-container>
+    <div>
+        
+    </div>
+</body>  
 </html>
