@@ -143,6 +143,7 @@ export class QuoteeditComponent {
     this.showSecretNote = true;
 
     const secretNote = this.formBuilder.group({
+      ID: line['LineID'],
       SecretNote: line['RowDesc'],
       isNew: false,
       isDeleted: false,
