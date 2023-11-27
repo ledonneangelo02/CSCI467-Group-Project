@@ -102,6 +102,7 @@ export class QuoteeditComponent {
       Qty: 0,
       Price: 0.0,
       isNew: true,
+      isDeleted: false,
     });
     this.maxLineID;
     this.calculateRunningTotal();
@@ -133,6 +134,7 @@ export class QuoteeditComponent {
       Qty: line['RowQty'],
       Price: line['RowPrice'],
       isNew: false,
+      isDeleted: false,
     });
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
@@ -143,6 +145,7 @@ export class QuoteeditComponent {
     const secretNote = this.formBuilder.group({
       SecretNote: line['RowDesc'],
       isNew: false,
+      isDeleted: false,
     });
     (this.quoteForm.get('SecretNotes') as FormArray).push(secretNote);
     this.NoteCounter++;
@@ -155,6 +158,7 @@ export class QuoteeditComponent {
       Qty: 0,
       Price: 0.0,
       isNew: true,
+      isDeleted: false,
     });
   }
 
@@ -180,6 +184,7 @@ export class QuoteeditComponent {
     const newNote = this.formBuilder.group({
       SecretNote: '',
       isNew: true,
+      isDeleted: false,
     });
     (this.quoteForm.get('SecretNotes') as FormArray).push(newNote);
     this.NoteCounter++;
@@ -240,6 +245,12 @@ export class QuoteeditComponent {
     }
   }
 */
+
+  checkIfDeleted(line: any): boolean
+  {
+    return line['isDeleted'] == false;
+  }
+
   CancelEdit() {
     this.router.navigate(['/viewquotes']);
   }
@@ -267,9 +278,10 @@ export class QuoteeditComponent {
     //this.router.navigate(['/viewquotes']);
   }
 
-  DeleteRow(LineID: any): void{
+  DeleteRow(line: any): void{
 
-    console.log(LineID);
+    console.log(line);
+    line['isDeleted'] = true;
   }
 
   DiscountSelect(){
