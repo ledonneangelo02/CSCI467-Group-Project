@@ -120,8 +120,9 @@ export class QuoteeditComponent {
       }
       this.maxLineID = line['LineID'];
     }
+    this.calculateRunningTotal();
     this.maxLineID++;
-    this.addRow();
+    //this.addRow();
     //this.calculateRunningTotal();
   }
 
