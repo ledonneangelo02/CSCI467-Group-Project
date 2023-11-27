@@ -1,6 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { response } from 'express';
 
 @Component({
   selector: 'app-admin',
@@ -10,7 +11,9 @@ import { HttpClient } from '@angular/common/http';
 export class AdminComponent {
   constructor(private http: HttpClient, private router: Router) { }
   assoc: any[]=[];
+  FilteredAssoc: any[] = [];
   quote: any[]=[];
+  FilteredQuote: any[] = [];
   SalesAssoc: any;
   newAssociate: any = {};
   EmpName: any;
@@ -24,21 +27,26 @@ export class AdminComponent {
   SalesCommision: string = "SalesCommision";
   Address: string="Address";
   searchTerm: string = "";
-  searchTerm2: string="";
   selectedAssoc: any;
+  searchTerm2: string="";
   selectedStatus: any;
   selectedAssocForEdit: any ={};
   isEditAssocModal: boolean = false;
+  SelectedAction: string ="";
+  selectedQuoteDetails: any;
+  isViewQuoteModal: boolean  =false;
+  quoteID:any;
   ngOnInit () {
 //private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/AssociateTable.php').subscribe((response:any) => {
       this.assoc= response;
-      console.log(this.assoc);
+      this.FilteredAssoc = this.assoc;
     });
   
   this.http.get('https://phpapicsci467.azurewebsites.net/php_script/QuoteTable.php').subscribe((response:any) => {
     this.quote = response;
+    this.FilteredQuote = this.quote;
     console.log(this.quote);
   });
   }
@@ -62,7 +70,12 @@ editAssocModal(): void {
 closeEditAssocModal(): void {
   this.isEditAssocModal = false;
 }
-
+AssocAction(selectedRow: any): void {
+  if(this.SelectedAction === 'Delete'){
+  } else if(this.SelectedAction === 'View'){}
+  else if(this.SelectedAction ==='Edit'){}
+  console.log(selectedRow);
+}
 // Add a new function to handle the edit action
 editAssoc(event: Event): void {
   // Update the selected associate using the API endpoint or another method
@@ -70,9 +83,11 @@ editAssoc(event: Event): void {
     // Handle the response as needed
     console.log(response);
   });
-
   // Close the edit modal
   this.isEditAssocModal = false;
+}
+ResetAssoc(): void {
+  this.FilteredAssoc = this.assoc;
 }
   deleteAssocUrl="https://phpapicsci467.azurewebsites.net/php_script/deleteAssociate.php";
   delAssoc(id: string): void {
@@ -95,13 +110,35 @@ editAssoc(event: Event): void {
   // Existing methods ...
 
 // New method for searching associates
-searchAssoc(): void {
-  // Use the search term to make a request to the PHP script
-  this.http.post('https://phpapicsci467.azurewebsites.net/php_script/AssocSearch.php', { searchTerm: this.searchTerm }).subscribe((response: any) => {
-    this.assoc = response;
-  });
+SearchAssoc(): void {
+    
+  let FilteredData = [];
+  this.FilteredAssoc = this.assoc; // Reset to show all data
+  if(this.searchTerm === ""){
+    this.FilteredAssoc = this.assoc; // Reset to show all data
+  }else{
+    for(let i = 0; i < this.assoc.length; ++i){
+  
+      let row = this.assoc[i];
+  
+      for(const key in row){
+        let MatchedRow = row;
+        if(row[key].toLowerCase().includes(this.searchTerm.toLowerCase())){
+          console.log(row);
+          FilteredData.push(MatchedRow);
+          break;
+        }
+      
+      }
+    }
+    this.FilteredAssoc = FilteredData;
+  }
+    
 }
-// Update the statusFilter function
+ResetQuote(): void{
+  this.FilteredQuote = this.quote;
+}
+// filters quote table by status
 statusFilter(): void {
   const url = 'https://phpapicsci467.azurewebsites.net/php_script/StatusFilter.php';
   const params = { status: this.selectedStatus };
@@ -113,18 +150,43 @@ statusFilter(): void {
 
 
 // Existing methods ...
-
-  viewAssoc(): void {
-
-  }
   searchQuote (): void {
-    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/QuoteSearch.php', {searchTerm2: this.searchTerm2}).subscribe((response: any) => {
-      this.quote = response;
-    });
+    let FilteredData = [];
+    this.FilteredQuote = this.quote; // Reset to show all data
+    if(this.searchTerm2 === ""){
+      this.FilteredQuote = this.quote; // Reset to show all data
+    }else{
+      for(let i = 0; i < this.quote.length; ++i){
+        let row = this.quote[i];
+        for(const key in row){
+          let MatchedRow = row;
+          if(row[key].toLowerCase().includes(this.searchTerm2.toLowerCase())){
+            console.log(row);
+            FilteredData.push(MatchedRow);
+            break;
+          }
+        
+        }
+      }
+      this.FilteredQuote = FilteredData;
+    }
   }
-  viewQuote(): void {
+  
+  viewQuote(event: Event): void {
+    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/ViewQuote.php').subscribe((response: any) => {
+      this.selectedQuoteDetails = response;
+   });
+  }
+  // Add these properties to your component class
+selectedQuote: any = {}; // This will hold the details of the selected quote
+ViewQuoteModal(): void {
+  this.isViewQuoteModal =true;
+}
+closeViewQuoteModal(): void {
+  // Close the view quote modal
+  this.isViewQuoteModal = false;
+}
 
-  }
 Datacheck(): void
   {
     //Stored Associate Name
