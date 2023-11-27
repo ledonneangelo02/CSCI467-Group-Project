@@ -10,23 +10,16 @@ import {
   MatDialogActions,
   MatDialogClose,
 } from '@angular/material/dialog';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatDialogModule } from '@angular/material/dialog';
 
-export interface DialogData {
-  Email: string;
-  Customername: string;
-}
 @Component({
   selector: 'app-pocreate',
   templateUrl: './pocreate.component.html',
   styleUrls: ['./pocreate.component.css']
 })
-
 export class PocreateComponent {
   responseFromPHP: any;
   selectOptions: any[] = [];
@@ -52,14 +45,9 @@ export class PocreateComponent {
   CustomerEmail: any;
   CustomerAddyLn1: any;
   CustomerAddyLn2: any;
-  Email: any;
 
 
   constructor(private http: HttpClient, private router: Router) { }
-
- //openDialog(){
-   // this.dialogRef.open(PopUpComponent);
-  //}
 
   ngOnInit() {
     this.Datacheck();
@@ -72,6 +60,7 @@ export class PocreateComponent {
 
   RetriveData(QID: any) : void{
     this.quoteSelected = true;
+    this.ChangeCounter = 0;
     for(let i = 0; i < this.selectOptions.length; ++i)
     {
       if(this.selectOptions[i]['ID'] == QID)

@@ -125,3 +125,32 @@ select{
     margin-left: 15px;
     padding: 2px;
 }
+
+.custname-container{
+    color: blue;
+    padding-bottom: 10px;
+}
+
+.custinfo-container{
+    padding-bottom: 10px;
+}
+
+.custemail-container{
+    display: flex;
+    gap: 20px;
+}
+
+.buttons{
+    padding: 5px;
+    border-radius: 10%;
+}
+
+.buttons:hover{
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+}
+
+.anotherOne{
+    float: right;
+    margin-top: 55px;
+}
