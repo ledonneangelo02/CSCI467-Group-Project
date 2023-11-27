@@ -26,6 +26,7 @@ export class AdminComponent {
   searchTerm: string = "";
   searchTerm2: string="";
   selectedAssoc: any;
+  selectedStatus: any;
   selectedAssocForEdit: any ={};
   isEditAssocModal: boolean = false;
   ngOnInit () {
@@ -73,9 +74,23 @@ editAssoc(event: Event): void {
   // Close the edit modal
   this.isEditAssocModal = false;
 }
-  
-  delAssoc(): void {
-
+  deleteAssocUrl="https://phpapicsci467.azurewebsites.net/php_script/deleteAssociate.php";
+  delAssoc(id: string): void {
+    const confirmation = confirm('Are you sure you want to delete this associate?');
+    if (confirmation) {
+        // Call your delete API endpoint with the specific ID
+        this.http.post('https://phpapicsci467.azurewebsites.net/php_script/deleteAssociate.php', { id }).subscribe((response: any) => {
+            if (response.success) {
+                // Update your assoc array or refresh the data
+                // For example, you can call your API endpoint to get the updated data
+                this.http.get('https://phpapicsci467.azurewebsites.net/php_script/AssociateTable.php').subscribe((updatedResponse: any) => {
+                    this.assoc = updatedResponse;
+                });
+            } else {
+                alert('Error deleting associate: ' + response.message);
+            }
+        });
+    }
   }
   // Existing methods ...
 
@@ -86,6 +101,15 @@ searchAssoc(): void {
     this.assoc = response;
   });
 }
+// Update the statusFilter function
+statusFilter(): void {
+  const url = 'https://phpapicsci467.azurewebsites.net/php_script/StatusFilter.php';
+  const params = { status: this.selectedStatus };
+
+  this.http.post(url, params).subscribe((response: any) => {
+    this.quote = response;
+  });
+}
 
 
 // Existing methods ...
@@ -94,7 +118,7 @@ searchAssoc(): void {
 
   }
   searchQuote (): void {
-    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/QuoteSearch.php', { searchTerm2: this.searchTerm2 }).subscribe((response: any) => {
+    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/QuoteSearch.php', {searchTerm2: this.searchTerm2}).subscribe((response: any) => {
       this.quote = response;
     });
   }

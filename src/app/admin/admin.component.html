@@ -74,13 +74,21 @@
             <td>{{rows.Address}}</td>
             <button (click)="editAssoc($event)"> Edit</button>
             <button> view</button>
+            <button (click)="delAssoc(rows.ID)"> Delete </button>
         </tr>
     </tbody>
 </table>
 <h2> Current Quotes and status</h2>
+<select [(ngModel)]="selectedStatus" (change)="statusFilter()">
+    <option value="">All</option>
+    <option value="O">Completed</option>
+    <option value="Sanctioned">Sanctioned</option>
+    <option value="Ordered">Ordered</option>
+  </select>
+  <button (click)="statusFilter()"> Filter</button>
+  
 <input type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
 <button (click)="searchQuote()"> Search</button>
-<button> Search based on status</button>
 <table class="main-table">
     <thead>
         <tr>
