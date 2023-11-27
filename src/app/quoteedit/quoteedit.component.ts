@@ -29,6 +29,8 @@ export class QuoteeditComponent {
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
 
+  maxLineID: number = 0;
+
   //Discount and Total Amounts
   total: any = 0.0;
   DiscountType: any = 'P';
@@ -95,11 +97,13 @@ export class QuoteeditComponent {
   /* This function will add another row to the current Quote */
   addRow() {
     const newRow = this.formBuilder.group({
-      ID: '',
+      ID: this.maxLineID,
       Item: '',
       Qty: 0,
       Price: 0.0,
+      isNew: true,
     });
+    this.maxLineID;
     this.calculateRunningTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
@@ -114,7 +118,9 @@ export class QuoteeditComponent {
       {
         this.populateSecretNote(line);
       }
+      this.maxLineID = line['LineID'];
     }
+    this.maxLineID++;
     this.addRow();
     //this.calculateRunningTotal();
   }
@@ -125,6 +131,7 @@ export class QuoteeditComponent {
       Item: line['RowDesc'],
       Qty: line['RowQty'],
       Price: line['RowPrice'],
+      isNew: false,
     });
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
@@ -133,7 +140,8 @@ export class QuoteeditComponent {
     this.showSecretNote = true;
 
     const secretNote = this.formBuilder.group({
-      SecretNote: line['RowDesc']
+      SecretNote: line['RowDesc'],
+      isNew: false,
     });
     (this.quoteForm.get('SecretNotes') as FormArray).push(secretNote);
     this.NoteCounter++;
@@ -145,6 +153,7 @@ export class QuoteeditComponent {
       Item: '',
       Qty: 0,
       Price: 0.0,
+      isNew: true,
     });
   }
 
@@ -168,7 +177,8 @@ export class QuoteeditComponent {
       this.showSecretNote = !this.showSecretNote;
     }
     const newNote = this.formBuilder.group({
-      SecretNote: ''
+      SecretNote: '',
+      isNew: true,
     });
     (this.quoteForm.get('SecretNotes') as FormArray).push(newNote);
     this.NoteCounter++;
@@ -238,6 +248,7 @@ export class QuoteeditComponent {
     this.calculateRunningTotal();
     const formData = this.quoteForm.value;
     const FinalformData = {
+      formData,
       quoteID: this.selectedID,
       quoteStatus: this.Status
     };
