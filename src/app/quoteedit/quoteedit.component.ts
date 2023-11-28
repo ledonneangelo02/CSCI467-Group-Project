@@ -34,10 +34,12 @@ export class QuoteeditComponent {
   //Discount and Total Amounts
   total: any = 0.0;
   DiscountType: any = 'P';
-  DiscountDollar: any = 0.00;
-  DiscountPercent: any = 0.00;
+  DiscountDollar: number = 0.00;
+  DiscountPercent: number = 0.00;
   TempTotal: any = 0;
   DiscountAmount: number = 0.00;
+
+  ChangeCounter: number = 0;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
   
@@ -105,7 +107,7 @@ export class QuoteeditComponent {
       isDeleted: false,
     });
     this.maxLineID;
-    this.calculateRunningTotal();
+    this.calculateTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
 
@@ -121,7 +123,7 @@ export class QuoteeditComponent {
       }
       this.maxLineID = line['LineID'];
     }
-    this.calculateRunningTotal();
+    this.calculateTotal();
     this.maxLineID++;
     //this.addRow();
     //this.calculateRunningTotal();
@@ -179,7 +181,7 @@ export class QuoteeditComponent {
 
   AddNote() : void {
     if(this.NoteCounter <= 0){
-      this.calculateRunningTotal();
+      this.calculateTotal();
       this.showSecretNote = !this.showSecretNote;
     }
     const newNote = this.formBuilder.group({
@@ -196,7 +198,7 @@ export class QuoteeditComponent {
   /* **********************************************
    * This function will calculate the Quote Total *
    * **********************************************/
-  calculateRunningTotal() {
+  calculateTotal() {
     const rows = this.quoteForm.get('rows') as FormArray;
 
     this.total = 0;
@@ -215,39 +217,13 @@ export class QuoteeditComponent {
         }
       }
     }
-  
-  }
-/*
-  private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
-  QuoteFinish() : any{
-    if(this.CustName == null && this.SelectedVal == null){
-      alert("No customer selected, please select a customer and try again!");
-    }else{
-      this.calculateRunningTotal();
-      const formData = this.quoteForm.value;
-      const FinalformData = {
-        formData,
-        AssocID: this.savedAssoc,
-        CustID: this.SelectedVal,
-        CustomerName: this.CustName,
-        QuoteTotal: this.total
-      };
-  
-      this.http.post(this.quoteUrl, FinalformData).subscribe({        
-        next: (data: any) => {
-        // Handle the data
-        alert("Quote Submitted!");
-        localStorage.removeItem('CurrentCustomer');
-        localStorage.removeItem('CurrentCustomerName');
-        location.reload();
-        },
-        error: (error) => {
-          console.error('Error saving data', error);
-        }
-      });
+
+    if ((this.total = this.total - this.DiscountAmount) < 0)
+    {
+      alert("Total is less than 0!");
     }
+  
   }
-*/
 
   checkIfDeleted(line: any): boolean
   {
@@ -260,12 +236,14 @@ export class QuoteeditComponent {
 
   private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/updateQuote.php';
   QuoteUpdate() :any {
-    this.calculateRunningTotal();
+    this.calculateTotal();
+
     const formData = this.quoteForm.value;
     const FinalformData = {
       formData,
       quoteID: this.selectedID,
-      quoteStatus: this.Status
+      quoteStatus: this.Status,
+      quoteTotal: this.total,
     };
   
     this.http.post(this.quoteUrl, FinalformData).subscribe({        
@@ -278,7 +256,9 @@ export class QuoteeditComponent {
       }
     });
 
-    //this.router.navigate(['/viewquotes']);
+    this.router.navigate(['/viewquotes']);
+
+  
   }
 
   DeleteRow(line: any): void{
@@ -287,16 +267,42 @@ export class QuoteeditComponent {
     line['isDeleted'] = true;
   }
 
-  DiscountSelect(){
-    console.log("DISCOUNTSELECT");
-  }
+  //Code below is for applying discount when the button is click
+  ApplyDiscount():void
+  {
+    //Check if we have changed the Discount before, so we can reset the Original Total
+    if (this.ChangeCounter < 1)
+    {
+      this.TempTotal = this.total;
+    }
+    else
+    {
+      this.total = this.TempTotal;
+    }
 
-  SubmitFinal() {
-    console.log("SUBMITFINAL");
-  }
+    ++this.ChangeCounter;
+    
+    //Check what kind of Discount we are applying
+    if(this.DiscountType == 'P')
+    {
+      this.DiscountAmount = this.total * (this.DiscountPercent / 100);
 
-  ApplyDiscount(){
-    console.log("APPLYDISCOUNT");
+      console.log((this.DiscountPercent/100));
+      if(this.total < 0){
+        this.total = this.TempTotal;
+        this.DiscountPercent = 0.0;
+      }
+    }
+    else if(this.DiscountType == 'D')
+    {
+      this.DiscountAmount = this.DiscountDollar;
+      if(this.total < 0){
+        this.DiscountDollar = 0.0;
+        this.total = this.TempTotal;
+      }
+    }
+
+    this.calculateTotal();
   }
 
 
