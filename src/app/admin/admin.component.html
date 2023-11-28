@@ -19,7 +19,7 @@
 <div class="button-container">
    
     <div *ngIf= "isAddAssocModal" >
-        <form (ngSubmit)="addAssoc($event)" #myForm>
+        <form (ngSubmit)="addAssoc($event)" #editForm>
            <div class="form-group">
              <label for="InputId">ID:</label>
              <br/>
@@ -49,19 +49,36 @@
            <button (click)="closeAddAssocModal()"> close</button>
          </form>
        </div>
-    <div *ngIf="editAssocModal()" class="modal">
-        <div class="modal-content">
-          <button (click)="closeEditAssocModal()">close </button>
-          <h2>Edit Associate</h2>
-          <div class="form-group">
-            <label for="editedName">Name:</label>
-            <br/>
-            <input name="editedName" type="text" id="editedName" placeholder="Edit Name" [(ngModel)]="selectedAssoc.Name" required>
-          </div>
-          <button (click)="saveEditedAssoc()">Save Changes</button>
-        </div>
-      </div>
 </div>
+<div *ngIf="isEditAssocModal">
+  <form (ngSubmit)="editAssoc($event)" #editForm>
+    <div class="form-group">
+      <button (click)="closeEditAssocModal()">close </button>
+      <h2>Edit Associate</h2>
+      <div class="form-group">
+        <label for="editedName">Name:</label>
+        <br/>
+        <input name="EditName" type="text" id="editedName" placeholder="Edit Name" [(ngModel)]="Name" required>
+      </div>
+      <div class="form-group">
+        <label for="editedPass"> Password:</label>
+        <br/>
+        <input name="EditPassword" type="text" id="editedPass" placeholder="Edit Password" [(ngModel)]="Password" required>
+      </div>
+      <div class="form-group">
+        <label for="editedSales"> SalesCommision:</label>
+        <br/>
+        <input name="EditSales" type="text" id="editedSales" placeholder="Edit SalesCommision" [(ngModel)]="SalesCommision" required>
+      </div>
+      <div class="form-group">
+        <label for="editedAddress"> <Address></Address>:</label>
+        <br/>
+        <input name="EditAddress" type="text" id="editedAddress" placeholder="Edit Address" [(ngModel)]="Address" required>
+      </div>
+      <button type="submit">Save Changes</button>
+    </div>
+  </form>
+  </div>
 <table class="main-table">
     <thead>
         <tr>
@@ -80,9 +97,12 @@
             <td>{{rows.Password}}</td>
             <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
             <td>{{rows.Address}}</td>
-            <button (click)="editAssoc($event)"> Edit</button>
-            <button> view</button>
+            <td>
+            <button (click)="editAssocModal(rows)"> Edit</button>
+            </td>
+            <td>
             <button (click)="delAssoc(rows.ID)"> Delete </button>
+            </td>
         </tr>
     </tbody>
 </table>
@@ -128,6 +148,7 @@
 </table>
 <div *ngIf="isViewQuoteModal" class="modal">
   <div class="modal-content">
+    <h1>hi</h1>
     <form (ngSubmit)="viewQuote($event)" #myForm>
     <button (click)="closeViewQuoteModal()">Close</button>
     <h2>View Quote</h2>

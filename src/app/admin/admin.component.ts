@@ -2,6 +2,7 @@ import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/co
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { response } from 'express';
+import { event } from 'jquery';
 
 @Component({
   selector: 'app-admin',
@@ -17,9 +18,14 @@ export class AdminComponent {
   SalesAssoc: any;
   newAssociate: any = {};
   EmpName: any;
-  add: any;
+  EditName: any;
+  EditPassword: any;
+  EditSales: any;
+  EditAddress: any;
+    add: any;
+  edit: any;
   savedAssoc: any;
-  saveEditedAssoc: any;
+  
   isAddAssocModal: boolean = false;
   ID: string= "ID";
   Password: string= "password";
@@ -63,7 +69,8 @@ this.isAddAssocModal = true;
     });
   }
   // Add a new function to open the edit modal
-editAssocModal(): void {
+editAssocModal(selectedRow: any): void {
+  this.selectedAssocForEdit = {...selectedRow};
   this.isEditAssocModal = true;
   // Assign the selected associate to the property
 }
@@ -77,15 +84,48 @@ AssocAction(selectedRow: any): void {
   console.log(selectedRow);
 }
 // Add a new function to handle the edit action
+// In your component
 editAssoc(event: Event): void {
-  // Update the selected associate using the API endpoint or another method
-  this.http.post('https://phpapicsci467.azurewebsites.net/php_script/EditAssoc.php', this.selectedAssocForEdit).subscribe((response: any) => {
-    // Handle the response as needed
-    console.log(response);
-  });
-  // Close the edit modal
-  this.isEditAssocModal = false;
+  console.log('Selected Assoc for Edit:', this.selectedAssocForEdit);
+
+  // Log the selectedAssocForEdit object
+  console.log('Selected Assoc for Edit Object:', JSON.stringify(this.selectedAssocForEdit));
+
+  if (event) {
+    // Handle the "Edit" button click
+    // Update the selected associate using the API endpoint or another method
+    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/EditAssoc.php', this.selectedAssocForEdit, { headers: { 'Content-Type': 'application/json' } }).subscribe((response: any) => {
+      // Handle the response as needed
+      console.log('HTTP Response:', response);
+
+      // Close the edit modal
+      this.isEditAssocModal = false;
+    });
+  } else {
+    // Handle the "Save Changes" button click
+    // Update the selected associate's details directly
+    const index = this.assoc.findIndex(a => a.ID === this.selectedAssocForEdit.ID);
+    if (index !== -1) {
+      // Update the associate details
+      this.assoc[index].Name = this.selectedAssocForEdit.Name;
+      this.assoc[index].Password = this.selectedAssocForEdit.Password;
+      this.assoc[index].SalesCommision = this.selectedAssocForEdit.SalesCommision;
+      this.assoc[index].Address = this.selectedAssocForEdit.Address;
+      // Close the edit modal
+      this.isEditAssocModal = false;
+    } else {
+      console.error('Associate not found for editing.');
+    }
+  }
 }
+
+
+
+
+
+
+
+// Existing methods ...
 ResetAssoc(): void {
   this.FilteredAssoc = this.assoc;
 }
@@ -172,9 +212,10 @@ statusFilter(): void {
     }
   }
   
-  viewQuote(event: Event): void {
+  viewQuote(quoteID: Event): void {
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/ViewQuote.php').subscribe((response: any) => {
       this.selectedQuoteDetails = response;
+      console.log(this.selectedQuoteDetails)
    });
   }
   // Add these properties to your component class
