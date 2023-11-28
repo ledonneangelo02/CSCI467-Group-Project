@@ -177,18 +177,20 @@ export class QuoteeditComponent {
   }
 
 
-  AddNote() : void{
+  AddNote() : void {
     if(this.NoteCounter <= 0){
       this.calculateRunningTotal();
       this.showSecretNote = !this.showSecretNote;
     }
     const newNote = this.formBuilder.group({
+      ID: this.maxLineID,
       SecretNote: '',
       isNew: true,
       isDeleted: false,
     });
     (this.quoteForm.get('SecretNotes') as FormArray).push(newNote);
     this.NoteCounter++;
+    this.maxLineID++;
   }
 
   /* **********************************************
