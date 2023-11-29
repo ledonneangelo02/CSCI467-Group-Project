@@ -1,19 +1,7 @@
 import { Component, Inject, ElementRef, Renderer2, ViewChild, OnInit, createComponent } from '@angular/core';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
-} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
-import {FormsModule} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 @Component({
   selector: 'app-pocreate',
@@ -198,7 +186,7 @@ UpdateDB(assocData:any): void
 {
   this.http.post(this.UpdateAssocUrl, assocData).subscribe({        
     next: (data: any) => {
-      let x = confirm("PO has been processed (" + this.ProcessDate + ")\n Commission of $" + assocData['comAmt'].toFixed(2) + " has been given to: " + assocData['assoc']);
+      let x = confirm("PO has been processed (" + this.ProcessDate + ")\nCommission of $" + assocData['comAmt'].toFixed(2) + " has been given to: " + assocData['assoc']);
 
       if(x){
         location.reload();
