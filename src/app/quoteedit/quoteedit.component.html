@@ -3,37 +3,50 @@
 
     <div class="Customer">
       <h2 class="item">Customer: </h2>
-      <div class="name" *ngFor="let quote of selectedQuote">{{quote.CustName}}</div>
+      <div class="custname-container">
+        <h3>Quote For: {{CustomerName}}</h3>
+    </div>
+    <div class="custinfo-container">
+        <h5>{{CustomerAddyLn1}}</h5>
+        <h5>{{CustomerAddyLn2}}</h5>
+        <h5>{{CustomerContact}}</h5>
+    </div>
+      <div>
+        <label for="email">Email:</label>
+        <input name="email" [(ngModel)]="CustEmail" type="text">
+      </div>
     </div>
 
     <div class = "EntireQuote">
       <form [formGroup]="quoteForm">
         <div formArrayName="rows">
           <div class="row" *ngFor="let control of rowControls; let i = index" [formGroupName]="i">
-            <div class="col col-md-auto">
-              <h4>___</h4>
-              <div class="p-3 border bg-dark">
-                <button (click)="DeleteRow(control['value'])">DELETE</button>
+            <ng-container *ngIf="checkIfDeleted(control['value'])">
+              <div class="col col-md-auto">
+                <h4>___</h4>
+                <div class="p-3 border bg-dark">
+                  <button (click)="DeleteRow(control['value'])">DELETE</button>
+                </div>
               </div>
-            </div>
-            <div class="col col-lg">
-              <h4>Description</h4>
-              <div class="p-3 border bg-dark">
-                <input style="width:100%;" formControlName="Item" type="text">
+              <div class="col col-lg">
+                <h4>Description</h4>
+                <div class="p-3 border bg-dark">
+                  <input style="width:100%;" formControlName="Item" type="text">
+                </div>
               </div>
-            </div>
-            <div class="col col-md-auto">
-              <h4>Qty</h4>
-              <div class="p-3 border bg-dark">
-                <input formControlName="Qty" type="number">
+              <div class="col col-md-auto">
+                <h4>Qty</h4>
+                <div class="p-3 border bg-dark">
+                  <input formControlName="Qty" type="number" (change)="calculateTotal()">
+                </div>
               </div>
-            </div>
-            <div class="col col-md-auto">
-              <h4>Price</h4>
-              <div class="p-3 border bg-dark">
-                <input formControlName="Price" type="number" step="0.01">
+              <div class="col col-md-auto">
+                <h4>Price</h4>
+                <div class="p-3 border bg-dark">
+                  <input formControlName="Price" type="number" step="0.01" (change)="calculateTotal()">
+                </div>
               </div>
-            </div>
+            </ng-container>
           </div>
         </div>
           
@@ -47,19 +60,59 @@
           <h4>Secret Notes: </h4>
           <div formArrayName="SecretNotes">
             <div class="secret-note" *ngFor="let control of SecretNotesControls; let x = index" [formGroupName]="x">
-              <div class="p-3 border bg-dark">
-                <input style="width:100%;" formControlName="SecretNote" type="text">
-              </div>
+              <ng-container *ngIf="checkIfDeleted(control['value'])">
+                <div class="col col-md-auto">
+                  <div class="p-3 border bg-dark secret-delete">
+                    <button (click)="DeleteRow(control['value'])">DELETE</button>
+                    <input style="width:100%;" formControlName="SecretNote" type="text">
+                  </div>
+                </div>
+              </ng-container>
             </div>
           </div>
         </div>
       </form>
     </div>
 
+    <div class="discount">
+      <!--Drop Down Menu-->
+      <select class="item2" [(ngModel)]="DiscountType">
+          <option value="P">Percentage (%)</option>
+          <option value="D">Dollar Amount ($)</option>
+      </select>
+      <!--End of Drop Down-->
+
+      <!--Code below is for Percentage Option-->
+          <ng-container *ngIf="DiscountType == 'P'">
+              <label for="dscnt">Final Discount(%):</label>
+              <input id="dscnt" type="number" step="1" [(ngModel)]="DiscountPercent" max="100" (ngModelChange)="ApplyDiscount()">
+          </ng-container>
+      <!--End of Percentage Option-->
+
+      <!--Code below is for Dollar Option-->
+          <ng-container *ngIf="DiscountType == 'D'">
+              <label for="dscnt">Final Discount($):</label>
+              <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
+          </ng-container>
+      <!--End of Dollar Option-->
+    </div>
+
+    <div>
+      <div>
+        <input type="radio" [(ngModel)]="Status" value="U" />
+        <label for="U">Unsanctioned</label>
+      </div>
+      <div>
+        <input type="radio" [(ngModel)]="Status" value="S"/>
+        <label for="S">Sanctioned</label>
+      </div>
+    </div>
+
     <div class="QuoteButtons">
       <button (click)="addRow()" class="btn btn-primary">Add Row</button>
       <button (click)="AddNote()" class="btn btn-primary">Add Secret Note</button>
-      <button (click)="QuoteFinish()" class="btn btn-primary">Submit Quote</button>
+      <button (click)="CancelEdit()" class="btn btn-primary">Cancel</button>
+      <button (click)="QuoteUpdate()" class="btn btn-primary">Update Quote</button>
     </div>
 
 

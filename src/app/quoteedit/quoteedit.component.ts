@@ -15,15 +15,39 @@ export class QuoteeditComponent {
   selectedID: number = 0;
   selectedQuote: any[] = [];
   selectedQuoteLines: any[] = [];
+  NoteCounter: number = 0;
 
   SelectedVal: any;
   CustName: any;
+  CustID: any;
   EmpName: any;
   savedAssoc: any;
 
+  Customer: any;
+  CustomerName: any;
+  CustomerContact: any;
+  CustomerEmail: any;
+  CustomerAddyLn1: any;
+  CustomerAddyLn2: any;
+
+  //Quote Details
+  Status: any;
+  CustEmail: any;
+
   quoteForm: FormGroup;
   showSecretNote: boolean = false;
-  total: number = 0.0;
+
+  maxLineID: number = 0;
+
+  //Discount and Total Amounts
+  total: any = 0.0;
+  DiscountType: any = 'P';
+  DiscountDollar: number = 0.00;
+  DiscountPercent: number = 0.00;
+  TempTotal: any = 0;
+  DiscountAmount: number = 0.00;
+
+  ChangeCounter: number = 0;
 
   constructor(private http: HttpClient, private router: Router, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) {
   
@@ -48,21 +72,61 @@ export class QuoteeditComponent {
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuote = response;
+
+      this.getQuoteDetails(this.selectedQuote[0]);
+      console.log(this.selectedQuote[0]);
     });
 
     params = params.delete('whereTerm');
+    params = params.delete('whereValue');
+    //params = params.append('whereTerm', "id");
+    //params = params.append('custID', this.CustID);
+
+//    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/pocreate/CustomerInfo.php', {params}).subscribe((response: any) => {
+//      this.selectedCustomer = response;
+
+ //     console.log(this.selectedCustomer);
+ //   });
+
+//    params = params.delete('whereTerm');
+//    params = params.delete('whereValue');
     params = params.append('whereTerm', "QuoteID");
- //   params = params.append('whereValue', this.selectedID);
+    params = params.append('whereValue', this.selectedID);
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLineWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuoteLines = response;
-      console.log(this.selectedQuoteLines);
+//      console.log(this.selectedQuoteLines);
       this.fillRows();
     });
 
-    console.log(history.state);
+//    console.log(history.state);
+  }
+
+  private custURL='https://phpapicsci467.azurewebsites.net/php_script/pocreate/CustomerInfo.php';
+  RetriveCustInfo(CustID: any) : void{
+    const quoteData={custID: CustID}
+    this.http.post(this.custURL,quoteData, {responseType:'json'}).subscribe(
+      response=>{
+        this.Customer = response;
+        console.log(this.Customer);
+        this.CustomerName = this.Customer[0]['name'];
+        this.CustomerAddyLn1 = this.Customer[0]['street'];
+        this.CustomerAddyLn2 = this.Customer[0]['city'];
+        this.CustomerContact = this.Customer[0]['contact'];
+    });
   }
   
+  getQuoteDetails(quotes: any) {
+    //for (let quote of quotes) {
+      this.Status = quotes['Status'];
+      this.CustID = quotes['CustID'];
+      this.CustEmail = quotes['CustEmail'];
+
+      console.log(this.CustID);
+
+      this.RetriveCustInfo(this.CustID);
+    //}
+  }
 
   get rowControls() {
     return (this.quoteForm.get('rows') as FormArray).controls;
@@ -76,12 +140,15 @@ export class QuoteeditComponent {
   /* This function will add another row to the current Quote */
   addRow() {
     const newRow = this.formBuilder.group({
-      ID: '',
+      ID: this.maxLineID,
       Item: '',
       Qty: 0,
       Price: 0.0,
+      isNew: true,
+      isDeleted: false,
     });
-    this.calculateRunningTotal();
+    this.maxLineID++;
+    this.calculateTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
 
@@ -95,8 +162,12 @@ export class QuoteeditComponent {
       {
         this.populateSecretNote(line);
       }
+      this.maxLineID = line['LineID'];
     }
-    this.calculateRunningTotal();
+    this.calculateTotal();
+    this.maxLineID++;
+    //this.addRow();
+    //this.calculateRunningTotal();
   }
 
   populateRow(line: any) {
@@ -105,18 +176,23 @@ export class QuoteeditComponent {
       Item: line['RowDesc'],
       Qty: line['RowQty'],
       Price: line['RowPrice'],
+      isNew: false,
+      isDeleted: false,
     });
     (this.quoteForm.get('rows') as FormArray).push(newRow);
-    this.calculateRunningTotal();
   }
 
   populateSecretNote(line:any) {
     this.showSecretNote = true;
 
     const secretNote = this.formBuilder.group({
-      SecretNote: line['RowDesc']
+      ID: line['LineID'],
+      SecretNote: line['RowDesc'],
+      isNew: false,
+      isDeleted: false,
     });
     (this.quoteForm.get('SecretNotes') as FormArray).push(secretNote);
+    this.NoteCounter++;
   }
 
   private createRow() {
@@ -125,6 +201,8 @@ export class QuoteeditComponent {
       Item: '',
       Qty: 0,
       Price: 0.0,
+      isNew: true,
+      isDeleted: false,
     });
   }
 
@@ -142,15 +220,29 @@ export class QuoteeditComponent {
   }
 
 
-  AddNote() : void{
-    this.showSecretNote = !this.showSecretNote;
+  AddNote() : void {
+    if(this.NoteCounter <= 0){
+      this.calculateTotal();
+      this.showSecretNote = !this.showSecretNote;
+    }
+    const newNote = this.formBuilder.group({
+      ID: this.maxLineID,
+      SecretNote: '',
+      isNew: true,
+      isDeleted: false,
+    });
+    (this.quoteForm.get('SecretNotes') as FormArray).push(newNote);
+    this.NoteCounter++;
+    this.maxLineID++;
   }
 
   /* **********************************************
    * This function will calculate the Quote Total *
    * **********************************************/
-  calculateRunningTotal() {
+  calculateTotal() {
     const rows = this.quoteForm.get('rows') as FormArray;
+
+    this.total = 0;
   
     for (let i = 0; i < rows.length; i++) {
       const row = rows.at(i);
@@ -166,42 +258,93 @@ export class QuoteeditComponent {
         }
       }
     }
-  
-  }
 
-  private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
-  QuoteFinish() : any{
-    if(this.CustName == null && this.SelectedVal == null){
-      alert("No customer selected, please select a customer and try again!");
-    }else{
-      this.calculateRunningTotal();
-      const formData = this.quoteForm.value;
-      const FinalformData = {
-        formData,
-        AssocID: this.savedAssoc,
-        CustID: this.SelectedVal,
-        CustomerName: this.CustName,
-        QuoteTotal: this.total
-      };
-  
-      this.http.post(this.quoteUrl, FinalformData).subscribe({        
-        next: (data: any) => {
-        // Handle the data
-        alert("Quote Submitted!");
-        localStorage.removeItem('CurrentCustomer');
-        localStorage.removeItem('CurrentCustomerName');
-        location.reload();
-        },
-        error: (error) => {
-          console.error('Error saving data', error);
-        }
-      });
+    if ((this.total = this.total - this.DiscountAmount) < 0)
+    {
+      alert("Total is less than 0!");
     }
+  
   }
 
-  DeleteRow(LineID: any): void{
+  checkIfDeleted(line: any): boolean
+  {
+    return line['isDeleted'] == false;
+  }
 
-    console.log(LineID);
+  CancelEdit() {
+    this.router.navigate(['/viewquotes']);
+  }
+
+  private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/updateQuote.php';
+  QuoteUpdate() :any {
+    this.calculateTotal();
+
+    const formData = this.quoteForm.value;
+    const FinalformData = {
+      formData,
+      quoteID: this.selectedID,
+      quoteEmail: this.CustEmail,
+      quoteStatus: this.Status,
+      quoteTotal: this.total,
+    };
+  
+    this.http.post(this.quoteUrl, FinalformData).subscribe({        
+      next: (data: any) => {
+      // Handle the data
+      alert("Quote Updated!");
+      },
+      error: (error) => {
+        console.error('Error saving data', error);
+      }
+    });
+
+    this.router.navigate(['/viewquotes']);
+
+  
+  }
+
+  DeleteRow(line: any): void{
+
+    console.log(line);
+    line['isDeleted'] = true;
+  }
+
+  //Code below is for applying discount when the button is click
+  ApplyDiscount():void
+  {
+    //Check if we have changed the Discount before, so we can reset the Original Total
+    if (this.ChangeCounter < 1)
+    {
+      this.TempTotal = this.total;
+    }
+    else
+    {
+      this.total = this.TempTotal;
+    }
+
+    ++this.ChangeCounter;
+    
+    //Check what kind of Discount we are applying
+    if(this.DiscountType == 'P')
+    {
+      this.DiscountAmount = this.total * (this.DiscountPercent / 100);
+
+      console.log((this.DiscountPercent/100));
+      if(this.total < 0){
+        this.total = this.TempTotal;
+        this.DiscountPercent = 0.0;
+      }
+    }
+    else if(this.DiscountType == 'D')
+    {
+      this.DiscountAmount = this.DiscountDollar;
+      if(this.total < 0){
+        this.DiscountDollar = 0.0;
+        this.total = this.TempTotal;
+      }
+    }
+
+    this.calculateTotal();
   }
 
 
