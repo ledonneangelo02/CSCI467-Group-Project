@@ -22,16 +22,16 @@ export class AdminComponent {
   EditPassword: any;
   EditSales: any;
   EditAddress: any;
-    add: any;
+  add: any;
   edit: any;
   savedAssoc: any;
   
   isAddAssocModal: boolean = false;
-  ID: string= "ID";
-  Password: string= "password";
-  Name: string = "Name";
-  SalesCommision: string = "SalesCommision";
-  Address: string="Address";
+  ID: string= "";
+  Password: string= "";
+  Name: string = "";
+  SalesCommision: string = "";
+  Address: string="";
   searchTerm: string = "";
   selectedAssoc: any;
   searchTerm2: string="";
@@ -47,7 +47,9 @@ export class AdminComponent {
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/AssociateTable.php').subscribe((response:any) => {
       this.assoc= response;
+
       this.FilteredAssoc = this.assoc;
+      console.log(this.assoc);
     });
   
   this.http.get('https://phpapicsci467.azurewebsites.net/php_script/QuoteTable.php').subscribe((response:any) => {
@@ -63,15 +65,35 @@ this.isAddAssocModal = true;
     this.isAddAssocModal = false;
   }
   addAssoc(event:Event): void {
-    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/AddAssociate.php').subscribe((response:any)=> {
+    for(let i=0;i<this.assoc.length;++i){ 
+        if(this.ID===this.assoc[i]['ID']) {
+          alert("this id is in use");
+          this.ID="";
+          location.reload();
+        }
+    }
+    const AddASSOCData = {
+       ID: this.ID,
+       Name: this.Name,
+       Password: this.Password,
+       Address: this.Address
+    }
+    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/AddAssociate.php', AddASSOCData).subscribe((response:any)=> {
     this.add = response;
-    console.log(this.add);
+    location.reload();
+
     });
   }
+
   // Add a new function to open the edit modal
 editAssocModal(selectedRow: any): void {
   this.selectedAssocForEdit = {...selectedRow};
   this.isEditAssocModal = true;
+  this.ID=this.selectedAssocForEdit['ID'];
+  this.Name=this.selectedAssocForEdit['Name'];
+  this.Password=this.selectedAssocForEdit['Password'];
+  this.Address=this.selectedAssocForEdit['Address'];
+  console.log(this.selectedAssocForEdit);
   // Assign the selected associate to the property
 }
 closeEditAssocModal(): void {
@@ -91,33 +113,27 @@ editAssoc(event: Event): void {
   // Log the selectedAssocForEdit object
   console.log('Selected Assoc for Edit Object:', JSON.stringify(this.selectedAssocForEdit));
 
-  if (event) {
+  const FinalAssocData = {
+    ID: this.ID,
+    Name: this.Name,
+    Password: this.Password,
+    Address: this.Address
+  };
     // Handle the "Edit" button click
     // Update the selected associate using the API endpoint or another method
-    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/EditAssoc.php', this.selectedAssocForEdit, { headers: { 'Content-Type': 'application/json' } }).subscribe((response: any) => {
+    console.log(FinalAssocData);
+    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/EditAssoc.php', FinalAssocData, { headers: { 'Content-Type': 'application/json' } }).subscribe((response: any) => {
       // Handle the response as needed
       console.log('HTTP Response:', response);
 
       // Close the edit modal
-      this.isEditAssocModal = false;
+   location.reload();
     });
-  } else {
-    // Handle the "Save Changes" button click
-    // Update the selected associate's details directly
-    const index = this.assoc.findIndex(a => a.ID === this.selectedAssocForEdit.ID);
-    if (index !== -1) {
-      // Update the associate details
-      this.assoc[index].Name = this.selectedAssocForEdit.Name;
-      this.assoc[index].Password = this.selectedAssocForEdit.Password;
-      this.assoc[index].SalesCommision = this.selectedAssocForEdit.SalesCommision;
-      this.assoc[index].Address = this.selectedAssocForEdit.Address;
-      // Close the edit modal
-      this.isEditAssocModal = false;
-    } else {
+    
       console.error('Associate not found for editing.');
-    }
+    
   }
-}
+
 
 
 

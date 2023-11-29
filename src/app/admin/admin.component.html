@@ -36,11 +36,6 @@
              <input name="EmpPass" type="text" id="InputPass" aria-describedby="passHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
            </div>
            <div class="form-group">
-               <label for="InputComm">Sales Commission:</label>
-               <br/>
-               <input name="EmpComm" type="text" id="InputComm" aria-describedby="commHelp" placeholder="Enter SalesCommision" [(ngModel)]="SalesCommision" required>
-           </div>
-           <div class="form-group">
                <label for="InputAddress">Address:</label>
                <br/>
                <input name="EmpAddress" type="text" id="InputAddress" aria-describedby="addressHelp" placeholder="Enter Address" [(ngModel)]="Address" required>
@@ -66,12 +61,7 @@
         <input name="EditPassword" type="text" id="editedPass" placeholder="Edit Password" [(ngModel)]="Password" required>
       </div>
       <div class="form-group">
-        <label for="editedSales"> SalesCommision:</label>
-        <br/>
-        <input name="EditSales" type="text" id="editedSales" placeholder="Edit SalesCommision" [(ngModel)]="SalesCommision" required>
-      </div>
-      <div class="form-group">
-        <label for="editedAddress"> <Address></Address>:</label>
+        <label for="editedAddress"> Address:</label>
         <br/>
         <input name="EditAddress" type="text" id="editedAddress" placeholder="Edit Address" [(ngModel)]="Address" required>
       </div>
