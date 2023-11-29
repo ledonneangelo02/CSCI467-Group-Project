@@ -7,6 +7,21 @@
     .col {
       width: 100%;
     }
+   
+    .SelectCustomer {
+      flex-direction: column; /* Stack elements vertically */
+      justify-content: center; /* Center items vertically */
+      align-items: center; /* Center items horizontally */
+    }
+  
+    /* Optional: Adjust padding or margin for better spacing */
+    .email-container,
+    .select-container {
+      padding: 10px; /* Adjust as needed */
+    }
+    .QuoteTotal{
+      justify-content: center;
+    }
   }
 
   .row:first-child{
@@ -17,6 +32,10 @@
     padding-top: 10px;
     padding-bottom: 15px; 
     width: 100%;
+  }
+
+  .secret-note{
+    margin-top: 20px;
   }
   
   .row:last-child {
@@ -40,16 +59,32 @@ body{
     padding-right: 5%;
 }
 
-.SelectCustomer{
-    display: flex;
-    gap: 3%;
-    padding-bottom: 3%;
+.SelectCustomer {
+  display: flex;
+  justify-content: space-around; /* Adjusts space between the divs */
+  align-items: center; /* Aligns items vertically */
+}
+
+.email-container,
+.select-container {
+  /* Optional: Add padding or margin for spacing */
+  padding: 5px;
+}
+
+.email-container{
+  gap: 40px;
+  padding-bottom: 20px;
+}
+
+/* Adjust widths or specific styling as needed */
+.email-container input{
+  width: 300px;
 }
 
 .Greeting{
     display: flex;
     justify-content: center;
-    margin-bottom: 3%;
+    margin-bottom: 2%;
 }
 
 .QuoteButtons{
@@ -74,4 +109,7 @@ body{
   color: rgb(255, 255, 255);
 }
 
+.email-input{
+  width: 30%;
+}
 

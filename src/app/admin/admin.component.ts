@@ -1,8 +1,14 @@
-import { Component, ElementRef, Renderer2, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild, OnInit, Inject } from '@angular/core';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { response } from 'express';
 import { event } from 'jquery';
+
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
 
 @Component({
   selector: 'app-admin',
@@ -11,13 +17,18 @@ import { event } from 'jquery';
 })
 export class AdminComponent {
   constructor(private http: HttpClient, private router: Router) { }
+  
+  //2D arrays for the 2 tables
   assoc: any[]=[];
   FilteredAssoc: any[] = [];
   quote: any[]=[];
   FilteredQuote: any[] = [];
+  
   SalesAssoc: any;
   newAssociate: any = {};
   EmpName: any;
+  searchTerm: string = "";
+  searchTerm2: string="";
   EditName: any;
   EditPassword: any;
   EditSales: any;
@@ -31,25 +42,25 @@ export class AdminComponent {
   Password: string= "";
   Name: string = "";
   SalesCommision: string = "";
-  Address: string="";
+  Address: string= "";
   searchTerm: string = "";
   selectedAssoc: any;
-  searchTerm2: string="";
   selectedStatus: any;
   selectedAssocForEdit: any ={};
   isEditAssocModal: boolean = false;
-  SelectedAction: string ="";
+  SelectedAction: string = "";
   selectedQuoteDetails: any;
   isViewQuoteModal: boolean  =false;
   quoteID:any;
+
   ngOnInit () {
-//private quoteUrl = 'https://phpapicsci467.azurewebsites.net/php_script/FinalizeQuote.php';
-
+    this.Datacheck();
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/AssociateTable.php').subscribe((response:any) => {
-      this.assoc= response;
-
+      this.assoc = response;
       this.FilteredAssoc = this.assoc;
+      
       console.log(this.assoc);
+
     });
   
   this.http.get('https://phpapicsci467.azurewebsites.net/php_script/QuoteTable.php').subscribe((response:any) => {
@@ -57,9 +68,11 @@ export class AdminComponent {
     this.FilteredQuote = this.quote;
     console.log(this.quote);
   });
+
   }
+  
   addAssociateModal(): void {
-this.isAddAssocModal = true;
+    this.isAddAssocModal = true;
   }
   closeAddAssocModal(): void {
     this.isAddAssocModal = false;
@@ -98,7 +111,8 @@ editAssocModal(selectedRow: any): void {
 }
 closeEditAssocModal(): void {
   this.isEditAssocModal = false;
-}
+
+  
 AssocAction(selectedRow: any): void {
   if(this.SelectedAction === 'Delete'){
   } else if(this.SelectedAction === 'View'){}
@@ -135,12 +149,6 @@ editAssoc(event: Event): void {
   }
 
 
-
-
-
-
-
-
 // Existing methods ...
 ResetAssoc(): void {
   this.FilteredAssoc = this.assoc;
@@ -164,6 +172,14 @@ ResetAssoc(): void {
     }
   }
   // Existing methods ...
+
+
+/*
+ * This Function Will Reset the Assoc Table for the Next Search
+*/
+ResetAssoc(): void{
+  this.FilteredAssoc = this.assoc;
+}
 
 // New method for searching associates
 SearchAssoc(): void {
@@ -189,7 +205,7 @@ SearchAssoc(): void {
     }
     this.FilteredAssoc = FilteredData;
   }
-    
+
 }
 ResetQuote(): void{
   this.FilteredQuote = this.quote;
@@ -204,8 +220,42 @@ statusFilter(): void {
   });
 }
 
+viewAssoc(): void {
 
-// Existing methods ...
+}
+
+ResetQuote(): void{
+  this.FilteredQuote = this.quote;
+}
+
+searchQuote (): void {
+  let FilteredData = [];
+  this.FilteredQuote = this.quote; // Reset to show all data
+  if(this.searchTerm2 === ""){
+    this.FilteredQuote = this.quote; // Reset to show all data
+  }else{
+    for(let i = 0; i < this.quote.length; ++i){
+      let row = this.quote[i];
+      for(const key in row){
+        let MatchedRow = row;
+        if(row[key].toLowerCase().includes(this.searchTerm2.toLowerCase())){
+          console.log(row);
+          FilteredData.push(MatchedRow);
+          break;
+        }
+      
+      }
+    }
+    this.FilteredQuote = FilteredData;
+  }
+}
+
+
+viewQuote(): void {
+
+}
+
+Datacheck(): void{
   searchQuote (): void {
     let FilteredData = [];
     this.FilteredQuote = this.quote; // Reset to show all data

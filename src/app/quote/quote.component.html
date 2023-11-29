@@ -1,14 +1,20 @@
 <html>
   <body>
     <div class="Greeting">
-      <h1>Hello {{ EmpName }}!</h1>
+      <h2>Hello {{ EmpName }}!</h2>
     </div>
     <div class="SelectCustomer">
-      <h3 class="item">Select A Customer:</h3>
-      <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveCustomer()">
-        <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
-        <option *ngFor="let option of selectOptions" [value]="option.id" >{{ option.name }} </option>
-      </select>
+      <div class="select-container">
+        <h4 class="item">Select A Customer:</h4>
+        <select class="item2" [(ngModel)]="SelectedVal" (ngModelChange)="RetriveCustomer()">
+          <option [ngValue]="undefined" disabled hidden>Select a Customer</option>
+          <option *ngFor="let option of selectOptions" [value]="option.id" >{{ option.name }} </option>
+        </select>
+      </div>
+      <div class="email-container">
+        <h4>Customer Email:</h4>
+        <input class="email-input" type="text" id="cust-email" [(ngModel)]="CustEmail" placeholder="Customer Email">
+      </div>
     </div>
 
     <div class = "EntireQuote">
@@ -43,10 +49,13 @@
           </div>
         </div>
         <div class="secretSection" *ngIf="showSecretNote">
-          <hr style="border-width:10px; background-color:rgb(0,0,0)">
-          <h4>Secret Note</h4>
-          <div class="p-3 border bg-dark">
-            <input style="width:100%;" formControlName="SecretNote" type="text">
+          <h4>Secret Notes: </h4>
+          <div formArrayName="SecretNotes">
+            <div class="secret-note" *ngFor="let control of SecretNotesControls; let x = index" [formGroupName]="x">
+              <div class="p-3 border bg-dark">
+                <input style="width:100%;" formControlName="SecretNote" type="text">
+              </div>
+            </div>
           </div>
         </div>
       </form>

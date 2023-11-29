@@ -20,6 +20,16 @@ body{
     justify-content: center;
 }
 
+.buttons{
+    padding: 5px;
+    border-radius: 10%;
+}
+
+.buttons:hover{
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+}
+
 
 #subButton{
     margin-top: 10px;
