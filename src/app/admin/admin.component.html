@@ -1,30 +1,33 @@
 <html>
-  <body>               
-    <div class = "header-container">
-      <h1> Sales Associates</h1>
-      <h1>Quotes & Purchase Orders</h1>
-    </div> 
-    <div class = "search-container">
-      <div>
-          <input (ngModelChange)="ResetAssoc()" type="text" placeholder="Search Associates" [(ngModel)]="searchTerm">
-          <button (click)="SearchAssoc()" class="buttons">Search</button>
-          <button class="buttons" (click)="addAssociateModal()">Add</button>
-      </div>
-      <div>
-          <input (ngModelChange)="ResetQuote()" type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
-          <button class="buttons" (click)="searchQuote()"> Search</button>
-          <select [(ngModel)]="selectedStatus" (change)="statusFilter()">
-            <option [ngValue]="undefined" disabled hidden>Select Status</option>
-            <option value="F">Finalized</option>
-            <option value="U">Unsanctioned</option>
-            <option value="S">Sanctioned</option>
-            <option value="O">Order Created</option>
-          </select>
-          <button (click)="statusFilter()"> Filter</button>
-      </div>
-    </div> 
-    <div class="button-container">
-      
+  <body>
+    <ng-container *ngIf="isMainScreen">
+      <div class = "header-container">
+        <h1> Sales Associates</h1>
+        <h1>Quotes & Purchase Orders</h1>
+      </div> 
+      <div class = "search-container">
+        <div>
+            <input (ngModelChange)="ResetAssoc()" type="text" placeholder="Search Associates" [(ngModel)]="searchTerm">
+            <button (click)="SearchAssoc()" class="buttons">Search</button>
+            <button class="buttons" (click)="addAssociateModal()">Add</button>
+        </div>
+        <div>
+            <input (ngModelChange)="ResetQuote()" type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
+            <button class="buttons" (click)="searchQuote()"> Search</button>
+            <select [(ngModel)]="selectedStatus" (change)="statusFilter()">
+              <option [ngValue]="undefined" disabled hidden>Select Status</option>
+              <option value="F">Finalized</option>
+              <option value="U">Unsanctioned</option>
+              <option value="S">Sanctioned</option>
+              <option value="O">Order Created</option>
+              <option value="A">Show All</option>
+            </select>
+            <button (click)="statusFilter()">Filter</button>
+        </div>
+      </div> 
+    </ng-container>  
+
+    <div class="button-container">  
         <div *ngIf= "isAddAssocModal" >
             <form (ngSubmit)="addAssoc($event)" #editForm>
               <div class="form-group">
@@ -47,15 +50,15 @@
                   <br/>
                   <input name="EmpAddress" type="text" id="InputAddress" aria-describedby="addressHelp" placeholder="Enter Address" [(ngModel)]="Address" required>
               </div>
-              <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
-              <button (click)="closeAddAssocModal()"> close</button>
+              <button type="submit" id="subButton" class="buttons">Submit</button>
+              <button (click)="closeAddAssocModal()" class="buttons"> close</button>
             </form>
           </div>
     </div>
     <div *ngIf="isEditAssocModal">
-      <form (ngSubmit)="editAssoc($event)" #editForm>
+      <form (ngSubmit)="editAssoc()" #editForm>
         <div class="form-group">
-          <button (click)="closeEditAssocModal()">close </button>
+          <button (click)="closeEditAssocModal()">close</button>
           <h2>Edit Associate</h2>
           <div class="form-group">
             <label for="editedName">Name:</label>
@@ -72,89 +75,118 @@
             <br/>
             <input name="EditAddress" type="text" id="editedAddress" placeholder="Edit Address" [(ngModel)]="Address" required>
           </div>
-          <button type="submit">Save Changes</button>
+          <button type="submit" class="buttons">Save Changes</button>
         </div>
       </form>
+      <button (click)="delAssoc()">Delete Associate</button>
     </div>
 
-    <div class="table-container">
-      <table class="main-table">
-          <thead>
-              <tr>
-                  <td>ID</td>
-                  <td>Name</td>
-                  <td>Password</td>
-                  <td> Sales Commission</td>
-                  <td> Address</td>
-                  <td> </td>
-              </tr>
-          </thead>
-          <tbody id="myTable">
-              <tr *ngFor="let rows of FilteredAssoc">
-                  <td>{{rows.ID}}</td>
-                  <td>{{rows.Name}}</td>
-                  <td>{{rows.Password}}</td>
-                  <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
-                  <td>{{rows.Address}}</td>
-                  <td>
-                  <button (click)="editAssocModal(rows)"> Edit</button>
-                  </td>
-                  <td>
-                  <button (click)="delAssoc(rows.ID)"> Delete </button>
-                  </td>
-              </tr>
-          </tbody>
-      </table>   
+    <ng-container *ngIf="isMainScreen">
+      <div class="table-container">
+        <table class="assoc-table">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Name</td>
+                    <td>Password</td>
+                    <td> Sales Commission</td>
+                    <td> Address</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="Assoc-Rows" *ngFor="let rows of FilteredAssoc" (click)="editAssocModal(rows)">
+                    <td>{{rows.ID}}</td>
+                    <td>{{rows.Name}}</td>
+                    <td>{{rows.Password}}</td>
+                    <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
+                    <td>{{rows.Address}}</td>
+                </tr>
+            </tbody>
+        </table>   
 
-      <table class="main-table">
-          <thead>
-              <tr>
-                  <td>ID</td>
-                  <td>AssocID</td>
-                  <td>CustID</td>
-                  <td>Customer Name</td>
-                  <td> QuoteDate</td>
-                  <td> Status</td>
-                  <td> Total</td>
-                  <td> Discount</td>
-              </tr>
-          </thead>
-          <tbody id="myTable">
-              <tr *ngFor="let rows of FilteredQuote">
-                
-                  <td>{{rows.ID}}</td>
-                  <td>{{rows.AssocID}}</td>
-                  <td>{{rows.CustID}}</td>
-                  <td>{{rows.CustName}}</td>
-                  <td>{{rows.QuoteDate}}</td>
-                  <td>{{rows.Status}}</td>
-                  <td>{{rows.Total}}</td>
-                  <td>{{rows.Discount}}</td>
-                  <td>
-                    <button class="buttons" (click)="ViewQuoteModal()">View</button>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
-    </div>
+        <table class="q-table">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>AssocID</td>
+                    <td>CustID</td>
+                    <td>Customer Name</td>
+                    <td> QuoteDate</td>
+                    <td> Status</td>
+                    <td> Total</td>
+                    <td> Discount</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="Quote-Rows" *ngFor="let rows of FilteredQuote" (click)="viewQuote(rows.ID, rows.Total)" >
+                    <td>{{rows.ID}}</td>
+                    <td>{{rows.AssocID}}</td>
+                    <td>{{rows.CustID}}</td>
+                    <td>{{rows.CustName}}</td>
+                    <td>{{rows.QuoteDate}}</td>
+                    <td>{{rows.Status}}</td>
+                    <td>{{rows.Total}}</td>
+                    <td>{{rows.Discount}}</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+    </ng-container>
 
-    <div *ngIf="isViewQuoteModal" class="modal">
+    <div *ngIf="isViewQuoteModal">
+      <button class="buttons" (click)="closeViewQuoteModal()">Return to Home</button>
       <div class="modal-content">
-        <h1>hi</h1>
-        <form (ngSubmit)="viewQuote($event)" #myForm>
-        <button (click)="closeViewQuoteModal()">Close</button>
-        <h2>View Quote</h2>
-        <div class="form-group">
-          <label for="viewQuoteID">ID:</label>
-          <br/>
-          <input name="viewQuoteID" type="text" id="viewQuoteID" [(ngModel)]="selectedQuote.ID" readonly>
+            <!--Code below is  for table-->
+            <table class="main-table">
+              <!--Table Header-->
+              <thead>
+                  <tr>
+                      <td>Description</td>
+                      <td>Quantity</td>
+                      <td>Price</td>
+                  </tr>
+              </thead>
+              <!--End of Table Header-->
+
+              <!--Table Body Contents-->
+              <tbody id="myTable">
+                  <tr *ngFor="let rows of selectedQuoteDetails">
+                      <ng-container *ngIf="rows.SecretFlag == 'N'">
+                      <td>{{rows.RowDesc}}</td>
+                      <td>{{rows.RowQty}}</td>
+                      <td>{{rows.RowPrice}}</td>
+                  </ng-container>
+                  </tr>
+              </tbody>
+              <!--End of Table Body Contents-->
+
+          <!--Table footer Secret Message-->
+          <tfoot class="tFooter">
+              <tr *ngFor="let rows of selectedQuoteDetails" >
+                  <ng-container *ngIf="rows.SecretFlag == 'Y'">
+                  <td>{{rows.RowDesc}}</td>
+                  </ng-container>
+              </tr>
+          </tfoot>
+          <tfoot class="tFooter2">
+              <tr class="note">
+                  <td class="secretLabel" colspan="3">
+                      Secret Message:
+                  </td>
+                  <td></td>
+                  <td></td>
+              </tr>
+          </tfoot>
+          <!--End of Table footer Secret Message-->
+        </table>
+        <!--Prints out Total Price-->
+        <div class="row justify-content-center">           
+          <div class="QuoteTotal col-auto">
+              <h4>Total:</h4>
+              <h5>${{ total | number: '1.2-2'}}</h5>
+          </div>  
         </div>
-        <div class="form-group">
-          <label for="viewQuoteAssocID">AssocID:</label>
-          <br/>
-          <input name="viewQuoteAssocID" type="text" id="viewQuoteAssocID" [(ngModel)]="selectedQuote.AssocID" readonly>
-        </div>
-          </form>
+  
       </div>
     </div>
   </body>
