@@ -73,8 +73,8 @@ export class QuoteeditComponent {
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuote = response;
 
-      this.getQuoteDetails(this.selectedQuote);
-      console.log(this.selectedQuote);
+      this.getQuoteDetails(this.selectedQuote[0]);
+      console.log(this.selectedQuote[0]);
     });
 
     params = params.delete('whereTerm');
@@ -87,8 +87,6 @@ export class QuoteeditComponent {
 
  //     console.log(this.selectedCustomer);
  //   });
-    console.log(this.CustID);
-    this.RetriveCustInfo(this.CustID);
 
 //    params = params.delete('whereTerm');
 //    params = params.delete('whereValue');
@@ -119,11 +117,15 @@ export class QuoteeditComponent {
   }
   
   getQuoteDetails(quotes: any) {
-    for (let quote of quotes) {
-      this.Status = quote['Status'];
-      this.CustID = quote[0]['CustID'];
-      this.CustEmail = quote['CustEmail'];
-    }
+    //for (let quote of quotes) {
+      this.Status = quotes['Status'];
+      this.CustID = quotes['CustID'];
+      this.CustEmail = quotes['CustEmail'];
+
+      console.log(this.CustID);
+
+      this.RetriveCustInfo(this.CustID);
+    //}
   }
 
   get rowControls() {

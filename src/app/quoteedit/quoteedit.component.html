@@ -3,13 +3,14 @@
 
     <div class="Customer">
       <h2 class="item">Customer: </h2>
-      <div class="custdetails">
-        <!--
-        <div [(ngModel)]="CustomerName"></div>
-        <div [(ngModel)]="CustomerAddyLn1"></div>
-        <div [(ngModel)]="CustomerAddyLn2"></div>
-        <div [(ngModel)]="CustomerContact"></div>-->
-      </div>
+      <div class="custname-container">
+        <h3>Quote For: {{CustomerName}}</h3>
+    </div>
+    <div class="custinfo-container">
+        <h5>{{CustomerAddyLn1}}</h5>
+        <h5>{{CustomerAddyLn2}}</h5>
+        <h5>{{CustomerContact}}</h5>
+    </div>
       <div>
         <label for="email">Email:</label>
         <input name="email" [(ngModel)]="CustEmail" type="text">
