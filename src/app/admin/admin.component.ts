@@ -3,6 +3,7 @@ import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { response } from 'express';
 import { event } from 'jquery';
+import * as e from 'express';
 
 
 export interface DialogData {
@@ -38,6 +39,8 @@ export class AdminComponent {
   savedAssoc: any;
   
   isAddAssocModal: boolean = false;
+  isMainScreen: boolean = true;
+
   ID: string= "";
   Password: string= "";
   Name: string = "";
@@ -49,6 +52,7 @@ export class AdminComponent {
   isEditAssocModal: boolean = false;
   SelectedAction: string = "";
   selectedQuoteDetails: any;
+  total: any;
   isViewQuoteModal: boolean  =false;
   quoteID:any;
 
@@ -72,9 +76,11 @@ export class AdminComponent {
   
   addAssociateModal(): void {
     this.isAddAssocModal = true;
+    this.isMainScreen = false;
   }
   closeAddAssocModal(): void {
     this.isAddAssocModal = false;
+    this.isMainScreen = true;
   }
   addAssoc(event:Event): void {
     for(let i=0;i<this.assoc.length;++i){ 
@@ -100,16 +106,18 @@ export class AdminComponent {
   // Add a new function to open the edit modal
 editAssocModal(selectedRow: any): void {
   this.selectedAssocForEdit = {...selectedRow};
+  
   this.isEditAssocModal = true;
+  this.isMainScreen = false;
+
   this.ID=this.selectedAssocForEdit['ID'];
   this.Name=this.selectedAssocForEdit['Name'];
   this.Password=this.selectedAssocForEdit['Password'];
   this.Address=this.selectedAssocForEdit['Address'];
-  console.log(this.selectedAssocForEdit);
-  // Assign the selected associate to the property
 }
 closeEditAssocModal(): void {
   this.isEditAssocModal = false;
+  this.isMainScreen = true;
 }
   
 AssocAction(selectedRow: any): void {
@@ -120,11 +128,7 @@ AssocAction(selectedRow: any): void {
 }
 // Add a new function to handle the edit action
 // In your component
-editAssoc(event: Event): void {
-  console.log('Selected Assoc for Edit:', this.selectedAssocForEdit);
-
-  // Log the selectedAssocForEdit object
-  console.log('Selected Assoc for Edit Object:', JSON.stringify(this.selectedAssocForEdit));
+editAssoc(): void {
 
   const FinalAssocData = {
     ID: this.ID,
@@ -139,12 +143,8 @@ editAssoc(event: Event): void {
       // Handle the response as needed
       console.log('HTTP Response:', response);
 
-      // Close the edit modal
-   location.reload();
-    });
-    
-      console.error('Associate not found for editing.');
-    
+      location.reload();
+    });   
   }
 
 
@@ -155,24 +155,21 @@ ResetAssoc(): void {
   this.FilteredAssoc = this.assoc;
 }
   
+
 deleteAssocUrl="https://phpapicsci467.azurewebsites.net/php_script/deleteAssociate.php";
-
-delAssoc(id: string): void {
-
+delAssoc(): void {
+  const id = this.ID;
   const confirmation = confirm('Are you sure you want to delete this associate?');
   if (confirmation) {
-      // Call your delete API endpoint with the specific ID
-      this.http.post('https://phpapicsci467.azurewebsites.net/php_script/deleteAssociate.php', { id }).subscribe((response: any) => {
-          if (response.success) {
-              // Update your assoc array or refresh the data
-              // For example, you can call your API endpoint to get the updated data
-              this.http.get('https://phpapicsci467.azurewebsites.net/php_script/AssociateTable.php').subscribe((updatedResponse: any) => {
-                 this.assoc = updatedResponse;
-              });
-            }else {  
-              alert('Error deleting associate: ' + response.message);
-            }
-      });
+    // Call your delete API endpoint with the specific ID  
+    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/deleteAssociate.php', { id }).subscribe((response: any) => {    
+      if (response.success) {
+        location.reload();   
+      }else {        
+        alert('Error deleting associate: ' + response.message);      
+      }
+      
+    });
   }
 }
 
@@ -180,7 +177,6 @@ delAssoc(id: string): void {
 
 // New method for searching associates
 SearchAssoc(): void {
-    
   let FilteredData = [];
   this.FilteredAssoc = this.assoc; // Reset to show all data
   if(this.searchTerm === ""){
@@ -218,9 +214,13 @@ statusFilter(): void {
   const url = 'https://phpapicsci467.azurewebsites.net/php_script/StatusFilter.php';
   const params = { status: this.selectedStatus };
 
-  this.http.post(url, params).subscribe((response: any) => {
-    this.quote = response;
-  });
+  if(this.selectedStatus == 'A'){
+    this.ResetQuote();
+  }else{
+    this.http.post(url, params).subscribe((response: any) => {
+      this.FilteredQuote = response;
+    });
+  }
 }
 
 /*
@@ -255,22 +255,23 @@ searchQuote (): void {
 
  
 
-viewQuote(quoteID: Event): void {
-
-  this.http.get('https://phpapicsci467.azurewebsites.net/php_script/ViewQuote.php').subscribe((response: any) => {
+viewQuote(rowID: any, Total: any): void {
+  this.isViewQuoteModal = true;
+  this.isMainScreen = false;
+  const quoteData = {
+    quoteID: rowID
+  }
+  this.http.post('https://phpapicsci467.azurewebsites.net/php_script/ViewQuote.php', quoteData).subscribe((response: any) => {
     this.selectedQuoteDetails = response;
-    console.log(this.selectedQuoteDetails)
+    this.total = Total;
   });
 }
 
-// Add these properties to your component class
-selectedQuote: any = []; // This will hold the details of the selected quote
-ViewQuoteModal(): void {
-  this.isViewQuoteModal =true;
-}
+
 closeViewQuoteModal(): void {
   // Close the view quote modal
   this.isViewQuoteModal = false;
+  this.isMainScreen = true;
 }
 
 Datacheck(): void{
