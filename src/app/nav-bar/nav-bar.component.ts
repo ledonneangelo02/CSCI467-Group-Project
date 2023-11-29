@@ -20,7 +20,7 @@ export class NavbarComponent{
         // Check if the current route is the home component
         this.isHomeComponent = event.url === '/';
         this.isSalesAssoc = event.url ==='/quote';
-        this.isManagerPageOne = event.url === '/quoteedit'
+        this.isManagerPageOne = event.url === '/viewquotes'
         this.isManagerPageTwo = event.url === '/pocreate'
       }
     });

@@ -42,4 +42,6 @@ body{
 
 }
 
-
+.secret-delete {
+    display: flex;
+}

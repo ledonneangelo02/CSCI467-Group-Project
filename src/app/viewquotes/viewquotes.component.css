@@ -11,6 +11,10 @@ body{
     align-content: space-between;
 }
 
+.quote:hover{
+    cursor: pointer;
+}
+
 .search input {
     border: 0;
     outline: 0;
