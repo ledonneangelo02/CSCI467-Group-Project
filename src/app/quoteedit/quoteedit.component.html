@@ -3,7 +3,16 @@
 
     <div class="Customer">
       <h2 class="item">Customer: </h2>
-      <div class="name" *ngFor="let quote of selectedQuote">{{quote.CustName}}</div>
+      <div class="customer" *ngFor="let customer of selectedCustomer">
+        <div>{{customer.name}}</div>
+        <div>{{customer.city}}</div>
+        <div>{{customer.street}}</div>
+        <div>{{customer.contact}}</div>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input name="email" [(ngModel)]="CustEmail" type="text">
+      </div>
     </div>
 
     <div class = "EntireQuote">

@@ -14,11 +14,13 @@ export class QuoteeditComponent {
   responseFromPHP: any;
   selectedID: number = 0;
   selectedQuote: any[] = [];
+  selectedCustomer: any[] = [];
   selectedQuoteLines: any[] = [];
   NoteCounter: number = 0;
 
   SelectedVal: any;
   CustName: any;
+  CustID: number = 0;
   EmpName: any;
   savedAssoc: any;
 
@@ -69,8 +71,20 @@ export class QuoteeditComponent {
     });
 
     params = params.delete('whereTerm');
+    params = params.delete('whereValue');
+    params = params.append('whereTerm', "id");
+    params = params.append('whereValue', this.CustID);
+
+    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/CustomersWhere.php', {params}).subscribe((response: any) => {
+      this.selectedCustomer = response;
+
+      console.log(this.selectedCustomer);
+    });
+
+    params = params.delete('whereTerm');
+    params = params.delete('whereValue');
     params = params.append('whereTerm', "QuoteID");
- //   params = params.append('whereValue', this.selectedID);
+    params = params.append('whereValue', this.selectedID);
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLineWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuoteLines = response;
@@ -84,6 +98,8 @@ export class QuoteeditComponent {
   getQuoteDetails(quotes: any) {
     for (let quote of quotes) {
       this.Status = quote['Status'];
+      this.CustID = quote['CustID'];
+      this.CustEmail = quote['CustEmail'];
     }
   }
 
@@ -242,6 +258,7 @@ export class QuoteeditComponent {
     const FinalformData = {
       formData,
       quoteID: this.selectedID,
+      quoteEmail: this.CustEmail,
       quoteStatus: this.Status,
       quoteTotal: this.total,
     };
