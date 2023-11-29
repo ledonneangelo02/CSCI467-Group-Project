@@ -1,9 +1,8 @@
                  
-<h1> Sales Associates</h1>
-<h1 id="quote-header">Quotes & Purchase Orders</h1>
-<div class = "assocnav">
-    <a class="active" href="admin.component.css"></a>
-    <script src="admin.component.ts"></script>
+
+<div class = "header-container">
+  <h1> Sales Associates</h1>
+  <h1>Quotes & Purchase Orders</h1>
 </div> 
 <div class = "search-container">
   <div>
@@ -14,6 +13,13 @@
   <div>
       <input (ngModelChange)="ResetQuote()" type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
       <button class="buttons" (click)="searchQuote()"> Search</button>
+      <select [(ngModel)]="selectedStatus" (change)="statusFilter()">
+        <option value="F">Finalized</option>
+        <option value="U">Unsanctioned</option>
+        <option value="S">Sanctioned</option>
+        <option value="O">Order Created</option>
+      </select>
+      <button (click)="statusFilter()"> Filter</button>
   </div>
 </div> 
 <div class="button-container">
@@ -68,74 +74,68 @@
       <button type="submit">Save Changes</button>
     </div>
   </form>
-  </div>
-<table class="main-table">
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Password</td>
-            <td> Sales Commission</td>
-            <td> Address</td>
-            <td> </td>
-        </tr>
-    </thead>
-    <tbody id="myTable">
-        <tr *ngFor="let rows of FilteredAssoc">
-            <td>{{rows.ID}}</td>
-            <td>{{rows.Name}}</td>
-            <td>{{rows.Password}}</td>
-            <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
-            <td>{{rows.Address}}</td>
-            <td>
-            <button (click)="editAssocModal(rows)"> Edit</button>
-            </td>
-            <td>
-            <button (click)="delAssoc(rows.ID)"> Delete </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<h2> Current Quotes and status</h2>
-<select [(ngModel)]="selectedStatus" (change)="statusFilter()">
-    <option value="F">Finalized</option>
-    <option value="U">Unsanctioned</option>
-    <option value="S">Sanctioned</option>
-    <option value="O">Order Created</option>
-  </select>
-  <button (click)="statusFilter()"> Filter</button>
-  
+</div>
 
-<table class="main-table">
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>AssocID</td>
-            <td>CustID</td>
-            <td>Customer Name</td>
-            <td> QuoteDate</td>
-            <td> Status</td>
-            <td> Total</td>
-            <td> Discount</td>
-        </tr>
-    </thead>
-    <tbody id="myTable">
-        <tr *ngFor="let rows of FilteredQuote">
-          
-            <td>{{rows.ID}}</td>
-            <td>{{rows.AssocID}}</td>
-            <td>{{rows.CustID}}</td>
-            <td>{{rows.CustName}}</td>
-            <td>{{rows.QuoteDate}}</td>
-            <td>{{rows.Status}}</td>
-            <td>{{rows.Total}}</td>
-            <td>{{rows.Discount}}</td>
-            <td>
-              <button class="buttons" (click)="ViewQuoteModal()">View</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="table-container">
+  <table class="main-table">
+      <thead>
+          <tr>
+              <td>ID</td>
+              <td>Name</td>
+              <td>Password</td>
+              <td> Sales Commission</td>
+              <td> Address</td>
+              <td> </td>
+          </tr>
+      </thead>
+      <tbody id="myTable">
+          <tr *ngFor="let rows of FilteredAssoc">
+              <td>{{rows.ID}}</td>
+              <td>{{rows.Name}}</td>
+              <td>{{rows.Password}}</td>
+              <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
+              <td>{{rows.Address}}</td>
+              <td>
+              <button (click)="editAssocModal(rows)"> Edit</button>
+              </td>
+              <td>
+              <button (click)="delAssoc(rows.ID)"> Delete </button>
+              </td>
+          </tr>
+      </tbody>
+  </table>   
+
+  <table class="main-table">
+      <thead>
+          <tr>
+              <td>ID</td>
+              <td>AssocID</td>
+              <td>CustID</td>
+              <td>Customer Name</td>
+              <td> QuoteDate</td>
+              <td> Status</td>
+              <td> Total</td>
+              <td> Discount</td>
+          </tr>
+      </thead>
+      <tbody id="myTable">
+          <tr *ngFor="let rows of FilteredQuote">
+            
+              <td>{{rows.ID}}</td>
+              <td>{{rows.AssocID}}</td>
+              <td>{{rows.CustID}}</td>
+              <td>{{rows.CustName}}</td>
+              <td>{{rows.QuoteDate}}</td>
+              <td>{{rows.Status}}</td>
+              <td>{{rows.Total}}</td>
+              <td>{{rows.Discount}}</td>
+              <td>
+                <button class="buttons" (click)="ViewQuoteModal()">View</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
 <div *ngIf="isViewQuoteModal" class="modal">
   <div class="modal-content">
     <h1>hi</h1>
