@@ -139,3 +139,18 @@ select{
     display: flex;
     gap: 20px;
 }
+
+.buttons{
+    padding: 5px;
+    border-radius: 10%;
+}
+
+.buttons:hover{
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+}
+
+.anotherOne{
+    float: right;
+    margin-top: 55px;
+}
