@@ -14,15 +14,21 @@ export class QuoteeditComponent {
   responseFromPHP: any;
   selectedID: number = 0;
   selectedQuote: any[] = [];
-  selectedCustomer: any[] = [];
   selectedQuoteLines: any[] = [];
   NoteCounter: number = 0;
 
   SelectedVal: any;
   CustName: any;
-  CustID: number = 0;
+  CustID: any;
   EmpName: any;
   savedAssoc: any;
+
+  Customer: any;
+  CustomerName: any;
+  CustomerContact: any;
+  CustomerEmail: any;
+  CustomerAddyLn1: any;
+  CustomerAddyLn2: any;
 
   //Quote Details
   Status: any;
@@ -68,37 +74,54 @@ export class QuoteeditComponent {
       this.selectedQuote = response;
 
       this.getQuoteDetails(this.selectedQuote);
+      console.log(this.selectedQuote);
     });
 
     params = params.delete('whereTerm');
     params = params.delete('whereValue');
-    params = params.append('whereTerm', "id");
-    params = params.append('whereValue', this.CustID);
+    //params = params.append('whereTerm', "id");
+    //params = params.append('custID', this.CustID);
 
-    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/CustomersWhere.php', {params}).subscribe((response: any) => {
-      this.selectedCustomer = response;
+//    this.http.get('https://phpapicsci467.azurewebsites.net/php_script/pocreate/CustomerInfo.php', {params}).subscribe((response: any) => {
+//      this.selectedCustomer = response;
 
-      console.log(this.selectedCustomer);
-    });
+ //     console.log(this.selectedCustomer);
+ //   });
+    console.log(this.CustID);
+    this.RetriveCustInfo(this.CustID);
 
-    params = params.delete('whereTerm');
-    params = params.delete('whereValue');
+//    params = params.delete('whereTerm');
+//    params = params.delete('whereValue');
     params = params.append('whereTerm', "QuoteID");
     params = params.append('whereValue', this.selectedID);
 
     this.http.get('https://phpapicsci467.azurewebsites.net/php_script/selectQuoteLineWhere.php', {params}).subscribe((response: any) => {
       this.selectedQuoteLines = response;
-      console.log(this.selectedQuoteLines);
+//      console.log(this.selectedQuoteLines);
       this.fillRows();
     });
 
-    console.log(history.state);
+//    console.log(history.state);
+  }
+
+  private custURL='https://phpapicsci467.azurewebsites.net/php_script/pocreate/CustomerInfo.php';
+  RetriveCustInfo(CustID: any) : void{
+    const quoteData={custID: CustID}
+    this.http.post(this.custURL,quoteData, {responseType:'json'}).subscribe(
+      response=>{
+        this.Customer = response;
+        console.log(this.Customer);
+        this.CustomerName = this.Customer[0]['name'];
+        this.CustomerAddyLn1 = this.Customer[0]['street'];
+        this.CustomerAddyLn2 = this.Customer[0]['city'];
+        this.CustomerContact = this.Customer[0]['contact'];
+    });
   }
   
   getQuoteDetails(quotes: any) {
     for (let quote of quotes) {
       this.Status = quote['Status'];
-      this.CustID = quote['CustID'];
+      this.CustID = quote[0]['CustID'];
       this.CustEmail = quote['CustEmail'];
     }
   }
@@ -122,7 +145,7 @@ export class QuoteeditComponent {
       isNew: true,
       isDeleted: false,
     });
-    this.maxLineID;
+    this.maxLineID++;
     this.calculateTotal();
     (this.quoteForm.get('rows') as FormArray).push(newRow);
   }
