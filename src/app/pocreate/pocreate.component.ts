@@ -186,7 +186,7 @@ UpdateDB(assocData:any): void
 {
   this.http.post(this.UpdateAssocUrl, assocData).subscribe({        
     next: (data: any) => {
-      let x = confirm("PO has been processed (" + this.ProcessDate + ")\n Commission of $" + assocData['comAmt'].toFixed(2) + " has been given to: " + assocData['assoc']);
+      let x = confirm("PO has been processed (" + this.ProcessDate + ")\nCommission of $" + assocData['comAmt'].toFixed(2) + " has been given to: " + assocData['assoc']);
 
       if(x){
         location.reload();
