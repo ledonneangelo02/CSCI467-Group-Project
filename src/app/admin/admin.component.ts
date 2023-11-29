@@ -285,7 +285,7 @@ Datacheck(): void{
       this.savedAssoc = JSON.parse(savedAssoc);
       console.log(savedAssoc);
     }else{
-      //this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/');
       setTimeout(function(){
         alert("Error: User not found, please Login");
       }, 200);

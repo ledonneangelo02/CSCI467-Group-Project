@@ -1,157 +1,161 @@
-                 
-
-<div class = "header-container">
-  <h1> Sales Associates</h1>
-  <h1>Quotes & Purchase Orders</h1>
-</div> 
-<div class = "search-container">
-  <div>
-      <input (ngModelChange)="ResetAssoc()" type="text" placeholder="Search Associates" [(ngModel)]="searchTerm">
-      <button (click)="SearchAssoc()" class="buttons">Search</button>
-      <button class="buttons" (click)="addAssociateModal()">Add</button>
-  </div>
-  <div>
-      <input (ngModelChange)="ResetQuote()" type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
-      <button class="buttons" (click)="searchQuote()"> Search</button>
-      <select [(ngModel)]="selectedStatus" (change)="statusFilter()">
-        <option value="F">Finalized</option>
-        <option value="U">Unsanctioned</option>
-        <option value="S">Sanctioned</option>
-        <option value="O">Order Created</option>
-      </select>
-      <button (click)="statusFilter()"> Filter</button>
-  </div>
-</div> 
-<div class="button-container">
-   
-    <div *ngIf= "isAddAssocModal" >
-        <form (ngSubmit)="addAssoc($event)" #editForm>
-           <div class="form-group">
-             <label for="InputId">ID:</label>
-             <br/>
-             <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="ID" required>
-           </div>
-           <div class="form-group">
-             <label for="InputName">Name:</label>
-             <br/>
-             <input name="EmpName" type="text" id="InputName" aria-describedby="nameHelp" placeholder="Enter Name" [(ngModel)]="Name" required>
-           </div>
-           <div class= "form-group"> 
-             <label for="InputPass">Password:</label>
-             <br/>
-             <input name="EmpPass" type="text" id="InputPass" aria-describedby="passHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
-           </div>
-           <div class="form-group">
-               <label for="InputAddress">Address:</label>
-               <br/>
-               <input name="EmpAddress" type="text" id="InputAddress" aria-describedby="addressHelp" placeholder="Enter Address" [(ngModel)]="Address" required>
-           </div>
-           <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
-           <button (click)="closeAddAssocModal()"> close</button>
-         </form>
-       </div>
-</div>
-<div *ngIf="isEditAssocModal">
-  <form (ngSubmit)="editAssoc($event)" #editForm>
-    <div class="form-group">
-      <button (click)="closeEditAssocModal()">close </button>
-      <h2>Edit Associate</h2>
-      <div class="form-group">
-        <label for="editedName">Name:</label>
-        <br/>
-        <input name="EditName" type="text" id="editedName" placeholder="Edit Name" [(ngModel)]="Name" required>
+<html>
+  <body>               
+    <div class = "header-container">
+      <h1> Sales Associates</h1>
+      <h1>Quotes & Purchase Orders</h1>
+    </div> 
+    <div class = "search-container">
+      <div>
+          <input (ngModelChange)="ResetAssoc()" type="text" placeholder="Search Associates" [(ngModel)]="searchTerm">
+          <button (click)="SearchAssoc()" class="buttons">Search</button>
+          <button class="buttons" (click)="addAssociateModal()">Add</button>
       </div>
-      <div class="form-group">
-        <label for="editedPass"> Password:</label>
-        <br/>
-        <input name="EditPassword" type="text" id="editedPass" placeholder="Edit Password" [(ngModel)]="Password" required>
+      <div>
+          <input (ngModelChange)="ResetQuote()" type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
+          <button class="buttons" (click)="searchQuote()"> Search</button>
+          <select [(ngModel)]="selectedStatus" (change)="statusFilter()">
+            <option [ngValue]="undefined" disabled hidden>Select Status</option>
+            <option value="F">Finalized</option>
+            <option value="U">Unsanctioned</option>
+            <option value="S">Sanctioned</option>
+            <option value="O">Order Created</option>
+          </select>
+          <button (click)="statusFilter()"> Filter</button>
       </div>
-      <div class="form-group">
-        <label for="editedAddress"> Address:</label>
-        <br/>
-        <input name="EditAddress" type="text" id="editedAddress" placeholder="Edit Address" [(ngModel)]="Address" required>
-      </div>
-      <button type="submit">Save Changes</button>
+    </div> 
+    <div class="button-container">
+      
+        <div *ngIf= "isAddAssocModal" >
+            <form (ngSubmit)="addAssoc($event)" #editForm>
+              <div class="form-group">
+                <label for="InputId">ID:</label>
+                <br/>
+                <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="ID" required>
+              </div>
+              <div class="form-group">
+                <label for="InputName">Name:</label>
+                <br/>
+                <input name="EmpName" type="text" id="InputName" aria-describedby="nameHelp" placeholder="Enter Name" [(ngModel)]="Name" required>
+              </div>
+              <div class= "form-group"> 
+                <label for="InputPass">Password:</label>
+                <br/>
+                <input name="EmpPass" type="text" id="InputPass" aria-describedby="passHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
+              </div>
+              <div class="form-group">
+                  <label for="InputAddress">Address:</label>
+                  <br/>
+                  <input name="EmpAddress" type="text" id="InputAddress" aria-describedby="addressHelp" placeholder="Enter Address" [(ngModel)]="Address" required>
+              </div>
+              <button type="submit" id="subButton" class="btn btn-primary">Submit</button>
+              <button (click)="closeAddAssocModal()"> close</button>
+            </form>
+          </div>
     </div>
-  </form>
-</div>
-
-<div class="table-container">
-  <table class="main-table">
-      <thead>
-          <tr>
-              <td>ID</td>
-              <td>Name</td>
-              <td>Password</td>
-              <td> Sales Commission</td>
-              <td> Address</td>
-              <td> </td>
-          </tr>
-      </thead>
-      <tbody id="myTable">
-          <tr *ngFor="let rows of FilteredAssoc">
-              <td>{{rows.ID}}</td>
-              <td>{{rows.Name}}</td>
-              <td>{{rows.Password}}</td>
-              <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
-              <td>{{rows.Address}}</td>
-              <td>
-              <button (click)="editAssocModal(rows)"> Edit</button>
-              </td>
-              <td>
-              <button (click)="delAssoc(rows.ID)"> Delete </button>
-              </td>
-          </tr>
-      </tbody>
-  </table>   
-
-  <table class="main-table">
-      <thead>
-          <tr>
-              <td>ID</td>
-              <td>AssocID</td>
-              <td>CustID</td>
-              <td>Customer Name</td>
-              <td> QuoteDate</td>
-              <td> Status</td>
-              <td> Total</td>
-              <td> Discount</td>
-          </tr>
-      </thead>
-      <tbody id="myTable">
-          <tr *ngFor="let rows of FilteredQuote">
-            
-              <td>{{rows.ID}}</td>
-              <td>{{rows.AssocID}}</td>
-              <td>{{rows.CustID}}</td>
-              <td>{{rows.CustName}}</td>
-              <td>{{rows.QuoteDate}}</td>
-              <td>{{rows.Status}}</td>
-              <td>{{rows.Total}}</td>
-              <td>{{rows.Discount}}</td>
-              <td>
-                <button class="buttons" (click)="ViewQuoteModal()">View</button>
-              </td>
-          </tr>
-      </tbody>
-  </table>
-</div>
-<div *ngIf="isViewQuoteModal" class="modal">
-  <div class="modal-content">
-    <h1>hi</h1>
-    <form (ngSubmit)="viewQuote($event)" #myForm>
-    <button (click)="closeViewQuoteModal()">Close</button>
-    <h2>View Quote</h2>
-    <div class="form-group">
-      <label for="viewQuoteID">ID:</label>
-      <br/>
-      <input name="viewQuoteID" type="text" id="viewQuoteID" [(ngModel)]="selectedQuote.ID" readonly>
-    </div>
-    <div class="form-group">
-      <label for="viewQuoteAssocID">AssocID:</label>
-      <br/>
-      <input name="viewQuoteAssocID" type="text" id="viewQuoteAssocID" [(ngModel)]="selectedQuote.AssocID" readonly>
-    </div>
+    <div *ngIf="isEditAssocModal">
+      <form (ngSubmit)="editAssoc($event)" #editForm>
+        <div class="form-group">
+          <button (click)="closeEditAssocModal()">close </button>
+          <h2>Edit Associate</h2>
+          <div class="form-group">
+            <label for="editedName">Name:</label>
+            <br/>
+            <input name="EditName" type="text" id="editedName" placeholder="Edit Name" [(ngModel)]="Name" required>
+          </div>
+          <div class="form-group">
+            <label for="editedPass"> Password:</label>
+            <br/>
+            <input name="EditPassword" type="text" id="editedPass" placeholder="Edit Password" [(ngModel)]="Password" required>
+          </div>
+          <div class="form-group">
+            <label for="editedAddress"> Address:</label>
+            <br/>
+            <input name="EditAddress" type="text" id="editedAddress" placeholder="Edit Address" [(ngModel)]="Address" required>
+          </div>
+          <button type="submit">Save Changes</button>
+        </div>
       </form>
-  </div>
-</div>
+    </div>
+
+    <div class="table-container">
+      <table class="main-table">
+          <thead>
+              <tr>
+                  <td>ID</td>
+                  <td>Name</td>
+                  <td>Password</td>
+                  <td> Sales Commission</td>
+                  <td> Address</td>
+                  <td> </td>
+              </tr>
+          </thead>
+          <tbody id="myTable">
+              <tr *ngFor="let rows of FilteredAssoc">
+                  <td>{{rows.ID}}</td>
+                  <td>{{rows.Name}}</td>
+                  <td>{{rows.Password}}</td>
+                  <td>{{rows.SalesCommision | number: '1.2-2'}}</td>
+                  <td>{{rows.Address}}</td>
+                  <td>
+                  <button (click)="editAssocModal(rows)"> Edit</button>
+                  </td>
+                  <td>
+                  <button (click)="delAssoc(rows.ID)"> Delete </button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>   
+
+      <table class="main-table">
+          <thead>
+              <tr>
+                  <td>ID</td>
+                  <td>AssocID</td>
+                  <td>CustID</td>
+                  <td>Customer Name</td>
+                  <td> QuoteDate</td>
+                  <td> Status</td>
+                  <td> Total</td>
+                  <td> Discount</td>
+              </tr>
+          </thead>
+          <tbody id="myTable">
+              <tr *ngFor="let rows of FilteredQuote">
+                
+                  <td>{{rows.ID}}</td>
+                  <td>{{rows.AssocID}}</td>
+                  <td>{{rows.CustID}}</td>
+                  <td>{{rows.CustName}}</td>
+                  <td>{{rows.QuoteDate}}</td>
+                  <td>{{rows.Status}}</td>
+                  <td>{{rows.Total}}</td>
+                  <td>{{rows.Discount}}</td>
+                  <td>
+                    <button class="buttons" (click)="ViewQuoteModal()">View</button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="isViewQuoteModal" class="modal">
+      <div class="modal-content">
+        <h1>hi</h1>
+        <form (ngSubmit)="viewQuote($event)" #myForm>
+        <button (click)="closeViewQuoteModal()">Close</button>
+        <h2>View Quote</h2>
+        <div class="form-group">
+          <label for="viewQuoteID">ID:</label>
+          <br/>
+          <input name="viewQuoteID" type="text" id="viewQuoteID" [(ngModel)]="selectedQuote.ID" readonly>
+        </div>
+        <div class="form-group">
+          <label for="viewQuoteAssocID">AssocID:</label>
+          <br/>
+          <input name="viewQuoteAssocID" type="text" id="viewQuoteAssocID" [(ngModel)]="selectedQuote.AssocID" readonly>
+        </div>
+          </form>
+      </div>
+    </div>
+  </body>
+</html>
