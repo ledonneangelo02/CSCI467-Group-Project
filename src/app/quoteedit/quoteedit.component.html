@@ -51,8 +51,7 @@
             <div class="secret-note" *ngFor="let control of SecretNotesControls; let x = index" [formGroupName]="x">
               <ng-container *ngIf="checkIfDeleted(control['value'])">
                 <div class="col col-md-auto">
-                  <h4>___</h4>
-                  <div class="p-3 border bg-dark">
+                  <div class="p-3 border bg-dark secret-delete">
                     <button (click)="DeleteRow(control['value'])">DELETE</button>
                   </div>
                 </div>
