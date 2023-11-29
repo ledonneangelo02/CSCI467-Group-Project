@@ -4,6 +4,9 @@
     </head>
     <body>
         <ng-container *ngIf="quoteSelected">
+            <button class="buttons anotherOne" (click)="changeQuote()">Select Another Quote</button>  
+        </ng-container>
+        <ng-container *ngIf="quoteSelected">
             <div>
                 <div class="custname-container">
                     <h3>Quote For: {{CustomerName}}</h3>
@@ -17,7 +20,6 @@
                     <h5>Email:</h5>
                     <input disabled type="text" value="{{CustomerEmail}}" id="CustEmail">
                 </div>
-               <button (click)="changeQuote()">Select Another Quote</button>
             </div>
         </ng-container>
         <ng-container *ngIf="!quoteSelected">
@@ -106,7 +108,7 @@
                 <ng-container *ngIf="DiscountType == 'P'">
                     <label for="dscnt">Final Discount(%):</label>
                     <input id="dscnt" type="number" step=".01" [(ngModel)]="DiscountPercent" max="1" (ngModelChange)="ApplyDiscount()">
-                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Submit</button>
+                    <button class=" buttons SubButton" (click)="SubmitFinal()" matt-raised-button>Submit</button>
                 </ng-container>
             <!--End of Percentage Option-->
 
@@ -114,7 +116,7 @@
                 <ng-container *ngIf="DiscountType == 'D'">
                     <label for="dscnt">Final Discount($):</label>
                     <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
-                    <button class="SubButton" (click)="SubmitFinal()" matt-raised-button>Submit</button>
+                    <button class="buttons SubButton" (click)="SubmitFinal()" matt-raised-button>Submit</button>
                 </ng-container>
             <!--End of Dollar Option-->
         </div>
@@ -124,4 +126,3 @@
     </div>
 </body>  
 </html>
-
