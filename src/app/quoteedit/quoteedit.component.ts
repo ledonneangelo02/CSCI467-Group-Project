@@ -218,13 +218,18 @@ export class QuoteeditComponent {
       if (row) {
         const qtyControl = row.get('Qty');
         const priceControl = row.get('Price');
+        const isDeleted = row.get('isDeleted');
     
         // Calculate the row total; add to total.
-        if (qtyControl && priceControl) {
-          const qty = qtyControl.value;
-          const price = priceControl.value;
-          this.total += qty * price;
-          this.cd.markForCheck();
+        if (qtyControl && priceControl && isDeleted) {
+          const dlt = isDeleted.value;
+
+          if (dlt == false) {
+            const qty = qtyControl.value;
+            const price = priceControl.value;
+            this.total += qty * price;
+            this.cd.markForCheck();
+          }
         }
       }
     }
@@ -256,12 +261,7 @@ export class QuoteeditComponent {
   * update.                                                   *
   ************************************************************/
   DeleteRow(line: any): void{
-    // Check if line is a secret note.
-    if (line['SecretFlag'] == 'N')
-    {
-      // If not, set price to 0 so that it doesn't add to total.
-      line['Price'] = 0;
-    }
+
     line['isDeleted'] = true;
 
     this.calculateTotal();
