@@ -17,6 +17,11 @@ export class ViewquotesComponent {
   SearchName: any;
   SearchStatus: any;
 
+  // Vars for DataCheck()
+  EmpName: any;
+  savedAssoc: any;
+  AdminFlag: any;
+
   /***********************************************************
   * Constructor.                                             *
   ***********************************************************/
@@ -26,6 +31,8 @@ export class ViewquotesComponent {
   * This function runs when the page initializes.            *
   ***********************************************************/
   ngOnInit() {
+    this.Datacheck();
+
     this.FillPage();
   }
 
@@ -98,5 +105,35 @@ export class ViewquotesComponent {
   ***********************************************************/
   ViewQuote(id: number) {
     this.router.navigate(['/quoteedit'], {state: {data: id}});
+  }
+
+  /**********************************************************
+  * This function will check to make sure a sales associate *
+  *   is properly logged in, and it will check if we have a *
+  *   current customer selected.                            *
+  **********************************************************/
+  Datacheck(): void{
+    //Stored Associate Name
+    var AssocName = localStorage.getItem('AssocName');
+    if(AssocName !== null){
+      this.EmpName = JSON.parse(AssocName);
+    }
+
+    //Stored Admin Flag
+    var AdminFlag = localStorage.getItem('AdminFlag');
+    if(AdminFlag !== null){
+      this.AdminFlag = JSON.parse(AdminFlag);
+    }
+  
+    //Stored Associate ID
+    var savedAssoc = localStorage.getItem('CurrentAssoc');
+    if(savedAssoc !== null){
+      this.savedAssoc = JSON.parse(savedAssoc);
+    }else{
+      this.router.navigateByUrl('/');
+      setTimeout(function(){
+        alert("Error: User not found, please Login");
+      }, 200);
+    }
   }
 }
