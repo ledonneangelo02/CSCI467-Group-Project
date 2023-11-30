@@ -120,7 +120,6 @@ export class QuoteeditComponent {
     this.http.post(this.custURL,quoteData, {responseType:'json'}).subscribe(
       response=>{
         this.Customer = response;
-        console.log(this.Customer);
         this.CustomerName = this.Customer[0]['name'];
         this.CustomerAddyLn1 = this.Customer[0]['street'];
         this.CustomerAddyLn2 = this.Customer[0]['city'];
@@ -215,16 +214,17 @@ export class QuoteeditComponent {
     // Cycle through all the rows.
     for (let i = 0; i < rows.length; i++) {
       const row = rows.at(i);
-      if (row) {
-        const qtyControl = row.get('Qty');
-        const priceControl = row.get('Price');
-        const isDeleted = row.get('isDeleted');
-    
-        // Calculate the row total; add to total.
-        if (qtyControl && priceControl && isDeleted) {
-          const dlt = isDeleted.value;
 
-          if (dlt == false) {
+      // Check if row exists.
+      if (row) {
+        // Check if the row wasn't deleted. If not, start
+        // getting the total.
+        if (!row.value['isDeleted']) {
+          const qtyControl = row.get('Qty');
+          const priceControl = row.get('Price');
+      
+          // Calculate the row total; add to total.
+          if (qtyControl && priceControl) {
             const qty = qtyControl.value;
             const price = priceControl.value;
             this.total += qty * price;
