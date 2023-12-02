@@ -394,6 +394,7 @@ export class QuoteeditComponent {
       quoteEmail: this.CustEmail,
       quoteStatus: this.Status,
       quoteTotal: this.total,
+      quoteDiscount: this.DiscountAmount,
     };
   
     // Send to PHP.

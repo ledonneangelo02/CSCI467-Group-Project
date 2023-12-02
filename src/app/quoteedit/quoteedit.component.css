@@ -30,18 +30,39 @@ body{
 }
 
 .QuoteButtons{
+    padding-top: 3%;
     justify-content: center;
     display: flex;
     gap: 5%;
 }
 
 .QuoteTotal{
+    padding-top: 3%;
     display: flex;
     align-items: baseline;
     gap: 10%;
 
 }
 
-.secret-delete {
+.line-item-header, .secret-header {
+    padding-top: 1%;
+    margin-left: 5em;
     display: flex;
+}
+
+.line {
+    display: flex;
+    gap: 1%;
+}
+
+.discount-header, .status-header {
+    padding-top: 3%;
+    display: flex;
+    justify-content: center;
+}
+
+.discount, .status {
+    display: flex;
+    justify-content: center;
+    gap:1%
 }
