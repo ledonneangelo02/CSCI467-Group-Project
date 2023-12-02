@@ -167,3 +167,56 @@ text {
 .Assoc-Rows{
     cursor: pointer;
 }
+
+.add-assoc-container{
+    text-align: center;
+    justify-content: center;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px; /* Add spacing between form fields */
+}
+
+.button-container{
+    display: flex;
+    margin-right: 40px;
+}
+
+.add-assoc-form{
+    display: flex;
+    width: 40%;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 30%;
+    border: 5px solid rgb(0, 0, 0);
+    padding: 10px;
+}
+
+.edit-assoc-form{
+    display: flex;
+    width: 40%;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 30%;
+    border: 5px solid rgb(0, 0, 0);
+    padding: 10px;
+}
+
+.edit-assoc-container{
+    text-align: center;
+    justify-content: center;
+}
+
+.CloseView{
+    float: right;
+    margin-right: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.Quote-Related{
+    display: flex;
+    
+}

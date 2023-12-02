@@ -9,11 +9,13 @@
         <div>
             <input (ngModelChange)="ResetAssoc()" type="text" placeholder="Search Associates" [(ngModel)]="searchTerm">
             <button (click)="SearchAssoc()" class="buttons">Search</button>
-            <button class="buttons" (click)="addAssociateModal()">Add</button>
+            <button class="buttons" (click)="AssociateModal()">Add</button>
         </div>
-        <div>
+        <div class="Quote-Related">
+          <div>
             <input (ngModelChange)="ResetQuote()" type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
             <button class="buttons" (click)="searchQuote()"> Search</button>
+          </div>
             <select [(ngModel)]="selectedStatus" (change)="statusFilter()">
               <option [ngValue]="undefined" disabled hidden>Select Status</option>
               <option value="F">Finalized</option>
@@ -22,44 +24,49 @@
               <option value="O">Order Created</option>
               <option value="A">Show All</option>
             </select>
-            <button (click)="statusFilter()">Filter</button>
         </div>
       </div> 
     </ng-container>  
 
-    <div class="button-container">  
-        <div *ngIf= "isAddAssocModal" >
-            <form (ngSubmit)="addAssoc($event)" #editForm>
-              <div class="form-group">
-                <label for="InputId">ID:</label>
-                <br/>
-                <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="ID" required>
-              </div>
+      
+      <div class="add-assoc-container" *ngIf= "isAddAssocModal" >
+          <h1>Add a New Associate:</h1>
+            <form class="add-assoc-form" (ngSubmit)="addAssoc($event)" #AddForm>
               <div class="form-group">
                 <label for="InputName">Name:</label>
-                <br/>
-                <input name="EmpName" type="text" id="InputName" aria-describedby="nameHelp" placeholder="Enter Name" [(ngModel)]="Name" required>
+                <input name="EmpName" type="text" id="InputName" aria-describedby="nameHelp" placeholder="Enter Name" [(ngModel)]="Name" required/>
+              </div>
+              <div class="form-group">
+                <label for="InputId">ID:</label>
+                <input name="EmpId" type="text" id="InputId" aria-describedby="idHelp" placeholder="Enter Employee ID" [(ngModel)]="ID" required/>
               </div>
               <div class= "form-group"> 
                 <label for="InputPass">Password:</label>
-                <br/>
                 <input name="EmpPass" type="text" id="InputPass" aria-describedby="passHelp" placeholder="Enter Password" [(ngModel)]="Password" required>
               </div>
               <div class="form-group">
                   <label for="InputAddress">Address:</label>
-                  <br/>
                   <input name="EmpAddress" type="text" id="InputAddress" aria-describedby="addressHelp" placeholder="Enter Address" [(ngModel)]="Address" required>
               </div>
-              <button type="submit" id="subButton" class="buttons">Submit</button>
-              <button (click)="closeAddAssocModal()" class="buttons"> close</button>
+              <div class="form-group">
+                <label for="InputAdminFlag">Company Role:</label>
+                <select name="AdminFlag" [(ngModel)]="AdminFlag">
+                  <option [ngValue]="undefined" disabled hidden>Select a Role</option>
+                  <option value="Y">Admin</option>
+                  <option value="N">Sales Associate</option>
+                  <option value="M">Manager</option>
+                </select>
+              </div>
+              <div class="button-container">
+                <button type="submit" id="subButton" class="buttons">Submit</button>
+                <button (click)="AssociateModal()" class="buttons">Close</button>
+              </div>
             </form>
-          </div>
-    </div>
-    <div *ngIf="isEditAssocModal">
-      <form (ngSubmit)="editAssoc()" #editForm>
+      </div>
+    <div class="edit-assoc-container" *ngIf="isEditAssocModal">
+      <h1>Edit Associate</h1>
+      <form class="edit-assoc-form" (ngSubmit)="editAssoc()" #editForm>
         <div class="form-group">
-          <button (click)="closeEditAssocModal()">close</button>
-          <h2>Edit Associate</h2>
           <div class="form-group">
             <label for="editedName">Name:</label>
             <br/>
@@ -76,9 +83,10 @@
             <input name="EditAddress" type="text" id="editedAddress" placeholder="Edit Address" [(ngModel)]="Address" required>
           </div>
           <button type="submit" class="buttons">Save Changes</button>
+          <button class="buttons" (click)="EditAssociateModal()">Close</button>
         </div>
       </form>
-      <button (click)="delAssoc()">Delete Associate</button>
+      <button class="buttons" (click)="delAssoc()">Delete Associate</button>
     </div>
 
     <ng-container *ngIf="isMainScreen">
@@ -109,7 +117,6 @@
                 <tr>
                     <td>ID</td>
                     <td>AssocID</td>
-                    <td>CustID</td>
                     <td>Customer Name</td>
                     <td> QuoteDate</td>
                     <td> Status</td>
@@ -121,7 +128,6 @@
                 <tr class="Quote-Rows" *ngFor="let rows of FilteredQuote" (click)="viewQuote(rows.ID, rows.Total)" >
                     <td>{{rows.ID}}</td>
                     <td>{{rows.AssocID}}</td>
-                    <td>{{rows.CustID}}</td>
                     <td>{{rows.CustName}}</td>
                     <td>{{rows.QuoteDate}}</td>
                     <td>{{rows.Status}}</td>
@@ -134,7 +140,7 @@
     </ng-container>
 
     <div *ngIf="isViewQuoteModal">
-      <button class="buttons" (click)="closeViewQuoteModal()">Return to Home</button>
+      <button class="buttons CloseView" (click)="closeViewQuoteModal()">Close</button>
       <div class="modal-content">
             <!--Code below is  for table-->
             <table class="main-table">
