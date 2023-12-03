@@ -9,6 +9,7 @@ import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 })
 
 export class NavbarComponent{
+  AdminFlag: any;
   isHomeComponent = false;
   isSalesAssoc = false;
   isManagerPageOne = false;
@@ -54,5 +55,5 @@ export class NavbarComponent{
       alert("Succesfully Logged Out!");
     }, 200);
   }
-
+  
 }
