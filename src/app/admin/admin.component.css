@@ -1,30 +1,31 @@
 .table-container {
     display: flex;
     justify-content: space-around;
+    padding-top: 20px;
 
-  }
+}
+.assoc-table-related{
+    align-items: center;
+    padding-top: 65px;
+}
 .header-container{
     display: flex;
     justify-content: space-around;
-    padding-left: 125px;
 }
-.header-container #quote-header{
-    padding-left: 140px;
+
+.search-assoc{
+    position: relative;
+    margin: 0 auto;
 }
+
+
 .assoc-table {
-    width: 50px;
+    width: 100%;
 }
 
-.search-container{
-    display: flex;
-    justify-content: space-around;
 
-}
-td.dollar:before {
-    content: "$";
-}
 .quote-table {
-    width: 50%;
+    width: 100%;
 }
 
 .button-container{
@@ -35,13 +36,19 @@ td.dollar:before {
     padding: 8px;
     text-align: center;
 }
-tr:hover {
-background-color: lightslategray;
+.q-table tbody tr:hover {
+    background-color: rgb(0, 0, 0);
+    color:#ffffff
+}
+
+.assoc-table tbody tr:hover{
+    background-color: rgb(0, 0, 0);
+    color:#ffffff 
 }
 
 .q-table td, .assoc-table td{
     border: 1px solid black;
-    padding: 8px;
+    padding: 10px;
     text-align: center;
 }
 .q-table th, .assoc-table th{
@@ -49,6 +56,7 @@ background-color: lightslategray;
     padding: 8px;
     text-align: center;
 }
+
 
 text {
     color: white;
@@ -178,3 +186,66 @@ text {
 .Assoc-Rows{
     cursor: pointer;
 }
+
+.Quote-Related{
+    text-align: center;
+}
+
+.add-assoc-container{
+    text-align: center;
+    justify-content: center;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px; /* Add spacing between form fields */
+}
+
+.button-container{
+    display: flex;
+    margin-right: 40px;
+}
+
+.add-assoc-form{
+    display: flex;
+    width: 40%;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 30%;
+    border: 5px solid rgb(0, 0, 0);
+    padding: 10px;
+}
+
+.edit-assoc-form{
+    display: flex;
+    width: 40%;
+    align-items: center;
+    flex-direction: column;
+    margin-left: 30%;
+    border: 5px solid rgb(0, 0, 0);
+    padding: 10px;
+}
+
+.edit-assoc-container{
+    text-align: center;
+    justify-content: center;
+}
+
+.CloseView{
+    float: right;
+    margin-right: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.Date-Container{
+    padding-left: 80px;
+    padding-bottom: 30px;
+    display: flex;
+    text-align: center;
+}
+
+.status-filter{
+    margin-left: 40px;
+}
+
