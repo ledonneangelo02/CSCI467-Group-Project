@@ -58,7 +58,7 @@ export class HomeComponent {
             localStorage.setItem('AssocName', JSON.stringify(data[0]['Name']));
             localStorage.setItem('AdminFlag',JSON.stringify(data[0]['AdminFlag']));
             if(data[0]['AdminFlag'] == 'M'){
-              this.router.navigateByUrl('/quoteedit');
+              this.router.navigateByUrl('/viewquotes');
             }else if(data[0]['AdminFlag'] == 'Y'){
               this.router.navigateByUrl('/admindash');
             }else{
