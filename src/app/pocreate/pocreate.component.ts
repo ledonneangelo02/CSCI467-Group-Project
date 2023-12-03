@@ -61,7 +61,6 @@ export class PocreateComponent {
         this.RetriveCustInfo(this.selectOptions[i]['CustID']);
       }
     }
-    console.log(this.selectedQuote['ID']);
     const quoteData={quoteID: QID}
     this.http.post(this.quoteURL,quoteData, {responseType:'json'}).subscribe(
       responseData=>{
@@ -76,7 +75,6 @@ export class PocreateComponent {
     this.http.post(this.custURL,quoteData, {responseType:'json'}).subscribe(
       response=>{
         this.Customer = response;
-        console.log(this.Customer);
         this.CustomerName = this.Customer[0]['name'];
         this.CustomerAddyLn1 = this.Customer[0]['street'];
         this.CustomerAddyLn2 = this.Customer[0]['city'];
@@ -143,9 +141,6 @@ SubmitFinal(): void{
 
   this.http.post(this.QuoteProcessUrl, FinalQuoteData).subscribe({        
     next: (data: any) => {
-    // This shows array of response
-    console.log(data);
-
     //New Amount
     const saleAmt: number = data['amount'];
     this.ProcessDate = data['processDay'];
@@ -215,7 +210,6 @@ Datacheck(): void
   var savedAssoc = localStorage.getItem('CurrentAssoc');
   if(savedAssoc !== null){
     this.savedAssoc = JSON.parse(savedAssoc);
-    console.log(savedAssoc);
   }else{
     this.router.navigateByUrl('/');
     setTimeout(function(){

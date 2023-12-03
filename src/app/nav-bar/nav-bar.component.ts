@@ -10,11 +10,17 @@ import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 
 export class NavbarComponent{
   AdminFlag: any;
+  AdminFlagBool: any;
+  AdminPage = false;
   isHomeComponent = false;
   isSalesAssoc = false;
   isManagerPageOne = false;
   isManagerPageTwo = false;
+  Admin = false;
 
+  ngOnInit () {
+    this.DataCheck();
+  }
   constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -23,6 +29,7 @@ export class NavbarComponent{
         this.isSalesAssoc = event.url ==='/quote';
         this.isManagerPageOne = event.url === '/viewquotes'
         this.isManagerPageTwo = event.url === '/pocreate'
+        this.Admin = event.url === '/admindash'
       }
     });
   }
@@ -46,6 +53,20 @@ export class NavbarComponent{
       forDisplay.style.visibility = "visible";
     }
     
+  }
+
+  DataCheck(): void{
+        //Stored Admin Flag
+        var AdminFlag = localStorage.getItem('AdminFlag');
+        if(AdminFlag !== null){
+          this.AdminFlag = JSON.parse(AdminFlag);
+        }
+        if(this.AdminFlag != 'N'){
+          this.AdminFlagBool = true;
+        }
+        if(this.AdminFlag == 'Y'){
+          this.AdminPage = true;
+        }
   }
 
   LogOut(): void{
