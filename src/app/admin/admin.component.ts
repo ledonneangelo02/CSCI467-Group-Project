@@ -1,15 +1,9 @@
 import { Component, ElementRef, Renderer2, ViewChild, OnInit, Inject } from '@angular/core';
 import { Router, NavigationEnd,ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { response } from 'express';
-import { event } from 'jquery';
-import * as e from 'express';
 
 
-export interface DialogData {
-  animal: string;
-  name: string;
-}
+
 
 @Component({
   selector: 'app-admin',
@@ -46,6 +40,7 @@ export class AdminComponent {
   Name: string = "";
   SalesCommision: string = "";
   Address: string= "";
+  AdminFlag: any;
   selectedAssoc: any;
   selectedStatus: any;
   selectedAssocForEdit: any ={};
@@ -74,14 +69,17 @@ export class AdminComponent {
 
   }
   
-  addAssociateModal(): void {
-    this.isAddAssocModal = true;
-    this.isMainScreen = false;
+  //Open or Close ('Add')
+  AssociateModal(): void {
+    this.isAddAssocModal = !this.isAddAssocModal;
+    this.isMainScreen = !this.isMainScreen;
   }
-  closeAddAssocModal(): void {
-    this.isAddAssocModal = false;
-    this.isMainScreen = true;
-  }
+    //Open or Close ('Add')
+    EditAssociateModal(): void {
+      this.isEditAssocModal = !this.isEditAssocModal;
+      this.isMainScreen = !this.isMainScreen;
+    }
+
   addAssoc(event:Event): void {
     for(let i=0;i<this.assoc.length;++i){ 
         if(this.ID===this.assoc[i]['ID']) {
@@ -94,7 +92,8 @@ export class AdminComponent {
        ID: this.ID,
        Name: this.Name,
        Password: this.Password,
-       Address: this.Address
+       Address: this.Address,
+       AdminFlag: this.AdminFlag
     }
     this.http.post('https://phpapicsci467.azurewebsites.net/php_script/AddAssociate.php', AddASSOCData).subscribe((response:any)=> {
     this.add = response;
@@ -233,6 +232,8 @@ searchQuote (): void {
       let row = this.quote[i];
       for(const key in row){
         let MatchedRow = row;
+        console.log(key);
+        if(key == "CustName" || key == "AssocID")
         if(row[key].toLowerCase().includes(this.searchTerm2.toLowerCase())){
           console.log(row);
           FilteredData.push(MatchedRow);
@@ -242,6 +243,10 @@ searchQuote (): void {
       }
     }
     this.FilteredQuote = FilteredData;
+    if(this.FilteredQuote.length == 0){
+      alert("No Matches");
+      this.FilteredQuote = this.quote;
+    }
   }
 }
 
