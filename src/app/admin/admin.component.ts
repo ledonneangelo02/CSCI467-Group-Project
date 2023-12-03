@@ -223,14 +223,6 @@ statusFilter(): void {
   }
 }
 
-/*
- View Assoc Function
-*/
-viewAssoc(): void {
-
-}
-
-
 searchQuote (): void {
   let FilteredData = [];
   this.FilteredQuote = this.quote; // Reset to show all data
@@ -250,6 +242,27 @@ searchQuote (): void {
       }
     }
     this.FilteredQuote = FilteredData;
+  }
+}
+
+ // Add these properties to your component
+
+// Add these properties to your component
+startDate: string = '';
+endDate: string = '';
+
+// Modify your filtering logic
+searchByDate(): void {
+  // Add date filtering logic
+  if (this.startDate && this.endDate) {
+    const startDateTime = new Date(this.startDate).getTime();
+    const endDateTime = new Date(this.endDate).getTime();
+
+    this.FilteredQuote = this.quote.filter(row => {
+      const quoteDate = new Date(row.QuoteDate).getTime();
+      return quoteDate >= startDateTime && quoteDate <= endDateTime;
+    });
+    console.log(this.quote)
   }
 }
 

@@ -14,6 +14,8 @@ import { QuoteeditComponent } from './quoteedit/quoteedit.component';
 import { NavbarComponent } from './nav-bar/nav-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { ViewquotesComponent } from './viewquotes/viewquotes.component';
+import { MatInputModule } from '@angular/material/input';
+
 
 @NgModule({
   declarations: [
@@ -36,5 +38,6 @@ import { ViewquotesComponent } from './viewquotes/viewquotes.component';
   ],
   providers: [],
   bootstrap: [AppComponent]
+  
 })
 export class AppModule { }

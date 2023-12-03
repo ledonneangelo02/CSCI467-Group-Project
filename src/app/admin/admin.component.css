@@ -11,12 +11,20 @@
 .header-container #quote-header{
     padding-left: 140px;
 }
-
+.assoc-table {
+    width: 50px;
+}
 
 .search-container{
     display: flex;
     justify-content: space-around;
 
+}
+td.dollar:before {
+    content: "$";
+}
+.quote-table {
+    width: 50%;
 }
 
 .button-container{
@@ -26,6 +34,9 @@
     border: 5px solid black;
     padding: 8px;
     text-align: center;
+}
+tr:hover {
+background-color: lightslategray;
 }
 
 .q-table td, .assoc-table td{

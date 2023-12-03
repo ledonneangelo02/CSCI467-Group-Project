@@ -14,7 +14,7 @@
         <div>
             <input (ngModelChange)="ResetQuote()" type="text" placeholder="Search Quotes" [(ngModel)]="searchTerm2">
             <button class="buttons" (click)="searchQuote()"> Search</button>
-            <select [(ngModel)]="selectedStatus" (change)="statusFilter()">
+            <select class="buttons" [(ngModel)]="selectedStatus" (change)="statusFilter()">
               <option [ngValue]="undefined" disabled hidden>Select Status</option>
               <option value="F">Finalized</option>
               <option value="U">Unsanctioned</option>
@@ -23,6 +23,16 @@
               <option value="A">Show All</option>
             </select>
             <button (click)="statusFilter()">Filter</button>
+            <div>
+              <label for="startDate">Start Date:</label>
+              <input type="date" id="startDate" [(ngModel)]="startDate">
+            </div>
+            <div>
+              <label for="endDate">End Date:</label>
+              <input type="date" id="endDate" [(ngModel)]="endDate">
+            </div>
+            <button class="buttons" (click)="searchByDate()">Search by Date</button>
+            
         </div>
       </div> 
     </ng-container>  
@@ -109,7 +119,6 @@
                 <tr>
                     <td>ID</td>
                     <td>AssocID</td>
-                    <td>CustID</td>
                     <td>Customer Name</td>
                     <td> QuoteDate</td>
                     <td> Status</td>
@@ -121,11 +130,12 @@
                 <tr class="Quote-Rows" *ngFor="let rows of FilteredQuote" (click)="viewQuote(rows.ID, rows.Total)" >
                     <td>{{rows.ID}}</td>
                     <td>{{rows.AssocID}}</td>
-                    <td>{{rows.CustID}}</td>
                     <td>{{rows.CustName}}</td>
                     <td>{{rows.QuoteDate}}</td>
                     <td>{{rows.Status}}</td>
-                    <td>{{rows.Total}}</td>
+                    
+                    <td>&#36;{{rows.Total}}</td>
+                
                     <td>{{rows.Discount}}</td>
                 </tr>
             </tbody>
@@ -186,7 +196,6 @@
               <h5>${{ total | number: '1.2-2'}}</h5>
           </div>  
         </div>
-  
       </div>
     </div>
   </body>
