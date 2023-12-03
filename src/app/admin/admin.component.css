@@ -1,22 +1,31 @@
 .table-container {
     display: flex;
     justify-content: space-around;
+    padding-top: 20px;
 
-  }
+}
+.assoc-table-related{
+    align-items: center;
+    padding-top: 65px;
+}
 .header-container{
     display: flex;
     justify-content: space-around;
-    padding-left: 125px;
-}
-.header-container #quote-header{
-    padding-left: 140px;
 }
 
+.search-assoc{
+    position: relative;
+    margin: 0 auto;
+}
 
-.search-container{
-    display: flex;
-    justify-content: space-around;
 
+.assoc-table {
+    width: 100%;
+}
+
+
+.quote-table {
+    width: 100%;
 }
 
 .button-container{
@@ -27,10 +36,19 @@
     padding: 8px;
     text-align: center;
 }
+.q-table tbody tr:hover {
+    background-color: rgb(0, 0, 0);
+    color:#ffffff
+}
+
+.assoc-table tbody tr:hover{
+    background-color: rgb(0, 0, 0);
+    color:#ffffff 
+}
 
 .q-table td, .assoc-table td{
     border: 1px solid black;
-    padding: 8px;
+    padding: 10px;
     text-align: center;
 }
 .q-table th, .assoc-table th{
@@ -38,6 +56,7 @@
     padding: 8px;
     text-align: center;
 }
+
 
 text {
     color: white;
@@ -168,6 +187,10 @@ text {
     cursor: pointer;
 }
 
+.Quote-Related{
+    text-align: center;
+}
+
 .add-assoc-container{
     text-align: center;
     justify-content: center;
@@ -215,8 +238,14 @@ text {
     padding-left: 20px;
     padding-right: 20px;
 }
-
-.Quote-Related{
+.Date-Container{
+    padding-left: 80px;
+    padding-bottom: 30px;
     display: flex;
-    
+    text-align: center;
 }
+
+.status-filter{
+    margin-left: 40px;
+}
+

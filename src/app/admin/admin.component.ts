@@ -71,14 +71,19 @@ export class AdminComponent {
   
   //Open or Close ('Add')
   AssociateModal(): void {
+    this.ID = "";
+    this.Name = "";
+    this.Address = "";
+    this.Password = "";
     this.isAddAssocModal = !this.isAddAssocModal;
     this.isMainScreen = !this.isMainScreen;
   }
-    //Open or Close ('Add')
-    EditAssociateModal(): void {
-      this.isEditAssocModal = !this.isEditAssocModal;
-      this.isMainScreen = !this.isMainScreen;
-    }
+
+  //Open or Close ('Add')
+  EditAssociateModal(): void {
+    this.isEditAssocModal = !this.isEditAssocModal;
+    this.isMainScreen = !this.isMainScreen;
+  }
 
   addAssoc(event:Event): void {
     for(let i=0;i<this.assoc.length;++i){ 
@@ -88,18 +93,31 @@ export class AdminComponent {
           location.reload();
         }
     }
-    const AddASSOCData = {
-       ID: this.ID,
-       Name: this.Name,
-       Password: this.Password,
-       Address: this.Address,
-       AdminFlag: this.AdminFlag
+    if(this.Name.length > 50){
+      confirm("Name is too large. Please Try Again");
+      this.Name = "";
+    }else if(this.Password.length > 12){
+      alert("Password is too large. Pleaser Try Again");
+      this.Password = "";
+    }else if(this.Address.length > 60){
+      alert("Address is too large. Please Try Again");
+      this.Address = "";
+    }else if(this.ID.length > 10 ){
+      alert("ID is too large, Please Try Again");
+      this.ID = "";
+    }else{
+      const AddASSOCData = {
+        ID: this.ID,
+        Name: this.Name,
+        Password: this.Password,
+        Address: this.Address,
+        AdminFlag: this.AdminFlag
+      }
+      this.http.post('https://phpapicsci467.azurewebsites.net/php_script/AddAssociate.php', AddASSOCData).subscribe((response:any)=> {
+        this.add = response;
+        location.reload();
+      });  
     }
-    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/AddAssociate.php', AddASSOCData).subscribe((response:any)=> {
-    this.add = response;
-    location.reload();
-
-    });
   }
 
   // Add a new function to open the edit modal
@@ -114,10 +132,7 @@ editAssocModal(selectedRow: any): void {
   this.Password=this.selectedAssocForEdit['Password'];
   this.Address=this.selectedAssocForEdit['Address'];
 }
-closeEditAssocModal(): void {
-  this.isEditAssocModal = false;
-  this.isMainScreen = true;
-}
+
   
 AssocAction(selectedRow: any): void {
   if(this.SelectedAction === 'Delete'){
@@ -129,22 +144,35 @@ AssocAction(selectedRow: any): void {
 // In your component
 editAssoc(): void {
 
-  const FinalAssocData = {
-    ID: this.ID,
-    Name: this.Name,
-    Password: this.Password,
-    Address: this.Address
-  };
-    // Handle the "Edit" button click
-    // Update the selected associate using the API endpoint or another method
-    console.log(FinalAssocData);
-    this.http.post('https://phpapicsci467.azurewebsites.net/php_script/EditAssoc.php', FinalAssocData, { headers: { 'Content-Type': 'application/json' } }).subscribe((response: any) => {
-      // Handle the response as needed
-      console.log('HTTP Response:', response);
 
-      location.reload();
-    });   
+  if(this.Name.length > 50){
+    confirm("The 'Name' you entered is too long. Please Try Again");
+    location.reload();
+  }else if(this.Password.length > 12){
+    alert("Password too large. Pleaser Try Again");
+    location.reload();
+  }else if(this.Address.length > 60){
+    alert("Address too large. Please Try Again");
+    location.reload();
   }
+  else{
+    const FinalAssocData = {
+      ID: this.ID,
+      Name: this.Name,
+      Password: this.Password,
+      Address: this.Address
+    };
+      // Handle the "Edit" button click
+      // Update the selected associate using the API endpoint or another method
+      console.log(FinalAssocData);
+      this.http.post('https://phpapicsci467.azurewebsites.net/php_script/EditAssoc.php', FinalAssocData, { headers: { 'Content-Type': 'application/json' } }).subscribe((response: any) => {
+        // Handle the response as needed
+        console.log('HTTP Response:', response);
+  
+        location.reload();
+      });
+  }     
+}
 
 
 /*
@@ -222,14 +250,6 @@ statusFilter(): void {
   }
 }
 
-/*
- View Assoc Function
-*/
-viewAssoc(): void {
-
-}
-
-
 searchQuote (): void {
   let FilteredData = [];
   this.FilteredQuote = this.quote; // Reset to show all data
@@ -255,6 +275,28 @@ searchQuote (): void {
       alert("No Matches");
       this.FilteredQuote = this.quote;
     }
+  }
+}
+
+ // Add these properties to your component
+
+// Add these properties to your component
+startDate: string = '';
+endDate: string = '';
+
+// Modify your filtering logic
+searchByDate(): void {
+  // Add date filtering logic
+  if (this.startDate && this.endDate) {
+    const startDateTime = new Date(this.startDate).getTime();
+    const endDateTime = new Date(this.endDate).getTime();
+
+    this.FilteredQuote = this.quote.filter(row => {
+      const quoteDate = new Date(row.QuoteDate).getTime();
+      const processDate = new Date(row.ProcessDate).getTime();
+      return ((quoteDate >= startDateTime && quoteDate <= endDateTime) || (processDate >= startDateTime && processDate <= endDateTime));
+    });
+    console.log(this.quote)
   }
 }
 
