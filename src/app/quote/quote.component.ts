@@ -162,7 +162,7 @@ export class QuoteComponent implements OnInit{
       this.http.post(this.quoteUrl, FinalformData).subscribe({        
         next: (data: any) => {
         // Handle the data
-        alert("Quote Submitted!");
+        alert("Quote Submitted! \n An Email has been sent to the Customer!");
         localStorage.removeItem('CurrentCustomer');
         localStorage.removeItem('CurrentCustomerName');
         location.reload();
