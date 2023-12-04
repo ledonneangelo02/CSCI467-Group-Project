@@ -1,7 +1,9 @@
 <html>
   <body>
     <div class="search">
-        <input type="text" id="iqid" name="iqi" value="Search by ID"/>
+        <input class="searchID" placeholder="Search by ID" type="text" [(ngModel)]="SearchID"/>
+        <input class="searchName" placeholder="Search by Name" type="text" [(ngModel)]="SearchName"/>
+        <input class="searchStatus" placeholder="Search by Status" type="text" [(ngModel)]="SearchStatus"/>
     </div>
 
     <div class="header">
@@ -19,22 +21,22 @@
   </div>
 
 
-  <div class="quote" *ngFor="let rows of Quote" (click)="ViewQuote(rows.ID)">
-    <span class="qid">
-      <p>{{rows.ID}}</p>
-    </span>
+  <div *ngFor="let quote of Quotes">
+    <ng-container *ngIf="isSearched(quote)">
+      <div class="quote" (click)="ViewQuote(quote.ID)">
+        <span class="qid">
+          <p>{{quote.ID}}</p>
+        </span>
 
-    <span class="qname">
-      <p>{{rows.CustName}}</p>
-    </span>
-    
-    <span class="qstatus">
-      <p>{{rows.Status}}</p>
-    </span>
-  </div>
-
-  <div class="quotenav">
-    &lt; 1 &gt;
+        <span class="qname">
+          <p>{{quote.CustName}}</p>
+        </span>
+        
+        <span class="qstatus">
+          <p>{{quote.Status}}</p>
+        </span>
+      </div>
+    </ng-container>
   </div>
 
   </body>
