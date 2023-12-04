@@ -18,6 +18,7 @@ export class QuoteeditComponent {
   selectedID: number = 0;
   Status: any;
   CustEmail: any;
+  QuoteDate: any;
 
   // Customer Data.
   Customer: any;
@@ -113,6 +114,7 @@ export class QuoteeditComponent {
     this.Status = quotes['Status'];
     this.CustID = quotes['CustID'];
     this.CustEmail = quotes['CustEmail'];
+    this.QuoteDate = quotes['QuoteDate'];
 
     // Get the customer info based on the CustID.
     this.RetriveCustInfo(this.CustID);

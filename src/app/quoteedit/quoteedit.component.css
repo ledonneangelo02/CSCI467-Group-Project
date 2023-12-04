@@ -29,6 +29,10 @@ body{
     margin-bottom: 3%;
 }
 
+.quote-date {
+    padding-top: 2%;
+}
+
 .QuoteButtons{
     padding-top: 3%;
     justify-content: center;
