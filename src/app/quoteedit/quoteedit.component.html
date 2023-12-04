@@ -4,12 +4,12 @@
     <div class="Customer">
       <h2 class="item">Customer: </h2>
       <div class="custname-container">
-        <h3>Quote For: {{CustomerName}}</h3>
+        {{CustomerName}}
     </div>
     <div class="custinfo-container">
-        <h5>{{CustomerAddyLn1}}</h5>
-        <h5>{{CustomerAddyLn2}}</h5>
-        <h5>{{CustomerContact}}</h5>
+        <div>{{CustomerAddyLn1}}</div>
+        <div>{{CustomerAddyLn2}}</div>
+        <div>{{CustomerContact}}</div>
     </div>
       <div>
         <label for="email">Email:</label>
@@ -19,50 +19,37 @@
 
     <div class = "EntireQuote">
       <form [formGroup]="quoteForm">
-        <div formArrayName="rows">
-          <div class="row" *ngFor="let control of rowControls; let i = index" [formGroupName]="i">
-            <ng-container *ngIf="checkIfDeleted(control['value'])">
-              <div class="col col-md-auto">
-                <h4>___</h4>
-                <div class="p-3 border bg-dark">
-                  <button (click)="DeleteRow(control['value'])">DELETE</button>
+        <div class="line-item-header">
+          <div style="width:59%;" ><h4>Description:</h4></div>
+          <div style="width:20%;"><h4>Qty:</h4></div>
+          <div style="width:20%;"><h4>Price:</h4></div>
+        </div>
+        <div class="lineSection">
+          <div formArrayName="rows">
+            <div class="rows" *ngFor="let control of rowControls; let x = index" [formGroupName]="x">
+              <ng-container *ngIf="checkIfDeleted(control['value'])">
+                <div class="col col-md-auto">
+                  <div class="p-3 border bg-dark line">
+                    <button (click)="DeleteRow(control['value'])">DELETE</button>
+                    <input style="width:100%;" formControlName="Item" type="text">
+                    <input formControlName="Qty" type="number" (change)="calculateTotal()">
+                    <input formControlName="Price" type="number" step="0.01" (change)="calculateTotal()">
+                  </div>
                 </div>
-              </div>
-              <div class="col col-lg">
-                <h4>Description</h4>
-                <div class="p-3 border bg-dark">
-                  <input style="width:100%;" formControlName="Item" type="text">
-                </div>
-              </div>
-              <div class="col col-md-auto">
-                <h4>Qty</h4>
-                <div class="p-3 border bg-dark">
-                  <input formControlName="Qty" type="number" (change)="calculateTotal()">
-                </div>
-              </div>
-              <div class="col col-md-auto">
-                <h4>Price</h4>
-                <div class="p-3 border bg-dark">
-                  <input formControlName="Price" type="number" step="0.01" (change)="calculateTotal()">
-                </div>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
           </div>
         </div>
-          
-        <div class="row justify-content-center">           
-          <div class="QuoteTotal col-auto">
-            <h4>Total:</h4>
-            <h5>${{ total | number: '1.2-2'}}</h5>
-          </div>
-        </div>
+
         <div class="secretSection" *ngIf="showSecretNote">
-          <h4>Secret Notes: </h4>
+          <div class="secret-header">
+            <h4>Secret Notes: </h4>
+          </div>
           <div formArrayName="SecretNotes">
             <div class="secret-note" *ngFor="let control of SecretNotesControls; let x = index" [formGroupName]="x">
               <ng-container *ngIf="checkIfDeleted(control['value'])">
                 <div class="col col-md-auto">
-                  <div class="p-3 border bg-dark secret-delete">
+                  <div class="p-3 border bg-dark line">
                     <button (click)="DeleteRow(control['value'])">DELETE</button>
                     <input style="width:100%;" formControlName="SecretNote" type="text">
                   </div>
@@ -74,6 +61,16 @@
       </form>
     </div>
 
+    <div class="row justify-content-center">           
+      <div class="QuoteTotal col-auto">
+        <h4>Total:</h4>
+        <h5>${{ total | number: '1.2-2'}}</h5>
+      </div>
+    </div>
+
+    <div class="discount-header">
+      <h4>Apply Discount:</h4>
+    </div>
     <div class="discount">
       <!--Drop Down Menu-->
       <select class="item2" [(ngModel)]="DiscountType">
@@ -84,20 +81,24 @@
 
       <!--Code below is for Percentage Option-->
           <ng-container *ngIf="DiscountType == 'P'">
-              <label for="dscnt">Final Discount(%):</label>
+              <label for="dscnt">Initial Discount(%):</label>
               <input id="dscnt" type="number" step="1" [(ngModel)]="DiscountPercent" max="100" (ngModelChange)="ApplyDiscount()">
           </ng-container>
       <!--End of Percentage Option-->
 
       <!--Code below is for Dollar Option-->
           <ng-container *ngIf="DiscountType == 'D'">
-              <label for="dscnt">Final Discount($):</label>
+              <label for="dscnt">Initial Discount($):</label>
               <input id="dscnt" type="number" step=".5" [(ngModel)]="DiscountDollar" [max]="total" (ngModelChange)="ApplyDiscount()">
           </ng-container>
       <!--End of Dollar Option-->
     </div>
 
-    <div>
+    <div class="status-header"> 
+      <h4>Change Status:</h4>
+    </div>
+
+    <div class="status">
       <div>
         <input type="radio" [(ngModel)]="Status" value="U" />
         <label for="U">Unsanctioned</label>
@@ -109,10 +110,10 @@
     </div>
 
     <div class="QuoteButtons">
-      <button (click)="addRow()" class="btn btn-primary">Add Row</button>
-      <button (click)="AddNote()" class="btn btn-primary">Add Secret Note</button>
-      <button (click)="CancelEdit()" class="btn btn-primary">Cancel</button>
-      <button (click)="QuoteUpdate()" class="btn btn-primary">Update Quote</button>
+      <button (click)="addRow()" class="buttons">Add Row</button>
+      <button (click)="AddNote()" class="buttons">Add Secret Note</button>
+      <button (click)="CancelEdit()" class="buttons">Cancel</button>
+      <button (click)="QuoteUpdate()" class="buttons">Update Quote</button>
     </div>
 
 

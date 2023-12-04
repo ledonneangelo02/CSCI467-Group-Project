@@ -22,11 +22,17 @@ body{
 
     color: lightgray;
     text-align: center;
-    background-image: "../../imgs/search.png";
 
     margin: auto;
     display: block;
-    width: 75%;
+}
+
+.searchID, .searchStatus {
+    width: 20%;
+}
+
+.searchName {
+    width: 35%;
 }
 
 .quotenav{
